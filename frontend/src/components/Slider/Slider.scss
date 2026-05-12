@@ -1,0 +1,24 @@
+.slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+
+  .swiper {
+    width: 100%;
+
+  }
+
+  .swiper-wrapper {
+    height: auto;
+  }
+
+  .swiper-slide {
+    height: auto;
+    min-height: 510px;
+
+  }
+
+
+}
+

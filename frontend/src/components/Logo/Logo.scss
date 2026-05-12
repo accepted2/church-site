@@ -1,0 +1,16 @@
+.logo {
+
+  width: fluid(55, 49);
+
+  transition: transform 0.2s ease;
+
+  @include tablet-above {
+    transform: translateY(-3px);
+  }
+
+
+  @include hover {
+    transform: translateY(-4px) scale(1.05);
+
+  }
+}

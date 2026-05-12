@@ -1,0 +1,84 @@
+.schedule-section {
+  position: relative;
+  padding-bottom: 130px;
+  background-color: var(--color-soft-white);
+
+  &__inner {
+    position: relative;
+    background-color: var(--color-bg-main);
+    padding-bottom: 70px;
+    border-radius: 10px;
+    padding-top: fluid(25, 15);
+
+    @include desktop-above {
+      position: relative;
+      background-color: var(--color-bg-main);
+      padding-top: fluid(30, 20);
+      padding-bottom: 90px;
+      border-radius: 10px;
+    }
+  }
+
+  &__header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: fluid(35, 22)
+  }
+
+  &__title {
+    position: relative;
+    text-align: center;
+    padding: fluid(22, 16);
+
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    line-height: 3.3rem;
+    font-weight: 400;
+
+
+    //    @include tablet-xs-above {
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -77px;
+
+      transform: translateX(calc(-50% + 10px));
+      width: 400px;
+      height: 140px;
+      background-image: url("@/assets/icons/ornament4.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      pointer-events: none;
+
+      @include tablet-xs {
+        transform: translateX(calc(-50% + 7px));
+        width: 400px;
+        height: 130px;
+        bottom: -73px;
+      }
+
+      @include mobile {
+        transform: translateX(calc(-50% + 7px));
+      }
+    }
+
+    @include tablet {
+      font-size: 2.1rem;
+      line-height: 3.1rem;
+    }
+
+    @include mobile {
+      font-size: 1.8rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  &__body {
+
+    padding: fluid(35, 22)
+  }
+}

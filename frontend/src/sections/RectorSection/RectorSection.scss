@@ -1,0 +1,243 @@
+.rector-section {
+  position: relative;
+  background-color: var(--color-soft-white);
+  padding-block: 130px;
+  margin-top: -2px;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(248, 249, 250, 0.3) 20%,
+        rgba(248, 249, 250, 0.7) 50%,
+        var(--color-soft-white) 90%,
+        var(--color-soft-white) 100%
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  &__body {
+    position: relative;
+    border-radius: 10px;
+    background-color: var(--color-bg-main);
+
+    @include desktop-above {
+      padding-block: 50px;
+      align-items: center;
+      padding-inline: fluid(20, 17);
+    }
+
+    @include desktop {
+      display: flex;
+      flex-direction: row-reverse;
+      padding-inline: fluid(100, 60);
+      padding-block: fluid(55, 40);
+    }
+
+    @include tablet-small {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: fluid(25, 16);
+      padding-block: fluid(30, 22);
+      z-index: 5;
+    }
+
+    @include tablet-xs {
+      padding-inline: 10px;
+    }
+  }
+
+  &__image-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    z-index: 5;
+
+    @include desktop {
+      left: fluid(0, 74);
+    }
+
+    @include tablet {
+      left: 0
+    }
+
+    @include tablet-small {
+      position: static;
+      margin-top: fluid(-70, -50);
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 372px;
+    z-index: 5;
+
+    @include tablet-small {
+      height: fluid(350, 250);
+    }
+  }
+
+  &__content {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    width: fit-content;
+    height: auto;
+    z-index: 1;
+    margin-left: 0;
+    padding-left: 0;
+    bottom: 0;
+    padding-inline: fluid-to-laptop(35, 20);
+
+    @include desktop-above {
+      padding-left: 50px;
+      margin-left: 25%;
+      bottom: 20px;
+    }
+
+    @include desktop {
+      right: 5%;
+      bottom: 0;
+    }
+
+    @include tablet {
+      left: 50px;
+    }
+
+    @include tablet-small {
+      left: 0;
+    }
+    @include tablet-xs {
+      padding: 0;
+      > *:last-child {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &__title {
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    color: var(--color-main-accent);
+    padding-top: 10px;
+
+    @include tablet-xs {
+      text-align: center;
+    }
+    @include tablet-small {
+      text-align: center;
+    }
+  }
+
+  &__name {
+    position: relative;
+    display: block;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 2.5rem;
+    text-transform: uppercase;
+
+    @include tablet-xs-above {
+      padding-bottom: 50px;
+    }
+
+    @include tablet-xs-above {
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: -40%;
+        left: 50%;
+        transform: translateX(calc(-50% + 10px));
+        width: 300px;
+        height: 115px;
+        background-image: url("@/assets/icons/ornament4.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__button {
+    align-self: center;
+    background-color: var(--color-main-accent);
+    width: 100%;
+
+    .button__label {
+
+      @include mobile-s-above {
+        font-size: 1.2rem;
+        letter-spacing: 1.4px;
+      }
+
+      font-weight: 600;
+      letter-spacing: 1.4px;
+    }
+  }
+
+  &__background-image {
+
+    @include desktop {
+      display: none;
+    }
+
+    @include desktop-above {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30%;
+      height: 100%;
+      background-image: url("@/assets/images/rector_bg_image.jpeg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      border-radius: 10px;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            var(--color-bg-main) 0%,
+            rgba(247, 244, 241, 0) 100%
+        );
+        z-index: 0;
+      }
+    }
+  }
+}
+
+.button.button--accent {
+  padding-block: fluid(18, 14);
+
+  @include tablet {
+    width: 60%;
+  }
+}
+
+.rector-section.container {
+  @include tablet-small {
+    padding-inline: fluid(30, 20);
+    max-width: 90%;
+  }
+}

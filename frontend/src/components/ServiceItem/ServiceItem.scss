@@ -1,0 +1,96 @@
+.service-item {
+  padding: fluid-to-laptop(22, 18);
+  border: var(--border-width-m) solid var(--color-grey);
+  border-radius: var(--border-radius-l);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-soft-white);
+
+  @include mobile-s-above {
+
+    max-width: 550px;
+    width: 100%;
+    justify-self: center;
+
+    &:last-child {
+      @include desktop {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+
+    }
+
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__image-wrapper {
+
+    padding: 16px;
+    border-radius: 50%;
+    background-color: var(--color-soft-gold);
+  }
+
+  &__image {
+    width: 90px;
+    height: 90px;
+
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    padding-top: fluid-to-laptop(22, 18);
+
+    @include mobile-s-above {
+      font-size: 2rem;
+    }
+
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-inline: fluid-to-laptop(22, 18);
+    gap: 16px;
+  }
+
+  &__description {
+
+    @include mobile-s-above {
+      font-size: 1.1rem;
+    }
+    padding-bottom: fluid-to-laptop(22, 18);
+
+  }
+
+  &__button {
+    background-color: var(--color-gold);
+    color: var(--color-soft-white);
+    text-shadow: none;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    font-size: 1.2rem;
+
+    @include mobile-s {
+      width: 90%;
+    }
+
+  }
+
+  &__link {
+    padding-top: fluid-to-laptop(25, 20);
+    gap: 12px;
+    margin-top: auto;
+
+    @include mobile-s-above {
+      font-size: 1.1rem;
+    }
+  }
+
+}

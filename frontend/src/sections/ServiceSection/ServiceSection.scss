@@ -1,0 +1,84 @@
+.service-section {
+  padding-bottom: 130px;
+  background-color: var(--color-soft-white);
+
+
+  &__inner {
+    background-color: var(--color-bg-main);
+    padding-bottom: 30px;
+    border-radius: 10px;
+    padding-top: fluid(25, 15);
+
+    @include desktop-above {
+      position: relative;
+      background-color: var(--color-bg-main);
+
+      padding-bottom: 90px;
+      border-radius: 10px;
+    }
+  }
+
+  &__header {
+
+    text-align: center;
+  }
+
+  &__title {
+    position: relative;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    line-height: 3.3rem;
+    font-weight: 400;
+    padding: fluid(22, 16);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(calc(-50% + 10px));
+      bottom: -77px;
+      background: url("@/assets/icons/ornament4.svg") center / contain no-repeat;
+      width: 400px;
+      height: 140px;
+      pointer-events: none;
+
+      @include tablet-xs {
+        transform: translateX(calc(-50% + 7px));
+        width: 400px;
+        height: 130px;
+        bottom: -73px;
+      }
+
+      @include mobile {
+        transform: translateX(calc(-50% + 7px));
+      }
+    }
+
+    @include tablet {
+      font-size: 2.1rem;
+      line-height: 3.1rem;
+    }
+
+    @include mobile {
+      font-size: 1.8rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 16px;
+    padding: fluid(35, 22);
+
+    @include desktop {
+      grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    @include tablet-small {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+}

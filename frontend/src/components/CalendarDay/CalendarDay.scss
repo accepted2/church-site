@@ -1,0 +1,118 @@
+.calendar-day {
+  --borderCalendarSunday: 1px solid var(--color-sunday-red);
+  --borderCalendarNormalDay: 1px solid var(--color-late-gray-b);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 16px;
+  min-height: 130px;
+  //  height: 130px;
+
+  padding: 7px;
+
+  background: var(--color-bg-main);
+  border-radius: 5px;
+  border: var(--borderCalendarNormalDay);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+  border-color 0.2s ease;
+
+  @include laptop {
+    min-height: 80px;
+    padding: 6px;
+    gap: 4px;
+  }
+
+  &:not(.is-sanday) {
+
+    //    border-top: var(--borderCalendarNormalDay);
+    //    border-bottom: var(--borderCalendarNormalDay);
+    //    border-left: var(--borderCalendarNormalDay);
+    //    border-right: var(--borderCalendarNormalDay);
+
+
+    .feast-name {
+      text-shadow: none;
+    }
+  }
+
+
+  @include hover {
+    border-color: var(--color-gold);
+    background-color: var(--color-soft-gold);
+    color: inherit;
+  }
+
+  &:focus {
+    background-color: var(--color-soft-gold);
+  }
+
+  &.other-month {
+    opacity: 0.4;
+
+  }
+
+  &.is-selected {
+    z-index: 2;
+
+    background-color: rgba(201, 161, 93, 0.06);
+    border-top: var(--borderCalendar);
+    border-bottom: var(--borderCalendar);
+    border-left: var(--borderCalendar);
+    border-right: var(--borderCalendar);
+    box-shadow: inset 0 0 0 1px var(--color-gold);
+  }
+
+  &.is-sunday {
+    border-color: var(--color-sunday-red);
+
+    .calendar-day__number {;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-apostolic-red-dark);
+    }
+
+
+  }
+
+
+  &.is-saturday {
+    border-right: none;
+  }
+
+
+  &__number {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-late-gray);
+  }
+
+  &__feast-name {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--color-sunday-red);
+    display: -webkit-box;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @include desktop {
+      font-size: 0.7rem;
+      -webkit-line-clamp: 1;
+    }
+
+  }
+
+  &:not(.is-sunday) {
+    .calendar-day__feast-name {
+      text-shadow: none;
+      color: var(--color-late-gray-a);
+    }
+
+  }
+}

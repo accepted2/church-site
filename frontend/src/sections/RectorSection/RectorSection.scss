@@ -127,10 +127,10 @@
   }
 
   &__title {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1.5rem;
     letter-spacing: 1.5px;
-    color: var(--color-main-accent);
+    color: var(--color-apostolic-red-light);
     padding-top: 10px;
 
     @include tablet-xs {
@@ -177,17 +177,9 @@
     align-self: center;
     background-color: var(--color-main-accent);
     width: 100%;
-
-    .button__label {
-
-      @include mobile-s-above {
-        font-size: 1.2rem;
-        letter-spacing: 1.4px;
-      }
-
-      font-weight: 600;
-      letter-spacing: 1.4px;
-    }
+    font-size: 1.2rem;
+    letter-spacing: 1.4px;
+  
   }
 
   &__background-image {

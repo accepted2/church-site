@@ -1,0 +1,222 @@
+.day-info-panel {
+  padding: fluid(20, 14);
+  border-radius: var(--border-radius-l);
+  background-color: var(--color-bg-main);
+  border: 1px solid var(--color-grey);
+  position: sticky;
+  top: 20px;
+  //  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+
+  max-height: var(--calendar-height);
+  scrollbar-width: thin;
+
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-apostolic-red-light);
+  }
+
+  &__date-text {
+    font-size: fluid(32, 22);
+    font-weight: 700;
+    color: inherit;
+    text-transform: lowercase;
+  }
+
+  &__feast {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__main {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 20px;
+    align-items: start;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .all-feast-link {
+    width: fit-content;
+
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 0;
+    border: none;
+
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: var(--color-late-gray);
+    transition: color 0.25s ease;
+    box-shadow: none;
+    text-shadow: none;
+
+    @include hover {
+      color: var(--color-apostolic-red-light);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: none;
+      border: none;
+    }
+  }
+
+  &__feast-image {
+    width: 140px;
+    height: 190px;
+
+    object-fit: cover;
+
+    border-radius: 14px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @include mobile {
+      width: 100%;
+      max-width: 220px;
+      margin-inline: auto;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    min-width: 0;
+  }
+
+  &__memory {
+    margin-bottom: 12px;
+
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-gold);
+    letter-spacing: 0.04em;
+  }
+
+  &__title {
+    margin-bottom: 18px;
+
+    font-size: fluid(20, 18);
+    line-height: 1.08;
+    font-weight: 700;
+
+    color: inherit;
+
+    text-wrap: balance;
+  }
+
+  &__fast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 1rem;
+    line-height: 1.5;
+
+    &::before {
+      content: "";
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+      background-color: #8fb68f;
+
+      flex-shrink: 0;
+    }
+
+    &.no-fast {
+      &::before {
+        background-color: #d0d0d0;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+
+    border-top: 1px solid var(--color-grey);
+  }
+
+  &__accordion {
+    //    display: flex;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--color-grey);
+  }
+
+  &__life-button {
+    width: fit-content;
+
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+
+    padding-block: 18px;
+    padding-inline: 0px;
+
+    border: none;
+
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: var(--color-late-gray);
+    transition: color 0.25s ease;
+    box-shadow: none;
+    text-shadow: none;
+
+    @include hover {
+      color: var(--color-apostolic-red-light);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: none;
+      border: none;
+    }
+  }
+
+  &__more-button {
+    width: 100%;
+    margin-top: 8px;
+    background-color: var(--color-apostolic-red-light);
+    color: var(--color-soft-white);
+    text-shadow: 0 4px 20px var(--color-white);
+    letter-spacing: 1.4px;
+    
+    @include hover {
+
+      background-color: var(--color-soft-white);
+      color: var(--color-apostolic-red-light);
+      text-shadow: 0 4px 40px var(--color-apostolic-red-dark);
+
+    }
+  }
+
+
+}

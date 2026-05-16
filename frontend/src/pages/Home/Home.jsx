@@ -5,6 +5,7 @@ import Hero from "@/sections/Hero";
 import RectorSection from "@/sections/RectorSection";
 import ScheduleSection from "@/sections/ScheduleSection";
 import ServiceSection from "@/sections/ServiceSection";
+import CalendarSection from "@/sections/CalendarSection";
 
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
       <RectorSection />
       <ScheduleSection />
       <ServiceSection />
+      <CalendarSection />
 
     </>
   )

@@ -17,9 +17,8 @@ const ScheduleSection = (props) => {
 
   const [data, setData] = useState([])
 
-  const swiperRef = useRef(null) // ✅ Ссылка на Swiper
+  const swiperRef = useRef(null)
 
-  // const sliderNavigationId = "schedule-section-slider-navigation"
 
   useEffect(() => {
     getSchedule().then(setData).catch(console.error)

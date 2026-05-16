@@ -38,6 +38,7 @@
 
   .button {
     padding: fluid-to-laptop(14, 10);
+    border: none;
 
     @include desktop {
       padding: fluid-to-laptop(18, 14);
@@ -47,7 +48,7 @@
     //    padding: fluid-to-laptop(18, 14);
 
     &:disabled {
-      background-color: var(--color-late-gray-d);
+      background-color: var(--color-apostolic-red);
     }
   }
 
@@ -60,13 +61,13 @@
     .swiper-pagination-bullet {
       width: 8px;
       height: 8px;
-      background: gray;
+      background: var(--color-main-white);
       opacity: 1;
       margin: 0 4px;
       border-radius: 50%;
 
       &-active {
-        background: var(--color-late-gray);
+        background: var(--color-apostolic-red-dark);
       }
     }
   }

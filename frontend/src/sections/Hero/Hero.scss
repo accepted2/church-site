@@ -26,7 +26,7 @@
 
   &__content {
     position: absolute;
-    top: 13%;
+    top: 17%;
 
     z-index: 3;
 
@@ -34,12 +34,12 @@
       max-width: fluid(600, 400);
     }
 
-    @include laptop-above {
-
-    }
-    @include tablet {
-      top: 9%;
-    }
+    //    @include laptop-above {
+    //
+    //    }
+    //    @include tablet {
+    //      top: 9%;
+    //    }
   }
 
   &__text-wrapper {

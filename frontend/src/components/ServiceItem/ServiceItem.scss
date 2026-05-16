@@ -30,10 +30,14 @@
   }
 
   &__image-wrapper {
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     padding: 16px;
     border-radius: 50%;
-    background-color: var(--color-soft-gold);
+    background-color: var(--color-sand);
+    border: 1px solid var(--color-apostolic-red);
   }
 
   &__image {
@@ -55,6 +59,7 @@
   &__header {
     display: flex;
     flex-direction: column;
+    flex: 1;
     text-align: center;
     padding-inline: fluid-to-laptop(22, 18);
     gap: 16px;
@@ -70,15 +75,27 @@
   }
 
   &__button {
-    background-color: var(--color-gold);
+    background-color: var(--color-apostolic-red-light);
     color: var(--color-soft-white);
-    text-shadow: none;
-    font-weight: 600;
-    letter-spacing: 1.4px;
+    text-shadow: 0 4px 20px var(--color-white);
+
     font-size: 1.2rem;
 
+    @include hover {
+      background-color: var(--color-soft-white);
+      color: var(--color-apostolic-red-light);
+      text-shadow: 0 4px 40px var(--color-apostolic-red-dark);
+    }
+
+    @include tablet-above {
+      width: 60%;
+    }
+
+
     @include mobile-s {
-      width: 90%;
+      text-align: center;
+      width: 70%;
+      padding-inline: 0;
     }
 
   }
@@ -87,6 +104,14 @@
     padding-top: fluid-to-laptop(25, 20);
     gap: 12px;
     margin-top: auto;
+    text-shadow: none;
+
+    color: var(--color-apostolic-red-light);
+    border: none;
+
+    &:hover {
+      border: none;
+    }
 
     @include mobile-s-above {
       font-size: 1.1rem;

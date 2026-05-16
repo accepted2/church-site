@@ -5,6 +5,12 @@
   padding-inline: var(--container-padding-x);
 }
 
+.hidden-laptop {
+  @include laptop {
+    display: none !important;
+  }
+}
+
 .visually-hidden {
   @include visually-hidden;
 }

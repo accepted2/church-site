@@ -1,0 +1,31 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+
+  background: var(--color-bg-main);
+
+  //  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  //  border-bottom: 1px solid var(--color-grey);
+
+  border-radius: var(--border-radius-l) var(--border-radius-l) 0 0;
+
+  &__title {
+    font-size: fluid(32, 22);
+    font-weight: 700;
+    text-transform: capitalize;
+
+
+  }
+
+  &__button {
+    //    flex-shrink: 0;
+    padding: fluid(10, 5) fluid(20, 15);
+
+    .icon {
+      width: fluid(25, 15);
+    }
+  }
+}

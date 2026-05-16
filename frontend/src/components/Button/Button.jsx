@@ -17,7 +17,9 @@ const Button = forwardRef((props, ref) => {
     iconName,
     iconPosition = 'before',
     isLink = false,
-
+    onClick,
+    children,
+    ...restProps
   } = props
 
   const isRouterLink = to !== undefined
@@ -35,6 +37,7 @@ const Button = forwardRef((props, ref) => {
   }
 
   const title = isLabelHidden ? label : undefined
+  const ariaLabel = label || title
   const iconComponent = iconName && <Icon name={iconName} />
 
   return (
@@ -46,13 +49,21 @@ const Button = forwardRef((props, ref) => {
       })}
       title={title}
       aria-label={title}
+      onClick={onClick}
       {...specificProps}
+      {...restProps}
     >
-      {iconPosition === 'before' && iconComponent}
-      {!isLabelHidden && (
-        <span className="button__label">{label}</span>
+      {children || (
+        <>
+          {iconPosition === 'before' && iconComponent}
+
+          {!isLabelHidden && (
+            <span className="button__label">{label}</span>
+          )}
+
+          {iconPosition === 'after' && iconComponent}
+        </>
       )}
-      {iconPosition === 'after' && iconComponent}
     </Component>
   )
 })

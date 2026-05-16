@@ -3,21 +3,24 @@
 
   padding: fluid-to-laptop(14, 10) fluid-to-laptop(24, 20);
   font-weight: 600; /*600*/
-  color: var(---color-late-gray);
 
-  border: none;
+
+  color: var(--color-apostolic-red-light);
+  background-color: var(--color-soft-white);
+  border: 1px solid var(--color-apostolic-red-light);
   border-radius: var(--border-radius-l);
   user-select: none;
   cursor: pointer;
-  text-shadow: 0 4px 20px var(--color-white);
+  text-shadow: 0 4px 40px var(--color-apostolic-red-dark);
 
   @include laptop {
     border-radius: var(--border-radius-s);
   }
 
   @include hover {
-    background-color: var(--color-late-gray-d);
+    background-color: var(--color-apostolic-red-light);
     color: var(--color-soft-white);
+    border: 1px solid var(--color-apostolic-red-light);
     box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
     text-shadow: 0 4px 20px var(--color-white);
   }
@@ -42,7 +45,7 @@
   }
 
   &--accent {
-    background-color: var(--color-gold-a);
+    //    background-color: var(--color-apostolic-red-light);
   }
 
   &--link {
@@ -51,9 +54,9 @@
 
     @include hover {
       background-color: transparent;
-      color: var(--color-main-accent);
+      color: var(--color-apostolic-red-light);
       text-decoration: underline;
-      text-decoration-color: var(--color-late-gray);
+      text-decoration-color: var(--color-apostolic-red-light);
 
       text-underline-offset: 4px;
       box-shadow: none;

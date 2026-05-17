@@ -9,9 +9,9 @@ html, body, #root {
 
 }
 
-//html, body {
-//  overflow-x: hidden;
-//}
+.layout {
+  overflow-x: hidden;
+}
 
 body {
   @include fluid-text(18, 14);
@@ -96,7 +96,7 @@ a {
   @include focus-visible
 }
 
-//
+
 //* {
 //  outline: 1px solid red;
 //}

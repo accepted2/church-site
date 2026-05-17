@@ -9,10 +9,19 @@
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  //  grid-auto-rows: minmax(100px, auto); // ← все строки одинаковой высоты
-  //  gap: 2px;
+  gap: 2px;
   border: none;
   overflow: hidden;
+
+  @include laptop {
+    grid-auto-rows: minmax(50px, auto); // ← все строки одинаковой высоты
+
+  }
+
+  @include tablet-small {
+    grid-auto-rows: auto;
+    //    gap: 2px;
+  }
 
 
 }

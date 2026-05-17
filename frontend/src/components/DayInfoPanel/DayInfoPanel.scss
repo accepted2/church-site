@@ -5,18 +5,29 @@
   border: 1px solid var(--color-grey);
   position: sticky;
   top: 20px;
-  //  max-height: calc(100vh - 40px);
+  min-width: 0;
   overflow-y: auto;
-
-  max-height: var(--calendar-height);
   scrollbar-width: thin;
+  @include tablet-small-above {
+    max-height: var(--calendar-height);
 
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
   }
+  @include tablet-small {
+    display: contents;
+    position: static;
+  }
+
+  @include mobile {
+    display: block;
+    //    min-height: var(--calendar-height);
+    //    max-height: var(--calendar-height);
+  }
+
+
+  @include laptop {
+    position: static;
+  }
+
 
   &__date {
     display: flex;
@@ -27,28 +38,39 @@
     border-bottom: 1px solid var(--color-apostolic-red-light);
   }
 
+  &__data {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-self: start;
+    gap: 10px;
+    padding-inline: 10px;
+
+  }
+
   &__date-text {
     font-size: fluid(32, 22);
     font-weight: 700;
     color: inherit;
     text-transform: lowercase;
+
+    @include desktop {
+      font-size: fluid(24, 16);
+    }
   }
 
   &__feast {
-    display: flex;
+    display: contents;
     flex-direction: column;
     gap: 24px;
-  }
 
-  &__main {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 20px;
-    align-items: start;
-
-    @include mobile {
-      grid-template-columns: 1fr;
-    }
   }
 
   .all-feast-link {
@@ -92,22 +114,40 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12),
     0 2px 8px rgba(0, 0, 0, 0.08);
 
-    @include mobile {
-      width: 100%;
-      max-width: 220px;
-      margin-inline: auto;
+    @include tablet {
+      width: 130px;
+      height: 161px;
     }
+
+
+    @include tablet-small {
+      width: 100px;
+      height: 131px;
+      max-width: 220px;
+      object-fit: fill;
+    }
+
   }
 
   &__content {
+    order: 1;
     display: flex;
     flex-direction: column;
-    align-self: center;
-    min-width: 0;
+    gap: 20px;
+
+    @include tablet-small {
+      grid-area: content;
+      border-radius: var(--border-radius-l);
+      padding: fluid(20, 14);
+      border: 1px solid var(--color-grey);
+
+
+    }
+
   }
 
   &__memory {
-    margin-bottom: 12px;
+
 
     font-size: 0.9rem;
     font-weight: 500;
@@ -123,8 +163,11 @@
     font-weight: 700;
 
     color: inherit;
-
     text-wrap: balance;
+
+    @include tablet {
+      font-size: fluid(18, 15);
+    }
   }
 
   &__fast {
@@ -157,8 +200,18 @@
   &__actions {
     display: flex;
     flex-direction: column;
+    //    order: 3;
 
-    border-top: 1px solid var(--color-grey);
+    @include mobile-above {
+      border-top: 1px solid var(--color-grey);
+    }
+
+
+    @include tablet-small {
+      grid-area: actions;
+    }
+
+
   }
 
   &__accordion {
@@ -202,21 +255,44 @@
   }
 
   &__more-button {
-    width: 100%;
-    margin-top: 8px;
+    //    width: 100%;
+    margin-top: 25px;
+
     background-color: var(--color-apostolic-red-light);
     color: var(--color-soft-white);
     text-shadow: 0 4px 20px var(--color-white);
     letter-spacing: 1.4px;
-    
-    @include hover {
 
+
+    @include laptop {
+      width: 50%;
+      align-self: center;
+    }
+
+
+    @media (width <= 1140px) {
+      width: 100%;
+      align-self: center;
+    }
+
+    @include hover {
       background-color: var(--color-soft-white);
       color: var(--color-apostolic-red-light);
       text-shadow: 0 4px 40px var(--color-apostolic-red-dark);
+    }
 
+
+  }
+
+  &__all-feasts {
+    //    order: 2;
+    padding-block: 16px;
+
+    .all-feasts-label {
+      color: var(--color-apostolic-red-light);
+      font-weight: 500;
     }
   }
 
-
+  height: 100%;
 }

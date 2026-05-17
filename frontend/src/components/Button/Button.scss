@@ -13,9 +13,6 @@
   cursor: pointer;
   text-shadow: 0 4px 40px var(--color-apostolic-red-dark);
 
-  @include laptop {
-    border-radius: var(--border-radius-s);
-  }
 
   @include hover {
     background-color: var(--color-apostolic-red-light);

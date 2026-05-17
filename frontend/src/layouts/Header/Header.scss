@@ -21,8 +21,8 @@
     height: 2px;
     background: linear-gradient(90deg,
       transparent 0%,
-      var(--color-gold) 20%,
-      var(--color-gold) 80%,
+      var(--color-apostolic-red-light) 20%,
+      var(--color-apostolic-red-light) 90%,
       transparent 100%);
     transition: width 0.4s ease;
     pointer-events: none;
@@ -30,7 +30,7 @@
 
   &--scrolled {
     background-color: var(--color-soft-white);
-   
+
     padding-block: 10px;
     border-bottom-color: var(--color-grey);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -145,8 +145,8 @@
         background: linear-gradient(
             90deg,
             transparent 0%,
-            var(--color-gold) 20%,
-            var(--color-gold) 80%,
+            var(--color-apostolic-red-light) 20%,
+            var(--color-apostolic-red-light) 80%,
             transparent 100%
         );
         transition: width 0.3s ease;
@@ -168,6 +168,7 @@
 
     &-link {
       padding: fluid-to-laptop(14, 12) fluid-to-laptop(24, 20);
+      border: 1px solid transparent;
       border-radius: var(--border-radius-l);
       transition: all 0.3s ease;
       color: var(--color-soft-white);
@@ -179,14 +180,19 @@
       }
 
       @include hover {
-        background-color: var(--color-gold);
-        color: var(--color-late-gray-a);
+        background-color: var(--color-apostolic-red-light);
+        color: var(--color-soft-white);
+
+
+        box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
+        text-shadow: 0 4px 20px var(--color-white);
+
       }
 
       &.active {
-        //        font-weight: 500;
-        color: var(--color-late-gray);
-        background-color: var(--color-gold);
+        border: 1px solid var(--color-apostolic-red-light);
+        background-color: var(--color-soft-white);
+        color: var(--color-apostolic-red-light);
         pointer-events: none;
       }
     }

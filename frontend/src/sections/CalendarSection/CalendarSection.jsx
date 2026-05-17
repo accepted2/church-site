@@ -183,7 +183,7 @@ const CalendarSection = ({ className }) => {
 
           </div>
 
-          <div className="calendar-section__banner-image-wrapper">
+          <div className="calendar-section__banner-image-wrapper hidden-tablet-xs ">
 
             <img
               className="calendar-section__banner-image"
@@ -202,22 +202,22 @@ const CalendarSection = ({ className }) => {
           className="calendar-section__calendar"
           ref={calendarRef}
         >
+          <div className="calendar-section__calendar-inner">
+            <CalendarHeader
+              onPrevMonth={handlePrevMonth}
+              onNextMonth={handleNextMonth}
+              currentDate={currentDate}
+            />
 
-          <CalendarHeader
-            onPrevMonth={handlePrevMonth}
-            onNextMonth={handleNextMonth}
-            currentDate={currentDate}
-          />
+            <CalendarWeekdays />
 
-          <CalendarWeekdays />
-
-          <CalendarGrid
-            days={days}
-            monthData={monthData}
-            onDayClick={setSelectedDay}
-          />
+            <CalendarGrid
+              days={days}
+              monthData={monthData}
+              onDayClick={setSelectedDay}
+            />
+          </div>
         </div>
-
         <DayInfoPanel
           selectedDay={selectedDay}
           style={{
@@ -225,6 +225,8 @@ const CalendarSection = ({ className }) => {
           }}
         />
       </div>
+
+
     </section>
   )
 }

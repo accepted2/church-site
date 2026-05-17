@@ -11,6 +11,13 @@
   }
 }
 
+.visible-laptop {
+  @include laptop-above {
+    display: none !important;
+  }
+}
+
+
 .visually-hidden {
   @include visually-hidden;
 }
@@ -27,6 +34,12 @@
   }
 }
 
+.hidden-tablet-xs {
+  @include tablet-xs {
+    display: none !important;
+  }
+}
+
 .visible-mobile {
   @include mobile-above {
     display: none !important;
@@ -38,4 +51,5 @@
   @include mobile {
     display: none !important;
   }
+
 }

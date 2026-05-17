@@ -1,6 +1,12 @@
+
 .calendar-section {
+  --minHeight: 700px;
   background-color: var(--color-soft-white);
   padding-bottom: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
 
   &__header {
     display: grid;
@@ -13,8 +19,15 @@
     border-radius: var(--border-radius-l);
     background-color: var(--color-bg-main);
 
-    @media (max-width: 992px) {
+    @media (width <= 1140px) {
       grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 12px;
+    }
+
+
+    @include tablet-small {
+
     }
 
     &-inner {
@@ -22,16 +35,16 @@
       flex-direction: column;
       text-align: center;
       gap: 16px;
-
-
     }
   }
 
   &__title {
     position: relative;
-    font-size: 2.2rem;
-    line-height: 3.3rem;
+    font-size: fluid(40, 20);
+    line-height: 2.5rem;
     font-weight: 400;
+    text-wrap: nowrap;
+
 
     &::after {
       content: "";
@@ -44,6 +57,10 @@
       height: 75px;
       pointer-events: none;
     }
+
+    @include desktop {
+
+    }
   }
 
   &__subtitle {
@@ -54,14 +71,12 @@
   &__banner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    //    justify-content: space-between;
     column-gap: 70px;
     min-height: 118px;
 
     width: 100%;
-    //    max-width: 540px;
     border: var(--border);
-
     border-radius: var(--border-radius-l);
     overflow: hidden;
     background: linear-gradient(
@@ -69,6 +84,19 @@
         #f8f4ec 0%,
         #f3ede3 43%
     );
+
+    @media (width <= 1140px) {
+      max-width: calc(100vw - 200px);
+      column-gap: 16px;
+    }
+
+    @include mobile {
+      max-width: 100%;
+    }
+
+    @include tablet-xs {
+      column-gap: 16px;
+    }
 
     &-content {
       position: relative;
@@ -82,6 +110,10 @@
       min-width: 0;
 
       padding: 10px 50px 10px 20px;
+
+      @include tablet-small {
+        padding: 10px;
+      }
 
     }
 
@@ -97,6 +129,10 @@
       border-radius: 50%;
       background-color: var(--color-sand);
       border: 1px solid rgba(0, 0, 0, 0.06);
+
+      @include tablet-small {
+        padding: 10px;
+      }
     }
 
     &-icon {
@@ -104,6 +140,11 @@
       height: 44px;
       transform: translateX(4px) translateY(1px);
       object-fit: contain;
+
+      @include tablet-xs {
+        width: 40px;
+        height: 40px;
+      }
     }
 
 
@@ -184,21 +225,68 @@
 
   &__body {
     display: grid;
-    grid-template-columns: 70% 1fr;
+    grid-template-columns: 2.5fr 1fr;
     column-gap: 16px;
-
+    padding-inline: fluid-to-laptop(20, 18);
     padding-block: 12px;
+    border-radius: 14px;
+    background-color: #eae4db;
+    padding-bottom: 130px;
 
+    @include laptop {
+      grid-template-columns: 1fr 1.5fr;
+
+    }
+
+    @media (width <= 900px) {
+      display: grid;
+      grid-template-columns: 1fr 2.5fr; // две колонки
+      grid-template-rows: auto auto; // две строки
+      grid-template-areas:
+        "calendar content"
+        "actions actions";
+      gap: 16px;
+    }
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+    }
 
   }
 
   &__calendar {
-    //    align-self: start;
-    //    //    padding-top: 10px;
+
     padding: 10px fluid(20, 14);
-    //    height: fit-content;
+
     border-radius: var(--border-radius-l);
     background-color: var(--color-bg-main);
     border: 1px solid var(--color-grey);
+
+
+    @include tablet-small-above {
+      min-height: var(--minHeight);
+    }
+    @include tablet-small {
+      grid-area: calendar;
+
+    }
+
+    &-inner {
+
+      @include laptop {
+        padding-top: 10px;
+      }
+
+
+      @include tablet-small {
+        padding-top: 0px;
+      }
+
+    }
+
   }
+
+
 }
+

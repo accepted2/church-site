@@ -40,7 +40,7 @@ const CalendarDay = (props) => {
       </span>
 
       {feastName && (
-        <span className="calendar-day__feast-name hidden-tablet">
+        <span className="calendar-day__feast-name hidden-laptop">
           {feastName}
         </span>
       )}

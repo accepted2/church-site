@@ -231,7 +231,11 @@
     padding-block: 12px;
     border-radius: 14px;
     background-color: #eae4db;
-    padding-bottom: 130px;
+
+    @include tablet-small-above {
+      padding-bottom: 130px;
+    }
+
 
     @include laptop {
       grid-template-columns: 1fr 1.5fr;
@@ -258,11 +262,10 @@
   &__calendar {
 
     padding: 10px fluid(20, 14);
-
     border-radius: var(--border-radius-l);
     background-color: var(--color-bg-main);
     border: 1px solid var(--color-grey);
-
+    transition: opacity .25s ease;
 
     @include tablet-small-above {
       min-height: var(--minHeight);
@@ -272,21 +275,54 @@
 
     }
 
+    &.is-loading {
+      pointer-events: none;
+
+      .calendar-section__calendar-inner {
+        opacity: .92;
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255, 255, 255, .35),
+              transparent
+          );
+
+          animation: shimmer .9s infinite;
+        }
+      }
+    }
+
     &-inner {
+      position: relative;
+      overflow: hidden;
+      transition: opacity .25s ease,
+      transform .25s ease;
+
 
       @include laptop {
         padding-top: 10px;
       }
 
-
       @include tablet-small {
         padding-top: 0px;
       }
-
     }
-
   }
 
 
 }
 
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}

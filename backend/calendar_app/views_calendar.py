@@ -159,13 +159,13 @@ class CalendarDayView(APIView):
         """Возвращает описание типа поста"""
         descriptions = {
             'no-fast': 'Поста нет',
-            'fast': 'Пост',
+            'fast': 'Постный день',
             'strict-fast': 'Строгий пост',
-            'no-oil': 'Пост без масла',
-            'dry': 'Сухоядение',
-            'oil': 'Пост с маслом',
-            'fish': 'Пост с рыбой',
-            'caviar': 'Пост с икрой',
+            'no-oil': 'Постный день',
+            'dry': 'Постный день',
+            'oil': 'Постный день',
+            'fish': 'Постный день',
+            'caviar': 'Постный день',
         }
         return descriptions.get(fast_code, fast_code)
 

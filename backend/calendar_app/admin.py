@@ -43,7 +43,7 @@ class FeastDateInline(admin.TabularInline):
 
 @admin.register(Feast)
 class FeastAdmin(admin.ModelAdmin):
-    list_display = ['id', 'search_name', 'feast_type', 'dates_count']
+    list_display = ['id', 'search_name', 'feast_type', 'dates_count', 'display_dates']
     list_filter = ['feast_type']
     search_fields = ['search_name', 'external_id', 'dates__title_ru', 'dates__short_title_ru']
     inlines = [FeastDateInline]
@@ -59,6 +59,37 @@ class FeastAdmin(admin.ModelAdmin):
         return format_html('<a href="?feast__id={}">{} дат</a>', obj.id, count)
 
     dates_count.short_description = 'Дат празднования'
+
+    def display_dates(self, obj):
+        """Показывает все даты празднования святого"""
+        dates = obj.dates.all().order_by('month', 'day')
+        if not dates:
+            return "—"
+
+        date_list = []
+        for fd in dates:
+            if fd.easter_offset is not None:
+                date_str = f"Пасха+{fd.easter_offset}"
+            else:
+                # Старый стиль
+                old_style = f"{fd.day:02d}.{fd.month:02d}"
+                # Новый стиль
+                from datetime import date, timedelta
+                julian = date(2000, fd.month, fd.day)
+                gregorian = julian + timedelta(days=13)
+                new_style = f"{gregorian.day:02d}.{gregorian.month:02d}"
+                date_str = f"{old_style} → {new_style}"
+
+            # Добавляем тип даты, если не основная
+            if fd.date_type != 'main' and fd.date_type != 'other':
+                type_display = fd.get_date_type_display()
+                date_str = f"{date_str} ({type_display})"
+
+            date_list.append(date_str)
+
+        return ", ".join(date_list)
+
+    display_dates.short_description = 'Даты (ст.стиль → н.стиль)'
 
 
 @admin.register(FeastDate)

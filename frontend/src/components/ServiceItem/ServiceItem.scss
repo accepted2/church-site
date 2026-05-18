@@ -94,8 +94,13 @@
 
     @include mobile-s {
       text-align: center;
+      min-width: 80%;
       width: 70%;
       padding-inline: 0;
+    }
+
+    @include mobile-s {
+      width: fit-content;
     }
 
   }

@@ -41,10 +41,8 @@ const DayInfoPanel = (props) => {
       className={clsx(className, 'day-info-panel')}
       style={style}
     >
-      {/* ДАТА */}
 
 
-      {/* КОНТЕНТ (икона + название + пост) */}
       <div className="day-info-panel__content">
         <div className="day-info-panel__date">
           <time

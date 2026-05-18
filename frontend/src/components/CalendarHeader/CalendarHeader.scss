@@ -17,6 +17,10 @@
     font-weight: 700;
     text-transform: capitalize;
 
+    @include tablet-small {
+      font-size: fluid(22, 18);
+    }
+
 
   }
 

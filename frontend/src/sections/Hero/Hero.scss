@@ -6,6 +6,7 @@
   min-height: 100vh;
   overflow: hidden;
 
+
   &::after {
     content: "";
     position: absolute;
@@ -86,6 +87,11 @@
     letter-spacing: 2px;
   }
 
+  &__inner {
+    //    position: relative;
+    z-index: 2;
+  }
+
   &__image {
     position: absolute;
     inset: 0;
@@ -125,4 +131,62 @@
     }
 
   }
+
+  &__overlay {
+
+    @include tablet-above {
+      position: absolute;
+
+      width: 520px;
+      height: auto;
+
+      top: 2%;
+      right: 78px;
+
+      aspect-ratio: 1 / 1;
+
+      background: url("@/assets/images/ChatGPT Image 18 мая 2026 г., 08_40_37.png") center / contain no-repeat;
+
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 1;
+
+    }
+
+
+  }
+
+  //  &__overlay-1 {
+  //    position: absolute;
+  //
+  //    width: 394px;
+  //    height: auto;
+  //    aspect-ratio: 1 / 1;
+  //    left: 2%;
+  //    top: 30%;
+  //    transform: translateY(-50%) rotate(2deg);;
+  //    background: url("@/assets/images/Saint_Petr.svg") center / contain no-repeat;
+  //
+  //    opacity: 0.85;
+  //    pointer-events: none;
+  //    z-index: 1;
+  //
+  //  }
+  //
+  //  &__overlay-2 {
+  //    aspect-ratio: 1 / 1;
+  //    position: absolute;
+  //
+  //    width: 394px;
+  //    height: auto;
+  //    top: 30%;
+  //    right: 2%;
+  //    transform: translateY(-50%) rotate(-2deg);;
+  //    background: url("@/assets/images/Saint_Pavel.svg") center / contain no-repeat;
+  //
+  //    opacity: 0.85;
+  //    pointer-events: none;
+  //
+  //
+  //  }
 }

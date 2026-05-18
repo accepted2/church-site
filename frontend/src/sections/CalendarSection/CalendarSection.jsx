@@ -17,16 +17,18 @@ const CalendarSection = ({ className }) => {
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [monthData, setMonthData] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [selectedDay, setSelectedDay] = useState(null)
   const [todayData, setTodayData] = useState(null)
-
+  const [visibleDate, setVisibleDate] = useState(currentDate)
   const calendarRef = useRef(null)
   const [calendarHeight, setCalendarHeight] = useState(0)
-
   const todayLabel = getFormatedDay(new Date())
 
   useEffect(() => {
     const fetchTodayData = async () => {
+
+
       try {
         const response = await fetch('http://localhost:8000/api/calendar/day/')
         const data = await response.json()
@@ -36,6 +38,16 @@ const CalendarSection = ({ className }) => {
       }
     }
     fetchTodayData()
+    const now = new Date()
+    const night = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0)
+    const msUntilMidnight = night.getTime() - now.getTime()
+
+    const timeout = setTimeout(() => {
+      fetchTodayData()
+      setInterval(fetchTodayData, 24 * 60 * 60 * 1000)
+    }, msUntilMidnight)
+
+    return () => clearTimeout(timeout)
   }, [])
 
 
@@ -47,7 +59,7 @@ const CalendarSection = ({ className }) => {
       const month = currentDate.getMonth() + 1
 
       try {
-
+        setLoading(true)
         const response = await fetch(
           `http://localhost:8000/api/calendar/month/?year=${year}&month=${month}`
         )
@@ -55,9 +67,14 @@ const CalendarSection = ({ className }) => {
         const data = await response.json()
 
         setMonthData(data)
+        setVisibleDate(currentDate)
 
       } catch (error) {
         console.log('Ошибка загрузки календаря', error)
+
+      } finally {
+
+        setLoading(false)
       }
     }
 
@@ -67,7 +84,9 @@ const CalendarSection = ({ className }) => {
 
   useEffect(() => {
 
-    if (!monthData?.days || selectedDay) return
+    if (!monthData?.days || selectedDay) {
+      return
+    }
 
     const todayString = new Date()
       .toISOString()
@@ -84,7 +103,9 @@ const CalendarSection = ({ className }) => {
   }, [monthData, selectedDay])
 
   useEffect(() => {
-    if (!calendarRef.current) return
+    if (!calendarRef.current) {
+      return
+    }
 
     const observer = new ResizeObserver(([entry]) => {
       setCalendarHeight(calendarRef.current.getBoundingClientRect().height)
@@ -115,10 +136,46 @@ const CalendarSection = ({ className }) => {
   }
 
   const days = getDaysInMonth(
-    currentDate.getFullYear(),
-    currentDate.getMonth()
+    visibleDate.getFullYear(),
+    visibleDate.getMonth()
   )
 
+  const daysMap = useMemo(() => {
+    if (!monthData?.days) {
+      return {}
+    }
+    return monthData.days.reduce((acc, day) => {
+      acc[day.date_gregorian] = day
+
+      return acc
+    }, {})
+
+  }, [monthData])
+
+  const fastInfo = () => {
+    if (!todayData) return ''
+
+    // 1. нет поста — всегда приоритет
+    if (todayData.fast_type_code === 'no-fast') {
+      return 'Поста нет'
+    }
+
+    if (todayData.fast_type_code === 'fast' && todayData?.fast_name !== '') {
+      return todayData?.fast_name
+    }
+
+    if (todayData.fast_name && (todayData.fast_type_code !== 'fast' && todayData.fast_type_code !== 'no-fast')) {
+      return `${todayData.fast_name}  (${todayData.fast_type_title})`
+    }
+
+    // 2. если есть конкретное название поста — показываем только его
+    if (todayData.fast_name) {
+      return `${todayData.fast_name} `
+    }
+
+    // 3. fallback на тип поста
+    return `Постный день (${todayData.fast_type_title})`
+  }
   return (
     <section className={clsx(className, 'calendar-section container')}>
 
@@ -167,13 +224,7 @@ const CalendarSection = ({ className }) => {
                 </p>
 
                 <p className="calendar-section__banner-fast">
-
-                  {todayData?.fast_name || 'Поста нет'}
-
-                  {
-                    todayData?.fast_type_title &&
-                    ` (${todayData.fast_type_title})`
-                  }
+                  {fastInfo()}
 
                 </p>
 
@@ -199,7 +250,12 @@ const CalendarSection = ({ className }) => {
       </div>
       <div className="calendar-section__body">
         <div
-          className="calendar-section__calendar"
+          className={clsx(
+            "calendar-section__calendar",
+            {
+              'is-loading': loading
+            }
+          )}
           ref={calendarRef}
         >
           <div className="calendar-section__calendar-inner">
@@ -213,6 +269,7 @@ const CalendarSection = ({ className }) => {
 
             <CalendarGrid
               days={days}
+              daysMap={daysMap}
               monthData={monthData}
               onDayClick={setSelectedDay}
             />

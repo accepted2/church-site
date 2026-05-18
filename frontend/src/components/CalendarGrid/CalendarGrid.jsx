@@ -9,19 +9,12 @@ const CalendarGrid = (props) => {
   const {
     className,
     days,
+    daysMap,
     monthData,
     onDayClick,
     selectedDay,
   } = props
 
-  const daysMap = useMemo(() => {
-    if (!monthData?.days) return {}
-
-    return monthData.days.reduce((acc, day) => {
-      acc[day.date_gregorian] = day
-      return acc
-    }, {})
-  }, [monthData])
 
   const formatDate = (date) => {
     const year = date.getFullYear()
@@ -49,8 +42,8 @@ const CalendarGrid = (props) => {
 
         {days.map((day, index) => {
 
+          const formattedDate = formatDate(day.date)
           const apiDay = daysMap[formatDate(day.date)]
-          console.log(apiDay)
           const mainFeast = apiDay?.main_feast
           const feastName = mainFeast?.short_title_ru || apiDay?.short_summary
           const isSunday = index % 7 === 6
@@ -60,7 +53,6 @@ const CalendarGrid = (props) => {
             <CalendarDay
               key={day.date.getTime()}
               dayNumber={day.dayNumber}
-
               feastName={feastName}
               isCurrentMonth={day.isCurrentMonth}
               isSunday={isSunday}

@@ -4,7 +4,6 @@ from .models import Feast, FeastDate, DayInfo, FastType
 
 
 class FeastDateSerializer(serializers.ModelSerializer):
-    """Сериализатор для даты празднования (то, что идет в API)"""
     celebration_type_display = serializers.CharField(source='get_celebration_type_display', read_only=True)
     celebration_rank_display = serializers.CharField(source='get_celebration_rank_display', read_only=True)
     date_type_display = serializers.CharField(source='get_date_type_display', read_only=True)
@@ -26,7 +25,6 @@ class FeastDateSerializer(serializers.ModelSerializer):
 
 
 class FeastSerializer(serializers.ModelSerializer):
-    """Сериализатор для святого (возвращает все даты)"""
     feast_type_display = serializers.CharField(source='get_feast_type_display', read_only=True)
     dates = FeastDateSerializer(many=True, read_only=True)
 

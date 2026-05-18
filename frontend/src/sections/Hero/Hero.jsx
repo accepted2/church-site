@@ -10,6 +10,13 @@ const Hero = (props) => {
     <section
       className={clsx(className, 'hero')}
     >
+
+      <div className="hero__image">
+        <div className="hero__bg" />
+        <div className="hero__overlay" />
+        {/*<div className="hero__overlay-1" />*/}
+        {/*<div className="hero__overlay-2" />*/}
+      </div>
       <div className="hero__inner container">
         <div className="hero__content">
           <div className="hero__text-wrapper">
@@ -26,7 +33,7 @@ const Hero = (props) => {
         </div>
 
       </div>
-      <div className="hero__image" />
+      {/*<div className="hero__image" />*/}
     </section>
   )
 }

@@ -46,10 +46,19 @@
 
   &__data {
     display: flex;
-
     align-items: flex-start;
-
     gap: 20px;
+
+    @include mobile-above {
+      padding-bottom: 10px;
+    }
+
+    @include mobile-s {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
   }
 
   &__info {
@@ -58,6 +67,10 @@
     justify-self: start;
     gap: 10px;
     padding-inline: 10px;
+
+    @include mobile-s {
+      align-self: flex-start;
+    }
 
   }
 
@@ -79,35 +92,6 @@
 
   }
 
-  .all-feast-link {
-    width: fit-content;
-
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    padding: 0;
-    border: none;
-
-    font-size: 1rem;
-    font-weight: 500;
-    background-color: transparent;
-    color: var(--color-late-gray);
-    transition: color 0.25s ease;
-    box-shadow: none;
-    text-shadow: none;
-
-    @include hover {
-      color: var(--color-apostolic-red-light);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-
-      background-color: transparent;
-      border-radius: 0;
-      box-shadow: none;
-      text-shadow: none;
-      border: none;
-    }
-  }
 
   &__feast-image {
     width: 140px;
@@ -187,6 +171,11 @@
     font-size: 1rem;
     line-height: 1.5;
 
+    @include mobile {
+      font-size: 15px;
+    }
+
+
     &::before {
       content: "";
 
@@ -211,6 +200,7 @@
     flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
+
 
     @include mobile-above {
       border-top: 1px solid var(--color-grey);
@@ -296,14 +286,45 @@
 
   &__all-feasts {
     //    order: 2;
-    padding-block: 16px;
+    padding-bottom: 16px;
 
     .all-feasts-label {
       color: var(--color-apostolic-red-light);
+      //      color: var(--color-apostolic-red-light);
       font-weight: 500;
     }
+
   }
 
+  .all-feast-link {
+    width: fit-content;
+
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 0;
+    border: none;
+
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: var(--color-late-gray);
+    transition: color 0.25s ease;
+    box-shadow: none;
+    text-shadow: none;
+
+    @include hover {
+      color: var(--color-apostolic-red-light);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: none;
+      border: none;
+    }
+  }
 
 }
 

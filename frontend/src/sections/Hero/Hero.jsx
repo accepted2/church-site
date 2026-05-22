@@ -9,6 +9,7 @@ const Hero = (props) => {
   return (
     <section
       className={clsx(className, 'hero')}
+      id="about"
     >
 
       <div className="hero__image">

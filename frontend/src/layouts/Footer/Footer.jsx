@@ -9,6 +9,7 @@ const Footer = (props) => {
   return (
     <div
       className={clsx(className, 'footer')}
+      id="contacts"
     >
       Footer
     </div>

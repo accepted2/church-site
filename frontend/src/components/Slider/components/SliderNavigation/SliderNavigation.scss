@@ -26,7 +26,7 @@
 
     @include desktop-above {
       column-gap: fluid-to-laptop(40, 25);
-      background-color: var(--color-gold);
+      background-color: var(--color-soft-white);
       border: var(--border);
     }
 
@@ -45,10 +45,16 @@
 
     }
 
+    &--accent {
+      border: 1px solid var(--color-apostolic-red-light);
+    }
+
+
     //    padding: fluid-to-laptop(18, 14);
 
     &:disabled {
       background-color: var(--color-apostolic-red);
+
     }
   }
 
@@ -61,6 +67,7 @@
     .swiper-pagination-bullet {
       width: 8px;
       height: 8px;
+      border: 1px solid var(--color-apostolic-red);
       background: var(--color-main-white);
       opacity: 1;
       margin: 0 4px;

@@ -16,7 +16,7 @@ const icons = {
 
 const Icon = (props) => {
   const {
-    className,
+    iconClassName,
     name,
 
   } = props
@@ -25,7 +25,7 @@ const Icon = (props) => {
 
   return (
     <Component
-      className={clsx(className, 'icon')}
+      className={clsx(iconClassName, 'icon')}
     />
   )
 }

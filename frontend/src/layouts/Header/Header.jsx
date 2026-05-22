@@ -1,29 +1,140 @@
 import './Header.scss'
-import clsx from "clsx";
-import Logo from "@/components/Logo";
-import { useEffect, useRef, useState } from "react";
-import Search from "@/components/Search";
-import BurgerButton from "@/components/BurgerButton";
 
-const Header = (props) => {
-  const { className } = props
+import clsx from 'clsx'
+import { useEffect, useRef, useState } from 'react'
 
+import Logo from '@/components/Logo'
+import Search from '@/components/Search'
+import Button from '@/components/Button'
+import BurgerButton from '@/components/BurgerButton'
+import Icon from '@/components/Icon'
+
+const Header = ({ className }) => {
   const menuItems = [
-    { label: 'О Храме', href: '#about' },
-    { label: 'Богослужения', href: '#services' },
-    { label: 'Требы', href: '#requests' },
-    { label: 'Пожертвования', href: '#donations' },
-    { label: 'Контакты', href: '#contacts' },
+    {
+      label: 'О Храме',
+      href: '#about',
+      dropdown: [
+        {
+          label: 'История храма',
+          to: '/treby/podat-zapisku'
+        },
+        {
+          label: 'Духовенство',
+          to: '/treby/moleben'
+        },
+        {
+          label: 'Воскресная школа',
+          to: '/treby/sorokoust'
+        },
+        {
+          label: 'Новости храма',
+          to: '/treby/panihida'
+        },
+
+      ]
+    },
+    {
+      label: 'Богослужения',
+      href: '#services'
+    },
+    {
+      label: 'Церковные требы',
+      href: '#requests',
+      dropdown: [
+        {
+          label: 'Подать записку',
+          to: '/treby/podat-zapisku'
+        },
+        {
+          label: 'Заказать молебен',
+          to: '/treby/moleben'
+        },
+        {
+          label: 'Сорокоуст',
+          to: '/treby/sorokoust'
+        },
+        {
+          label: 'Панихида',
+          to: '/treby/panihida'
+        },
+        {
+          label: 'Пожертвование',
+          to: '/treby/donations'
+        },
+      ]
+    },
+    {
+      label: 'Контакты',
+      href: '#contacts'
+    },
+    {
+      label: 'Календарь',
+      href: '#calendar'
+    },
   ]
 
-  const [active, setActive] = useState("")
+  const headerRef = useRef(null)
+  const hoverTimeoutRef = useRef(null)
+
+  const [active, setActive] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const ticking = useRef(false)
+  const [openDropdown, setOpenDropdown] = useState(null)
 
+  const isDesktop = () => window.innerWidth >= 1024
 
-  const toggleMenu = () => setIsOpen(prev => !prev)
-  const closeMenu = () => setIsOpen(false)
+  const scrollToSection = (elementId, event) => {
+    if (event) event.preventDefault()
+
+    const element = document.getElementById(elementId)
+    if (!element) return
+
+    const headerOffset = 140
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    })
+
+    window.history.pushState(null, '', `#${elementId}`)
+    setActive(elementId)
+    closeMenu()
+  }
+
+  const openMenu = () => {
+    setIsOpen(true)
+    setOpenDropdown(null)
+  }
+
+  const closeMenu = () => {
+    setIsOpen(false)
+    setOpenDropdown(null)
+  }
+
+  const toggleMenu = () => {
+    setIsOpen(prev => !prev)
+    setOpenDropdown(null)
+  }
+
+  const toggleDropdown = (label) => {
+    setOpenDropdown(prev => (prev === label ? null : label))
+  }
+
+  const handleDropdownEnter = (label) => {
+    if (!isDesktop()) return
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
+    setOpenDropdown(label)
+  }
+
+  const handleDropdownLeave = () => {
+    if (!isDesktop()) return
+    hoverTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null)
+    }, 150)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,66 +142,194 @@ const Header = (props) => {
         setIsScrolled(window.scrollY > 50)
       }
     }
-    window.addEventListener("scroll", handleScroll)
 
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [isOpen]);
+    const handleResize = () => {
+      if (isDesktop()) {
+        setIsOpen(false)
+      } else {
+        setOpenDropdown(null)
+      }
+    }
+
+    const handleClickOutside = (event) => {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        setOpenDropdown(null)
+        if (isDesktop()) return
+        setIsOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : ""
+    document.body.style.overflow = isOpen ? 'hidden' : ''
 
-  }, [isOpen]);
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!window.location.hash) return
+
+    const id = window.location.hash.substring(1)
+    setActive(id)
+
+    const element = document.getElementById(id)
+    if (!element) return
+
+    setTimeout(() => {
+      const headerOffset = 140
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }, 100)
+  }, [])
 
   return (
     <header
+      ref={headerRef}
       className={clsx(className, 'header', {
         'header--scrolled': isScrolled && !isOpen,
       })}
     >
       <div className="header__inner container">
-
         <Logo
           loading="eager"
           className="header__logo visible-tablet"
         />
 
         <div
-          className={clsx("header__overlay", { "is-open": isOpen })}
+          className={clsx('header__overlay', { 'is-open': isOpen })}
           onClick={closeMenu}
         >
           <div
             className="header__overlay-content"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <div className="header__left">
               <Logo
-                className="header__logo "
                 loading="eager"
+                className="header__logo"
               />
 
               <nav className="header__menu">
                 <ul className="header__menu-list">
-                  {menuItems.map(({ label, href }) => {
-                    const id = href.replace('#', '')
+                  {menuItems.map((item) => {
+                    const { label, href, dropdown } = item
+                    const id = href?.startsWith('#') ? href.substring(1) : ''
+                    const isDropdownOpen = openDropdown === label
+
+                    if (dropdown) {
+                      return (
+                        <li
+                          key={label}
+                          className={clsx(
+                            'header__menu-item',
+                            'header__menu-item--dropdown',
+                            { 'is-open': isDropdownOpen }
+                          )}
+                          onMouseEnter={() => handleDropdownEnter(label)}
+                          onMouseLeave={handleDropdownLeave}
+                          onFocus={() => handleDropdownEnter(label)}
+                          onBlur={(event) => {
+                            if (!event.currentTarget.contains(event.relatedTarget)) {
+                              handleDropdownLeave()
+                            }
+                          }}
+                        >
+                          <div className="header__menu-dropdown-row">
+                            <Button
+                              className={clsx('header__menu-link', {
+                                active: id === active,
+                              })}
+                              href={href}
+
+                              onClick={(event) => scrollToSection(id, event)}
+                              iconName="arrow-straight-right"
+                              iconClassName="hidden-tablet"
+                              iconPosition="after"
+                              label={label}
+                            />
+
+                            <button
+                              type="button"
+                              className="dropdown-arrow"
+                              onClick={(event) => {
+                                event.preventDefault()
+                                event.stopPropagation()
+                                toggleDropdown(label)
+                              }}
+                              aria-expanded={isDropdownOpen}
+                              aria-haspopup="true"
+                              aria-label={`Открыть подменю "${label}"`}
+                            >
+                              <Icon name="arrow-straight-right" />
+                            </button>
+                          </div>
+
+                          <ul
+                            className={clsx('header__dropdown', {
+                              'is-open': isDropdownOpen
+                            })}
+                          >
+                            {dropdown.map((dropdownItem) => (
+                              <li key={dropdownItem.label}>
+                                <Button
+                                  className="header__dropdown-link"
+                                  to={dropdownItem.to}
+                                  label={dropdownItem.label}
+
+                                  onClick={closeMenu}
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      )
+                    }
 
                     return (
                       <li
-                        className="header__menu-item"
                         key={label}
+                        className="header__menu-item"
                       >
-                        <a
-                          className={clsx("header__menu-link", {
+                        <Button
+                          className={clsx('header__menu-link', {
                             active: id === active,
                           })}
                           href={href}
-                          onClick={(e) => {
-                            e.preventDefault()
-                            setActive(id)
-                            closeMenu()
-                          }}
+                          onClick={(event) => scrollToSection(id, event)}
                         >
                           {label}
-                        </a>
+                        </Button>
                       </li>
                     )
                   })}

@@ -46,6 +46,7 @@ const ScheduleSection = (props) => {
   return (
     <section
       className={clsx(className, 'schedule-section  container')}
+      id="services"
     >
       <div className="schedule-section__inner">
         <SliderNavigation

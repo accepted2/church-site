@@ -20,6 +20,7 @@
     border: 1px solid var(--color-apostolic-red-light);
     box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
     text-shadow: 0 4px 20px var(--color-white);
+    transition-duration: var(--transition-duration);
   }
 
   &:active {

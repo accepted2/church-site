@@ -177,7 +177,10 @@ const CalendarSection = ({ className }) => {
     return `Постный день (${todayData.fast_type_title})`
   }
   return (
-    <section className={clsx(className, 'calendar-section container')}>
+    <section
+      className={clsx(className, 'calendar-section container')}
+      id="calendar"
+    >
 
       <div className="calendar-section__header">
 

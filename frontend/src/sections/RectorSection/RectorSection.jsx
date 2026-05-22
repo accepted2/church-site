@@ -13,6 +13,7 @@ const RectorSection = (props) => {
   return (
     <section
       className={clsx(className, 'rector-section container')}
+    
     >
       <div className="rector-section__body">
         <div className="rector-section__image-wrapper">

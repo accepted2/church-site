@@ -1,8 +1,10 @@
 # calendar_app/admin.py
+from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.contrib.admin import DateFieldListFilter
 from calendar_app.models import Feast, FeastDate, FastType, Fast, DayInfo
 from datetime import datetime
 
@@ -24,10 +26,11 @@ class FastTypeAdmin(admin.ModelAdmin):
 class FeastDateInline(admin.TabularInline):
     model = FeastDate
     extra = 1
-    fields = ['title_ru', 'short_title_ru', 'month', 'day', 'display_gregorian_inline', 'celebration_type', 'celebration_rank']
+    fields = ['feast', 'title_ru', 'short_title_ru', 'month', 'day', 'display_gregorian_inline', 'celebration_type', 'celebration_rank']
     readonly_fields = ['display_gregorian_inline']
     show_change_link = True
-
+    autocomplete_fields = ['feast']
+    
     def display_gregorian_inline(self, obj):
         if obj.month and obj.day and not obj.easter_offset:
             from datetime import date, timedelta
@@ -257,10 +260,29 @@ class FeastDateAdmin(admin.ModelAdmin):
     copy_to_new_date.short_description = 'Копировать на следующий день'
 
 
+class DayInfoForm(forms.ModelForm):
+    class Meta:
+        model = DayInfo
+        fields = '__all__'
+        widgets = {
+            'date_gregorian': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}),
+        }
+
+
 @admin.register(DayInfo)
 class DayInfoAdmin(admin.ModelAdmin):
-    list_display = ['link_to_day', 'display_julian', 'fast_name', 'main_feast_preview', 'display_feasts_preview']
-    list_filter = ['date_gregorian', 'fast_type']
+    form = DayInfoForm
+
+    list_display = ['date_calendar_link', 'display_julian', 'fast_name', 'main_feast_preview', 'display_feasts_preview']
+
+    # ✅ Улучшенные фильтры
+    list_filter = [
+        ('date_gregorian', DateFieldListFilter),  # календарь в фильтре
+        # 'date_gregorian__year',  # фильтр по году
+        'fast_type',
+        'feast_dates__celebration_type',
+    ]
+
     search_fields = ['summary', 'short_summary', 'fast_name', 'feast_dates__title_ru']
     date_hierarchy = 'date_gregorian'
     filter_horizontal = ['feast_dates']
@@ -269,6 +291,7 @@ class DayInfoAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Даты', {
             'fields': ('date_gregorian', 'julian_month', 'julian_day'),
+            'description': '📅 Выберите дату с помощью календаря',
         }),
         ('Пост', {
             'fields': ('fast_type', 'fast_name'),
@@ -286,6 +309,17 @@ class DayInfoAdmin(admin.ModelAdmin):
             'classes': ('wide',),
         }),
     )
+
+    def date_calendar_link(self, obj):
+        url = reverse('admin:calendar_app_dayinfo_change', args=[obj.id])
+        return format_html(
+            '<a href="{}" style="display: flex; align-items: center; gap: 6px;">'
+            '<span style="font-size: 16px;">📅</span> <strong>{}</strong>'
+            '</a>',
+            url, obj.date_gregorian.strftime('%d.%m.%Y')
+        )
+
+    date_calendar_link.short_description = 'Дата'
 
     def main_feast_preview(self, obj):
         if obj.main_feast:

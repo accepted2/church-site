@@ -19,7 +19,9 @@ const Button = forwardRef((props, ref) => {
     isLink = false,
     onClick,
     children,
+    iconClassName,
     ...restProps
+
   } = props
 
   const isRouterLink = to !== undefined
@@ -38,7 +40,10 @@ const Button = forwardRef((props, ref) => {
 
   const title = isLabelHidden ? label : undefined
   const ariaLabel = label || title
-  const iconComponent = iconName && <Icon name={iconName} />
+  const iconComponent = iconName && <Icon
+    iconClassName={iconClassName}
+    name={iconName}
+  />
 
   return (
     <Component

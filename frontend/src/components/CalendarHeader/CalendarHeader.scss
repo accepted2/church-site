@@ -27,6 +27,7 @@
   &__button {
     //    flex-shrink: 0;
     padding: fluid(10, 5) fluid(20, 15);
+    user-select: none;
 
     .icon {
       width: fluid(25, 15);

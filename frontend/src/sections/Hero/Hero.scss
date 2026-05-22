@@ -28,7 +28,8 @@
   &__content {
     position: absolute;
     top: 17%;
-
+    border: 2px solid var(--color-apostolic-red);
+    border-radius: 16px;
     z-index: 3;
 
     @include tablet-above {

@@ -13,6 +13,7 @@ import { getFormatedDay } from "@/utils/services/getFormatedDay";
 import calendarImage from '@/assets/images/calendar_image.png'
 import candleImage from '@/assets/images/candle_img 1.jpg'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const CalendarSection = ({ className }) => {
 
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -30,7 +31,7 @@ const CalendarSection = ({ className }) => {
 
 
       try {
-        const response = await fetch('http://localhost:8000/api/calendar/day/')
+        const response = await fetch(`${API_URL}/api/calendar/day/`);
         const data = await response.json()
         setTodayData(data)
       } catch (error) {
@@ -60,9 +61,7 @@ const CalendarSection = ({ className }) => {
 
       try {
         setLoading(true)
-        const response = await fetch(
-          `http://localhost:8000/api/calendar/month/?year=${year}&month=${month}`
-        )
+        const response = await fetch(`${API_URL}/api/calendar/month/?year=${year}&month=${month}`);
 
         const data = await response.json()
 

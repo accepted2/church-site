@@ -4,6 +4,8 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import AccordionItem from "@/components/AccordionItem";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const DayInfoPanel = (props) => {
   const {
     className,
@@ -60,7 +62,7 @@ const DayInfoPanel = (props) => {
         <div className="day-info-panel__data">
           {displayFeast.icon && (
             <img
-              src={`http://localhost:8000${displayFeast.icon}`}
+              src={`${API_URL}${displayFeast.icon}`}
               className="day-info-panel__feast-image"
               alt={displayFeast.short_title_ru || displayFeast.title_ru}
               loading="lazy"

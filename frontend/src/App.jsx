@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "@/pages/Home"
 import MainLayout from "@/layouts/MainLayout"
+import Zapiska from "@/pages/Zapiska";
 
 function App() {
 
@@ -11,6 +12,10 @@ function App() {
           <Route
             path="/"
             element={<Home />}
+          />
+          <Route
+            path="/zapiska"
+            element={<Zapiska />}
           />
 
         </Route>

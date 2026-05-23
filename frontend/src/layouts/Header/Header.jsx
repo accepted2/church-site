@@ -8,8 +8,10 @@ import Search from '@/components/Search'
 import Button from '@/components/Button'
 import BurgerButton from '@/components/BurgerButton'
 import Icon from '@/components/Icon'
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = ({ className }) => {
+
+const Header = ({ className, isFixed = false }) => {
   const menuItems = [
     {
       label: 'О Храме',
@@ -74,6 +76,10 @@ const Header = ({ className }) => {
     },
   ]
 
+
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const headerRef = useRef(null)
   const hoverTimeoutRef = useRef(null)
 
@@ -84,25 +90,66 @@ const Header = ({ className }) => {
 
   const isDesktop = () => window.innerWidth >= 1024
 
+  useEffect(() => {
+    const sections = ['about', 'services', 'requests', 'calendar'];
+
+    const handleScrollSpy = () => {
+      const scrollPosition = window.scrollY + 150; // с учётом хедера
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetBottom = offsetTop + element.offsetHeight;
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+            setActive(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollSpy);
+    handleScrollSpy();
+
+    return () => window.removeEventListener('scroll', handleScrollSpy);
+  }, []);
+
   const scrollToSection = (elementId, event) => {
     if (event) event.preventDefault()
 
-    const element = document.getElementById(elementId)
-    if (!element) return
+    const isHomePage = location.pathname === '/'
 
-    const headerOffset = 140
-    const elementPosition = element.getBoundingClientRect().top
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+    if (!isHomePage) {
+      navigate('/', {
+        state: { scrollTo: elementId },
+        replace: false
+      })
+      return
+    }
+    const element = document.getElementById(elementId);
+    if (element) {
+      const headerOffset = 140;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    })
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
 
-    window.history.pushState(null, '', `#${elementId}`)
-    setActive(elementId)
-    closeMenu()
+      // Обновляем URL (опционально)
+      window.history.pushState(null, '', `#${elementId}`);
+      setActive(elementId)
+
+      closeMenu()
+    }
   }
+
+  useEffect(() => {
+    setActive('')
+  }, [location.pathname]);
 
   const openMenu = () => {
     setIsOpen(true)
@@ -120,6 +167,9 @@ const Header = ({ className }) => {
   }
 
   const toggleDropdown = (label) => {
+    if (isDesktop()) {
+      return
+    }
     setOpenDropdown(prev => (prev === label ? null : label))
   }
 
@@ -218,6 +268,7 @@ const Header = ({ className }) => {
       ref={headerRef}
       className={clsx(className, 'header', {
         'header--scrolled': isScrolled && !isOpen,
+        'header--fixed': isFixed,
       })}
     >
       <div className="header__inner container">

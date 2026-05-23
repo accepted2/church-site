@@ -1,5 +1,5 @@
 .header {
-  position: fixed;
+  //  position: fixed;
   z-index: 100;
   top: 0;
   width: 100%;
@@ -59,6 +59,15 @@
     .search .icon {
       color: var(--color-late-gray);
     }
+
+    .header__left {
+      background: none;
+    }
+
+  }
+
+  &--fixed {
+    position: fixed;
   }
 
   &__inner {
@@ -66,6 +75,7 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 16px;
+
   }
 
   &__overlay {
@@ -124,6 +134,14 @@
     align-items: center;
     gap: 24px;
     min-width: 0;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--color-apostolic-red-light) 15%,
+        var(--color-apostolic-red-light) 85%,
+        transparent 100%
+    ) bottom / 100% 1px no-repeat;
+
 
     @include tablet {
       flex-direction: column-reverse;
@@ -198,7 +216,8 @@
 
           &:hover .header__dropdown,
           &:focus-within .header__dropdown,
-          &.is-open .header__dropdown {
+            /* &.is-open .header__dropdown*/
+          {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -207,7 +226,8 @@
 
           &:hover .dropdown-arrow,
           &:focus-within .dropdown-arrow,
-          &.is-open .dropdown-arrow {
+            /*&.is-open .dropdown-arrow*/
+          {
             transform: rotate(180deg);
             color: var(--color-apostolic-red-light);
           }
@@ -225,10 +245,7 @@
               visibility: visible;
               margin-top: 12px;
               pointer-events: auto;
-
               color: var(--color-apostolic-red-light);
-
-
             }
 
             .header__dropdown-link {
@@ -303,7 +320,7 @@
 
         .icon {
           transform: rotate(270deg);
-          color: var(--color-apostolic-red);
+          //          color: var(--color-apostolic-red);
         }
       }
 

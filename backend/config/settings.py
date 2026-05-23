@@ -112,7 +112,8 @@ LANGUAGE_CODE = 'en-us'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://previewchurchsite.netlify.app",  # ← добавить эту строку!
+    "https://previewchurchsite.netlify.app",
+    "https://church-site-backend.onrender.com",
 ]
 
 MEDIA_URL = '/media/'

@@ -116,6 +116,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://church-site-backend.onrender.com",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://church-site-backend.onrender.com',
+]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

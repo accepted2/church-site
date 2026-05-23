@@ -27,18 +27,27 @@
 
   &__content {
     position: absolute;
-    top: 17%;
-    border: 2px solid var(--color-apostolic-red);
+    padding: 10px;
+    top: 10%;
     border-radius: 16px;
     z-index: 3;
 
+
     @include tablet-above {
       max-width: fluid(600, 400);
+      top: 10%;
+
+      right: 50px;
     }
 
   }
 
   &__text-wrapper {
+    width: fit-content;
+
+    @include tablet-above {
+      outline: 2px solid var(--color-apostolic-red);
+    }
 
     @include mobile-above {
       padding: fluid(32, 20) fluid(26, 18);
@@ -51,11 +60,10 @@
   }
 
   &__subtitle {
-    font-size: 0.9rem;
+    font-size: fluid(18, 10);
     text-transform: uppercase;
     letter-spacing: 3px;
     color: var(--color-main-white);
-
     margin-bottom: 1rem;
     font-weight: 400;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -67,23 +75,15 @@
     margin-bottom: 0.5rem;
     line-height: 1.2;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    font-size: fluid(32, 15);
 
-    @include tablet-above {
-      font-size: 2.0rem;
-    }
-    @include laptop {
-      font-size: 2.7rem;
-    }
 
-    @include tablet {
-      font-size: 1.5rem;
-    }
   }
 
   &__church-type {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 300;
+    font-size: fluid(20, 15);
+    color: var(--color-soft-white);
+    font-weight: 700;
     letter-spacing: 2px;
   }
 
@@ -129,7 +129,6 @@
       );
       pointer-events: none;
     }
-
   }
 
   &__overlay {
@@ -137,23 +136,18 @@
     @include tablet-above {
       position: absolute;
 
-      width: 520px;
+      width: fluid(520, 400);
       height: auto;
-
       top: 2%;
-      right: 78px;
-
+      left: 0;
       aspect-ratio: 1 / 1;
-
       background: url("@/assets/images/ChatGPT Image 18 мая 2026 г., 08_40_37.png") center / contain no-repeat;
+      filter: brightness(1.2) contrast(1.2);
 
-      opacity: 0.9;
+      mix-blend-mode: soft-light;
       pointer-events: none;
       z-index: 1;
-
     }
-
-
   }
 
   //  &__overlay-1 {

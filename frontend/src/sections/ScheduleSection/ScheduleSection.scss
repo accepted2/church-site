@@ -9,7 +9,7 @@
     padding-bottom: 70px;
     border-radius: 10px;
     padding-top: fluid(25, 15);
-
+    
     @include desktop-above {
       position: relative;
       background-color: var(--color-bg-main);

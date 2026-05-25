@@ -5,6 +5,11 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import ArrowRight from "@/assets/icons/arrow-right.svg?react";
 import ArrowStraightRight from "@/assets/icons/arrow-straight-right.svg?react";
 import ArrowStraightLeft from "@/assets/icons/arrow-straight-left.svg?react";
+import InstagramIcon from "@/assets/icons/instagram.svg?react";
+import TelegramIcon from "@/assets/icons/telegram.svg?react";
+import TiktokIcon from "@/assets/icons/tiktok.svg?react";
+import EmailIcon from "@/assets/icons/email.svg?react";
+import YoutubeIcon from "@/assets/icons/youtube.svg?react";
 
 const icons = {
   search: Search,
@@ -12,6 +17,11 @@ const icons = {
   "arrow-right": ArrowRight,
   "arrow-straight-right": ArrowStraightRight,
   "arrow-straight-left": ArrowStraightLeft,
+  "instagram-icon": InstagramIcon,
+  "telegram-icon": TelegramIcon,
+  "email-icon": EmailIcon,
+  "tiktok-icon": TiktokIcon,
+  "youtube-icon": YoutubeIcon,
 }
 
 const Icon = (props) => {

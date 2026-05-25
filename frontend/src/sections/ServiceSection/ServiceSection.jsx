@@ -18,7 +18,7 @@ const ServiceSection = (props) => {
       description: "Вы можете подать записку о здравии или упокоении на богослужении.",
       btnTitle: "Подать записку",
       subtitle: "Подробнее о записках",
-      linkTo: "/zapiska"
+      linkTo: "/zapiski"
     },
     {
       id: 2,

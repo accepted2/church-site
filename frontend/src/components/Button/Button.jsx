@@ -53,7 +53,7 @@ const Button = forwardRef((props, ref) => {
         'button--link': isLink,
       })}
       title={title}
-      aria-label={title}
+      aria-label={ariaLabel}
       onClick={onClick}
       {...specificProps}
       {...restProps}

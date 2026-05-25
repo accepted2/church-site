@@ -17,53 +17,26 @@ const Header = ({ className, isFixed = false }) => {
       label: 'О Храме',
       href: '#about',
       dropdown: [
-        {
-          label: 'История храма',
-          to: '/treby/podat-zapisku'
-        },
-        {
-          label: 'Духовенство',
-          to: '/treby/moleben'
-        },
-        {
-          label: 'Воскресная школа',
-          to: '/treby/sorokoust'
-        },
-        {
-          label: 'Новости храма',
-          to: '/treby/panihida'
-        },
-
+        { label: 'История храма', to: '/about/history' },
+        { label: 'Духовенство', to: '/about/clergy' },
+        { label: 'Воскресная школа', to: '/about/sunday-school' },
+        { label: 'Новости храма', to: '/news' },
       ]
     },
     {
       label: 'Богослужения',
-      href: '#services'
+      href: '#services',
+
     },
     {
       label: 'Церковные требы',
       href: '#requests',
       dropdown: [
-        {
-          label: 'Подать записку',
-          to: '/treby/podat-zapisku'
-        },
-        {
-          label: 'Заказать молебен',
-          to: '/treby/moleben'
-        },
-        {
-          label: 'Сорокоуст',
-          to: '/treby/sorokoust'
-        },
-        {
-          label: 'Панихида',
-          to: '/treby/panihida'
-        },
-        {
-          label: 'Пожертвование',
-          to: '/treby/donations'
-        },
+        { label: 'Подать записку', to: '/treby/zapiski?type=zapiska' },
+        { label: 'Заказать молебен', to: '/treby/zapiski?type=moleben' },
+        { label: 'Сорокоуст', to: '/treby/zapiski?type=sorokoust' },
+        { label: 'Панихида', to: '/treby/zapiski?type=panihida' },
+        { label: 'Пожертвование', to: '/treby/donations' },
       ]
     },
     {
@@ -75,7 +48,6 @@ const Header = ({ className, isFixed = false }) => {
       href: '#calendar'
     },
   ]
-
 
   const navigate = useNavigate()
   const location = useLocation()

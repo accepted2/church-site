@@ -14,7 +14,7 @@ function App() {
             element={<Home />}
           />
           <Route
-            path="/zapiska"
+            path="/zapiski"
             element={<Zapiska />}
           />
 

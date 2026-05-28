@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Оплата</title>
+  <meta charset="utf-8">
+</head>
+<body>
+<h2>Оплата записки</h2>
+<p><strong>Сумма:</strong> 75.00 грн</p>
+<p><strong>Тип:</strong> Сорокоуст (о здравии)</p>
+<p><strong>Имена:</strong> Анна, Мария, Иоанн</p>
+
+<form
+  method="POST"
+  action="https://www.liqpay.ua/api/3/checkout"
+>
+  <input
+    type="hidden"
+    name="data"
+    value="eyJhY3Rpb24iOiAicGF5IiwgImFtb3VudCI6ICI3NS4wMCIsICJjdXJyZW5jeSI6ICJVQUgiLCAiZGVzY3JpcHRpb24iOiAi0JfQsNC/0LjRgdC60LA6INCh0L7RgNC+0LrQvtGD0YHRgiAo0L4g0LfQtNGA0LDQstC40LgpIiwgImxhbmd1YWdlIjogInVrIiwgIm9yZGVyX2lkIjogIjVjZmVhYmQxLTZhNjctNDRmMy04NTA3LWEzYmYwMWIwNDg0NiIsICJwdWJsaWNfa2V5IjogInNhbmRib3hfaTk5OTEwNTcwNjM1IiwgInJlc3VsdF91cmwiOiAiaHR0cDovL2xvY2FsaG9zdDo1MTczL3BheW1lbnQvc3VjY2VzcyIsICJzYW5kYm94IjogIjEiLCAic2VydmVyX3VybCI6ICJodHRwczovL2FuaW1hdGUtc2ltcGxlLXBhcmNlbC5uZ3Jvay1mcmVlLmRldi9hcGkvdHJlYnkvbGlxcGF5LWNhbGxiYWNrLyIsICJ2ZXJzaW9uIjogIjMifQ=="
+  >
+  <input
+    type="hidden"
+    name="signature"
+    value="LXEZNP2LbXwD5ha7CIESIvh8trg="
+  >
+  <button type="submit">💳 Перейти к оплате</button>
+</form>
+</body>
+</html>

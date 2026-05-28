@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Тест оплаты LiqPay</title>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: Arial;
+      padding: 50px;
+      text-align: center;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h2>💰 Оплата записки</h2>
+<p><strong>Сумма:</strong> 20.00 грн</p>
+<p><strong>Заказ №:</strong> 5</p>
+<p><strong>Назначение:</strong> О здравии (простая)</p>
+
+<form
+  method="POST"
+  action="https://www.liqpay.ua/api/3/checkout"
+>
+  <input
+    type="hidden"
+    name="data"
+    value="eyJhY3Rpb24iOiAicGF5IiwgImFtb3VudCI6ICIyMC4wIiwgImN1cnJlbmN5IjogIlVBSCIsICJkZXNjcmlwdGlvbiI6ICJcdTA0MTdcdTA0MzBcdTA0M2ZcdTA0MzhcdTA0NDFcdTA0M2FcdTA0MzA6IFx1MDQxZSBcdTA0MzdcdTA0MzRcdTA0NDBcdTA0MzBcdTA0MzJcdTA0MzhcdTA0MzggKFx1MDQzZlx1MDQ0MFx1MDQzZVx1MDQ0MVx1MDQ0Mlx1MDQzMFx1MDQ0ZikiLCAib3JkZXJfaWQiOiAiNSIsICJ2ZXJzaW9uIjogIjMiLCAicmVzdWx0X3VybCI6ICJodHRwczovL3lvdXJzaXRlLmNvbS9yZXN1bHRfdXJsIiwgInNlcnZlcl91cmwiOiAiaHR0cHM6Ly95b3Vyc2l0ZS5jb20vY2FsbGJhY2siLCAibGFuZ3VhZ2UiOiAidWsiLCAic2FuZGJveCI6ICIxIn0="
+  >
+  <input
+    type="hidden"
+    name="signature"
+    value="DeSLutR3ZRWo5ALvVJFC9QT8Nbg="
+  >
+  <button type="submit">💳 Перейти к оплате</button>
+</form>
+</body>
+</html>

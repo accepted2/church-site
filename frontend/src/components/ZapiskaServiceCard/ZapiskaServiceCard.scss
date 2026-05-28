@@ -1,0 +1,11 @@
+.zapiska-service-card {
+
+  &__option {
+
+  }
+
+  .active {
+    background-color: var(--color-apostolic-red-light);
+    color: var(--color-soft-white);
+  }
+}

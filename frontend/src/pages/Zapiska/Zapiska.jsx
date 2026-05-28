@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useMetaData } from "@/context/MetaDataContext";
 import { useEffect } from "react";
 import ZapiskaBanner from "@/sections/ZapiskaBanner";
+import ZapiskaSection from "@/sections/ZapiskaSection";
 
 const Zapiska = (props) => {
   const {
@@ -21,6 +22,7 @@ const Zapiska = (props) => {
   return (
     <>
       <ZapiskaBanner />
+      <ZapiskaSection />
     </>
 
   )

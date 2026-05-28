@@ -146,6 +146,7 @@ class TrebaOrder(models.Model):
         max_length=50,
         blank=True
     )
+    customer_email = models.EmailField(blank=True)
 
     amount = models.DecimalField(
         max_digits=10,

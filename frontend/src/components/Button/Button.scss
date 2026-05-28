@@ -46,6 +46,18 @@
     //    background-color: var(--color-apostolic-red-light);
   }
 
+  &--service {
+
+    @include hover {
+      background-color: var(--color-apostolic-red-light);
+    }
+
+    .active {
+      background-color: var(--color-apostolic-red-light);
+    }
+
+  }
+
   &--link {
     background-color: transparent;
     font-weight: 500;

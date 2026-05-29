@@ -10,6 +10,7 @@ import TelegramIcon from "@/assets/icons/telegram.svg?react";
 import TiktokIcon from "@/assets/icons/tiktok.svg?react";
 import EmailIcon from "@/assets/icons/email.svg?react";
 import YoutubeIcon from "@/assets/icons/youtube.svg?react";
+import CrossIcon from "@/assets/icons/cross-icon.svg?react"
 
 const icons = {
   search: Search,
@@ -22,6 +23,7 @@ const icons = {
   "email-icon": EmailIcon,
   "tiktok-icon": TiktokIcon,
   "youtube-icon": YoutubeIcon,
+  "cross-icon": CrossIcon,
 }
 
 const Icon = (props) => {

@@ -3,6 +3,7 @@ import { getTrebaTypes, createTrebaOrder } from "@/utils/services/ZapiskaService
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import ZapiskaServiceCard from "@/components/ZapiskaServiceCard";
+import Button from "@/components/Button";
 
 const ZapiskaForm = (props) => {
   const {
@@ -70,7 +71,7 @@ const ZapiskaForm = (props) => {
       <div className="zapiska-form__grid">
         <div className="zapiska-form__fields">
           <div className="form-block">
-            <h2 className="form-block__title">Выберите тип записки</h2>
+            <h2 className="form-block__title">1. Выберите тип записки</h2>
             <div className="zapiska-form__cards-grid">
               {groupedTypes.map((group, index) => (
                 <ZapiskaServiceCard
@@ -85,7 +86,7 @@ const ZapiskaForm = (props) => {
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title"> Выберете дату подачи</h2>
+            <h2 className="form-block__title">2. Выберете дату подачи</h2>
             <input
               type="date"
               className="date-input"
@@ -98,7 +99,7 @@ const ZapiskaForm = (props) => {
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">Введіть імена</h2>
+            <h2 className="form-block__title">3. Введіть імена</h2>
             <div className="names-input">
               <input
                 type="text"
@@ -113,22 +114,23 @@ const ZapiskaForm = (props) => {
                 placeholder="Введите имя"
 
               />
-              <button
-                type="button"
+              <Button
+                className="names-input__button"
+                label=" + Добавить имя"
                 onClick={() => {
                   if (currentName.trim()) {
                     setNames([...names, currentName.trim()])
                     setCurrentName('')
                   }
                 }}
-              >
-                + Добавить имя
-              </button>
+              />
+
+
             </div>
 
-            <div className="names-list">
+            <div className={`names-list ${names.length > 0 ? 'names-list--has-items' : ''}`}>
               {names.length === 0 ? (
-                <p className="names-list_empty">Список имен пока пуст</p>
+                <p className="names-list__empty">Список имен пока пуст</p>
               ) : (
                 names.map((name, index) => (
                   <div
@@ -136,11 +138,13 @@ const ZapiskaForm = (props) => {
                     className="names-list__item"
                   >
                     <span>{name}</span>
-                    <button
+                    <Button
+                      className="names-list__delete-icon"
+                      iconName="cross-icon"
+                      iconClassName="delete-icon"
                       onClick={() => setNames(names.filter((_, i) => i !== index))}
-                    >
-                      ×
-                    </button>
+                    />
+
                   </div>
                 ))
               )}
@@ -164,19 +168,19 @@ const ZapiskaForm = (props) => {
             </h2>
 
             <div className="order-summary__row">
-              <span>Тип записки</span>
-              <span>
+              <span className="order-summary__subtitle">Тип записки</span>
+              <span className={`order-summary__data ${!selectedType ? 'order-summary__data--empty' : ''}`}>
                 {serviceTypes.find(type => type.id === selectedType)?.full_name || 'Не выбрано'}
               </span>
             </div>
             <div className="order-summary__row">
-              <span>Даты подачи</span>
-              <span>{selectedDate || 'Не выбрано'}</span>
+              <span className="order-summary__subtitle">Даты подачи</span>
+              <span className={`order-summary__data ${!selectedDate ? "order-summary__data--empty" : ""}`}>{selectedDate || 'Не выбрано'}</span>
             </div>
 
             <div className="order-summary__row">
-              <span>Количество имен</span>
-              <span>{names.length}</span>
+              <span className="order-summary__subtitle">Количество имен</span>
+              <span className={`order-summary__data ${names.length === 0 ? "order-summary__data--empty" : ""}`}>{names.length}</span>
             </div>
 
             <div className="order-summary__divider"></div>
@@ -206,8 +210,11 @@ const ZapiskaForm = (props) => {
               onChange={(event) => setUserEmail(event.target.value)}
             />
 
-            <button
+            <Button
               className="zapiska-form__submit-button"
+              label="Перейти к оплате"
+              iconName="arrow-right"
+              iconPosition="after"
               onClick={async () => {
                 if (!selectedType) {
                   alert('Выберите тип записки')
@@ -265,9 +272,9 @@ const ZapiskaForm = (props) => {
 
               }}
               disabled={submitting}
-            >
-              {submitting ? 'Подождите...' : "Перейти к оплате"}
-            </button>
+            />
+
+
             <p className="security-note">Ваши данные в безопасности</p>
           </div>
         </div>

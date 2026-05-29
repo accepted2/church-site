@@ -78,7 +78,7 @@ class TrebaOrderCreateSerializer(
             raise serializers.ValidationError({
                 "names": "Список имен должен быть массивом"
             })
-        
+
         names = [
             name.strip()
             for name in attrs["names"]

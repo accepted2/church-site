@@ -1,11 +1,47 @@
 .zapiska-service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+
+  border: 1px solid var(--color-late-gray-d);
+  border-radius: var(--border-radius-l);
+  padding: fluid(20, 10);
+
+  &__title {
+    font-size: fluid(20, 16);
+  }
+
+  &__options {
+    display: flex;
+    column-gap: 5px;
+    justify-content: space-between;
+
+  }
 
   &__option {
+    display: flex;
+    flex-direction: column;
+
+    font-size: fluid(15, 12);
+    font-weight: 500;
+
+    border-radius: var(--border-radius-s);
+    color: var(--color-burgundy);
+    text-shadow: none;
+    padding: 5px;
+    text-wrap: nowrap;
+
+    @include hover {
+      background-color: var(--color-burgundy);
+    }
+
 
   }
 
   .active {
-    background-color: var(--color-apostolic-red-light);
+    background-color: var(--color-burgundy);
     color: var(--color-soft-white);
+    border: 1px solid var(--color-burgundy);
   }
 }

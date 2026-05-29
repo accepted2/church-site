@@ -9,7 +9,7 @@ const ZapiskaSection = (props) => {
 
   return (
     <div
-      className={clsx(className, 'zapiska-section')}
+      className={clsx(className, 'zapiska-section container')}
     >
       <ZapiskaForm />
     </div>

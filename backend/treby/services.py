@@ -55,13 +55,14 @@ class LiqPayService:
             "language": "uk",
             "result_url": settings.LIQPAY_RESULT_URL,
             "server_url": settings.LIQPAY_SERVER_URL,
-            "sandbox": "1" if settings.LIQPAY_SANDBOX else "0",
+            # "sandbox": "1" if settings.LIQPAY_SANDBOX else "0",
         }
+        print(params)
 
         json_data = json.dumps(
             params,
             ensure_ascii=False,
-            sort_keys=True,
+            # sort_keys=True,
         )
 
         data = base64.b64encode(

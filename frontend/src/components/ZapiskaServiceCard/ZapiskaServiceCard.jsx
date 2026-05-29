@@ -39,7 +39,7 @@ const ZapiskaServiceCard = (props) => {
 
           >
             <span className="zapiska-service-card__option-name">{service.name}</span>
-            <span className="zapiska-service-card__option-price">{service.price}</span>
+            {/*<span className="zapiska-service-card__option-price">{service.price}</span>*/}
           </Button>
         ))}
       </div>

@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, generics
 
 from .models import TrebaType, TrebaOrder
 
@@ -17,6 +17,7 @@ from .serializers import (
 )
 
 from .services import liqpay_service
+from .email_utils import send_payment_success_email
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +45,12 @@ class TrebaOrderViewSet(
             return TrebaOrderCreateSerializer
 
         return TrebaOrderSerializer
+
+
+class TrebaOrderByUUIDView(generics.RetrieveAPIView):
+    queryset = TrebaOrder.objects.all()
+    serializer_class = TrebaOrderSerializer
+    lookup_field = 'uuid'
 
 
 @csrf_exempt
@@ -155,6 +162,7 @@ def liqpay_callback(request):
         logger.info(
             f"Order paid successfully: {order.uuid}"
         )
+        send_payment_success_email(order)
 
     elif payment_status in ["failure", "error"]:
 

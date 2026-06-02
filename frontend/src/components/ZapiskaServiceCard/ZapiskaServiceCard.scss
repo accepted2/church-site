@@ -1,12 +1,31 @@
 .zapiska-service-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   row-gap: 10px;
-
-  border: 1px solid var(--color-late-gray-d);
+  border: 1px solid var(--color-burgundy);
   border-radius: var(--border-radius-l);
-  padding: fluid(20, 10);
+  padding-inline: fluid(20, 10);
+  padding-block: fluid(18, 10);
+  width: 100%;
+  box-sizing: border-box;
+
+  @include desktop {
+    justify-content: end;
+  }
+
+  &__icon-wrapper {
+    align-self: center;
+  }
+
+  &__header {
+    align-self: center;
+  }
+
+  &__icon {
+    width: fluid(64, 30);
+    height: fluid(64, 30);
+  }
 
   &__title {
     font-size: fluid(20, 16);
@@ -14,28 +33,39 @@
 
   &__options {
     display: flex;
-    column-gap: 5px;
+    column-gap: 15px;
+    flex-direction: column;
     justify-content: space-between;
+    row-gap: 7px;
+    margin-top: auto;
+
 
   }
 
   &__option {
     display: flex;
     flex-direction: column;
-
-    font-size: fluid(15, 12);
+    font-size: fluid(17, 14);
+    padding: 5px;
     font-weight: 500;
-
+    border: 1px solid var(--color-burgundy);
     border-radius: var(--border-radius-s);
     color: var(--color-burgundy);
     text-shadow: none;
-    padding: 5px;
+    min-width: 80px;
+
     text-wrap: nowrap;
+    width: 100%;
 
     @include hover {
       background-color: var(--color-burgundy);
     }
 
+    &-name {
+
+      padding-inline: 7px;
+
+    }
 
   }
 

@@ -9,6 +9,10 @@ class ServiceType(models.Model):
     name = models.CharField(max_length=100)
     is_special = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "Типы служб"
+        verbose_name_plural = "Типы служб"
+
     def __str__(self):
         return self.name
 
@@ -16,6 +20,10 @@ class ServiceType(models.Model):
 class Schedule(models.Model):
     date = models.DateField(unique=True)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Расписания"
+        verbose_name_plural = "Расписания"
 
     def clean(self):
         if Schedule.objects.exclude(pk=self.pk).filter(date=self.date).exists():

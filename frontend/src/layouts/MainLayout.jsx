@@ -15,7 +15,10 @@ export default function MainLayout() {
 
   return (
     <div className="layout">
-      <Header isFixed={metaData?.isHeaderFixed} />
+      <Header
+        isFixed={metaData?.isHeaderFixed}
+        theme={metaData?.theme}
+      />
       <main>
         <Outlet />
       </main>

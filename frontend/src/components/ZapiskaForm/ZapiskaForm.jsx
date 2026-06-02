@@ -4,15 +4,23 @@ import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import ZapiskaServiceCard from "@/components/ZapiskaServiceCard";
 import Button from "@/components/Button";
+import candle from "@/assets/icons/candle.svg"
+import cross2 from "@/assets/icons/cross2.svg"
+import heart from "@/assets/icons/heart.svg"
+import church from "@/assets/icons/church.svg"
+import groupCandles from "@/assets/icons/group-candles.svg"
+import { IMaskInput } from 'react-imask';
+
 
 const ZapiskaForm = (props) => {
   const {
     className,
+    defaultTypeId = null,
   } = props
 
   const [serviceTypes, setServiceTypes] = useState([])
   const [loading, setLoading] = useState(true)
-  const [selectedType, setSelectedType] = useState(null)
+  const [selectedType, setSelectedType] = useState(defaultTypeId)
   const [selectedDate, setSelectedDate] = useState('')
   const [names, setNames] = useState([])
   const [currentName, setCurrentName] = useState('')
@@ -20,6 +28,30 @@ const ZapiskaForm = (props) => {
   const [userPhone, setUserPhone] = useState('')
   const [userEmail, setUserEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [additionalInfo, setAdditionalInfo] = useState('')
+
+  const calculatedTotal = useMemo(() => {
+    if (!selectedType) {
+      return 0
+    }
+    const type = serviceTypes.find(type => type.id === selectedType)
+    if (!type) {
+      return 0
+    }
+    if (type.price_type === 'fixed' && names.length !== 0) {
+      return type.price
+    }
+    return type.price * names.length
+  }, [selectedType, serviceTypes, names])
+
+  const categoryIcons = {
+    "О здравии": heart,
+    "О упокоении": cross2,
+    "Панихида": candle,
+    "Молебен": church,
+    "Сорокоуст": groupCandles,
+
+  }
 
   useEffect(() => {
     const loadTypes = async () => {
@@ -47,6 +79,7 @@ const ZapiskaForm = (props) => {
       if (!groups[categoryName]) {
         groups[categoryName] = {
           title: categoryName,
+          icon: categoryIcons[categoryName],
           variants: []
         }
       }
@@ -67,6 +100,7 @@ const ZapiskaForm = (props) => {
   return (
     <div
       className={clsx(className, 'zapiska-form')}
+      id="zapiska-form"
     >
       <div className="zapiska-form__grid">
         <div className="zapiska-form__fields">
@@ -77,6 +111,7 @@ const ZapiskaForm = (props) => {
                 <ZapiskaServiceCard
                   key={index}
                   title={group.title}
+                  icon={group.icon}
                   services={group.variants}
                   selectedId={selectedType}
                   onSelect={setSelectedType}
@@ -155,8 +190,10 @@ const ZapiskaForm = (props) => {
             <h2 className="form-block__title">Дополнительно (необязательно)</h2>
             <textarea
               className="notes-input"
+              value={additionalInfo}
+              onChange={(event) => setAdditionalInfo(event.target.value)}
               placeholder="Ваши пожелания или примечания"
-              rows={3}
+              rows={4}
             />
           </div>
         </div>
@@ -172,6 +209,32 @@ const ZapiskaForm = (props) => {
               <span className={`order-summary__data ${!selectedType ? 'order-summary__data--empty' : ''}`}>
                 {serviceTypes.find(type => type.id === selectedType)?.full_name || 'Не выбрано'}
               </span>
+
+            </div>
+            <div className="order-summary__row">
+              <span className="order-summary__subtitle">Цена</span>
+              {selectedType ? (
+                (() => {
+                  const type = serviceTypes.find(t => t.id === selectedType);
+                  if (!type) return <span className="order-summary__data">—</span>;
+
+                  if (type.price_type === 'fixed') {
+                    return <span className="order-summary__data">{type.price} грн (за записку)</span>;
+                  } else {
+                    const total = type.price * names.length;
+
+                    return (
+                      <span className="order-summary__data">
+            {type.price} грн (за имя)
+          </span>)
+                  }
+
+                })()
+              ) : (
+                <span className="order-summary__data order-summary__data--empty">
+      Выберите тип записки
+    </span>
+              )}
             </div>
             <div className="order-summary__row">
               <span className="order-summary__subtitle">Даты подачи</span>
@@ -183,7 +246,10 @@ const ZapiskaForm = (props) => {
               <span className={`order-summary__data ${names.length === 0 ? "order-summary__data--empty" : ""}`}>{names.length}</span>
             </div>
 
-            <div className="order-summary__divider"></div>
+            <div className="order-summary__total">
+              <span className="order-summary__total-label">Итого к оплатe: </span>
+              {calculatedTotal} грн
+            </div>
 
             <input
               type="text"
@@ -193,13 +259,12 @@ const ZapiskaForm = (props) => {
               onChange={(event) => setUserName(event.target.value)}
 
             />
-
-            <input
-              type="tel"
-              className="summary-input"
-              placeholder="Телефон"
+            <IMaskInput
+              mask="+38 000 000 00 00"
               value={userPhone}
-              onChange={(event) => setUserPhone(event.target.value)}
+              onAccept={(value) => setUserPhone(value)}
+              placeholder="+38 0XX XXX XX XX"
+              className="summary-input"
             />
 
             <input
@@ -212,7 +277,7 @@ const ZapiskaForm = (props) => {
 
             <Button
               className="zapiska-form__submit-button"
-              label="Перейти к оплате"
+              label={submitting ? "Зачекайте..." : "Перейти до оплати"}
               iconName="arrow-right"
               iconPosition="after"
               onClick={async () => {
@@ -242,19 +307,23 @@ const ZapiskaForm = (props) => {
                     customer_name: userName,
                     customer_phone: userPhone,
                     customer_email: userEmail,
+                    additional_info: additionalInfo,
                   })
 
                   if (response.payment?.action_url) {
                     const form = document.createElement('form')
                     form.method = 'POST'
                     form.action = response.payment.action_url
+                    form.target = '_blank'
 
                     const dataInput = document.createElement('input')
+                    dataInput.type = 'hidden'
                     dataInput.name = 'data'
                     dataInput.value = response.payment.data
                     form.appendChild(dataInput)
 
                     const signatureInput = document.createElement('input')
+                    signatureInput.type = 'hidden'
                     signatureInput.name = 'signature'
                     signatureInput.value = response.payment.signature
                     form.appendChild(signatureInput)
@@ -274,8 +343,7 @@ const ZapiskaForm = (props) => {
               disabled={submitting}
             />
 
-
-            <p className="security-note">Ваши данные в безопасности</p>
+            <p className="security-note">Ваши данные защищены</p>
           </div>
         </div>
       </div>

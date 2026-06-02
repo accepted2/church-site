@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "@/pages/Home"
 import MainLayout from "@/layouts/MainLayout"
 import Zapiska from "@/pages/Zapiska";
+import PaymentResult from '@/pages/PaymentResult';
 
 function App() {
 
@@ -16,6 +17,10 @@ function App() {
           <Route
             path="/zapiski"
             element={<Zapiska />}
+          />
+          <Route
+            path="/payment/success"
+            element={<PaymentResult />}
           />
 
         </Route>

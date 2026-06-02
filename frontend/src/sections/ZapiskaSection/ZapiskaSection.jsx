@@ -5,14 +5,15 @@ import ZapiskaForm from "@/components/ZapiskaForm";
 const ZapiskaSection = (props) => {
   const {
     className,
+    defaultTypeId,
   } = props
 
   return (
-    <div
+    <section
       className={clsx(className, 'zapiska-section container')}
     >
-      <ZapiskaForm />
-    </div>
+      <ZapiskaForm defaultTypeId={defaultTypeId} />
+    </section>
   )
 }
 

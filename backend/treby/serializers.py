@@ -68,6 +68,8 @@ class TrebaOrderCreateSerializer(
             "names",
             "customer_name",
             "customer_phone",
+            "customer_email",
+            "additional_info",
             "payment",
         ]
 
@@ -85,6 +87,12 @@ class TrebaOrderCreateSerializer(
             if str(name).strip()
         ]
         attrs["names"] = names
+
+        for name in names:
+            if any(c in name for c in ['<', '>', '&', '"', "'", ';', '(', ')']):
+                raise serializers.ValidationError(
+                    f"Имя содержит недопустимые символы: {name}"
+                )
 
         date = attrs.get("date")
 
@@ -135,11 +143,11 @@ class TrebaOrderCreateSerializer(
         )
 
 
-class TrebaOrderSerializer(
-    serializers.ModelSerializer
-):
-    treba_type = TrebaTypeSerializer(
-        read_only=True
+class TrebaOrderSerializer(serializers.ModelSerializer):
+    treba_type = TrebaTypeSerializer(read_only=True)
+    schedule = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='date'
     )
 
     class Meta:

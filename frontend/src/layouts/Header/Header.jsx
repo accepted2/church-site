@@ -32,11 +32,11 @@ const Header = ({ className, isFixed = false }) => {
       label: 'Церковные требы',
       href: '#requests',
       dropdown: [
-        { label: 'Подать записку', to: '/treby/zapiski?type=zapiska' },
-        { label: 'Заказать молебен', to: '/treby/zapiski?type=moleben' },
-        { label: 'Сорокоуст', to: '/treby/zapiski?type=sorokoust' },
-        { label: 'Панихида', to: '/treby/zapiski?type=panihida' },
-        { label: 'Пожертвование', to: '/treby/donations' },
+        { label: 'Подать записку', to: '/zapiski' },
+        { label: 'Заказать молебен', to: '/zapiski?type=moleben' },
+        { label: 'Сорокоуст', to: '/zapiski?type=sorokoust' },
+        { label: 'Панихида', to: '/zapiski?type=panihida' },
+        { label: 'Пожертвование', to: '/donations' },
       ]
     },
     {
@@ -241,6 +241,7 @@ const Header = ({ className, isFixed = false }) => {
       className={clsx(className, 'header', {
         'header--scrolled': isScrolled && !isOpen,
         'header--fixed': isFixed,
+        'header--payment': location.pathname === "/payment/success",
       })}
     >
       <div className="header__inner container">

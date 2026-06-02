@@ -39,12 +39,13 @@ export const getTrebaOrderById = async (id) => {
 }
 
 export const getTrebaOrderByUuid = async (uuid) => {
-  const response = await fetch(`${TREBY_API}/orders/${uuid}/`)
+  const response = await fetch(`${TREBY_API}/orders/by-uuid/${uuid}/`)
 
   if (!response.ok) {
-
-    throw response.json()
+    const error = await response.json()
+    throw new Error(error.message || 'Заказ не найден')
   }
+  return response.json()
 }
 
 export const checkOrderStatus = async (identifier, type = 'id') => {

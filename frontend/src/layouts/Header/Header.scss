@@ -70,6 +70,39 @@
     position: fixed;
   }
 
+  &--payment {
+    //    background-color: var(--color-burgundy);
+    background-color: var(--color-soft-white);
+    padding-block: fluid(12, 10);
+    border-bottom-color: var(--color-grey);
+    //    box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+
+    &::before {
+      width: 90%;
+    }
+
+    .logo {
+      filter: brightness(1);
+    }
+
+    .header__menu::after {
+      @include hide;
+    }
+
+    .header__menu-link,
+    .dropdown-arrow {
+      color: var(--color-late-gray);
+    }
+
+    .search .icon {
+      color: var(--color-late-gray);
+    }
+
+    .header__left {
+      background: none;
+    }
+  }
+
   &__inner {
     display: flex;
     align-items: center;

@@ -22,6 +22,8 @@ class TrebaCategory(models.Model):
 
     class Meta:
         ordering = ["name"]
+        verbose_name = "Категория требы"
+        verbose_name_plural = "Категории треб"
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -43,6 +45,8 @@ class TrebaVariant(models.Model):
 
     class Meta:
         ordering = ["name"]
+        verbose_name = "Вариант требы"
+        verbose_name_plural = "Варианты треб"
 
     def __str__(self):
         return self.name
@@ -91,6 +95,8 @@ class TrebaType(models.Model):
 
     class Meta:
         ordering = ["id"]
+        verbose_name = "Тип требы"
+        verbose_name_plural = "Типы треб"
 
     @property
     def full_name(self):
@@ -177,8 +183,12 @@ class TrebaOrder(models.Model):
         db_index=True,
     )
 
+    additional_info = models.TextField(blank=True, verbose_name="Дополнительная информация")
+
     class Meta:
         ordering = ["-created_at"]
+        verbose_name = "Заказ (записка)"
+        verbose_name_plural = "Заказы (записки)"
 
     def __str__(self):
         return (

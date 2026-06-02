@@ -6,9 +6,8 @@ const ZapiskaServiceCard = (props) => {
   const {
     className,
     title,
+    icon,
     services = [],
-    id,
-    name,
     description,
     selectedId,
     onSelect
@@ -16,11 +15,20 @@ const ZapiskaServiceCard = (props) => {
 
   if (services.length === 0) return null
 
-
   return (
     <div
       className={clsx(className, 'zapiska-service-card')}
     >
+      <div className="zapiska-service-card__icon-wrapper">
+        <img
+          className="zapiska-service-card__icon"
+          src={icon}
+          alt=""
+          width=""
+          height=""
+          loading="lazy"
+        />
+      </div>
       <div className="zapiska-service-card__header">
 
         {title && <h2 className="zapiska-service-card__title">{title}</h2>}
@@ -28,20 +36,33 @@ const ZapiskaServiceCard = (props) => {
       </div>
 
       <div className="zapiska-service-card__options">
-        {services.map((service) => (
-          <Button
-            key={service.id}
-            mode="service"
-            className={clsx('zapiska-service-card__option', {
-              'active': selectedId === service.id
-            })}
-            onClick={() => onSelect(service.id)}
 
+        {services.length === 1 ? (
+          <Button
+            mode="service"
+            onClick={() => onSelect(services[0].id)}
+            className={clsx('zapiska-service-card__option', {
+              'active': selectedId === services[0].id
+            })}
           >
-            <span className="zapiska-service-card__option-name">{service.name}</span>
-            {/*<span className="zapiska-service-card__option-price">{service.price}</span>*/}
+            <span className="zapiska-service-card__option-name">Заказать</span>
           </Button>
-        ))}
+        ) : (
+          services.map((service) => (
+            <Button
+              key={service.id}
+              mode="service"
+              className={clsx('zapiska-service-card__option', {
+                'active': selectedId === service.id
+              })}
+              onClick={() => onSelect(service.id)}
+
+            >
+              <span className="zapiska-service-card__option-name">{service.name}</span>
+
+            </Button>
+          ))
+        )}
       </div>
 
     </div>

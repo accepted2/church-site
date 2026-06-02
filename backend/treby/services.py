@@ -51,9 +51,10 @@ class LiqPayService:
             "currency": "UAH",
             "description": f"Записка: {order.treba_type.full_name}",
             "order_id": str(order.uuid),
+
             "version": "3",
             "language": "uk",
-            "result_url": settings.LIQPAY_RESULT_URL,
+            "result_url": f"{settings.LIQPAY_RESULT_URL}?order_id={order.uuid}",
             "server_url": settings.LIQPAY_SERVER_URL,
             # "sandbox": "1" if settings.LIQPAY_SANDBOX else "0",
         }

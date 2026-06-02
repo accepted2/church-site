@@ -9,7 +9,7 @@ const ZapiskaBanner = (props) => {
 
   return (
     <section
-      className={clsx(className, 'zapiska-banner ')}
+      className={clsx(className, 'zapiska-banner')}
     >
       <div className="zapiska-banner__image-wrapper">
         <img
@@ -26,7 +26,7 @@ const ZapiskaBanner = (props) => {
         <div className="zapiska-banner__content">
 
           <h1 className="zapiska-banner__title">Подать записку</h1>
-          <div className="zapiska-banner__title">
+          <div className="zapiska-banner__subtitle">
             <p>Вы можете подать записку онлайн <br />
               для поминовения в Свято-Петро-Павловском храме
             </p>

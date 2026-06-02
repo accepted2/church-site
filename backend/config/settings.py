@@ -3,6 +3,8 @@ Django settings for config project.
 """
 import os
 from pathlib import Path
+
+from django.conf.global_settings import EMAIL_BACKEND
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -87,14 +89,17 @@ USE_TZ = True
 # ========== CORS ==========
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://site.local:5173",
     "https://previewchurchsite.netlify.app",
     "https://church-site-backend.onrender.com",
+
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://church-site-backend.onrender.com',
     'https://animate-simple-parcel.ngrok-free.app',
     'https://animate-simple-parcel.ngrok-free.dev',
+    'http://site.local:5173',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -110,3 +115,12 @@ LIQPAY_PRIVATE_KEY = os.getenv('LIQPAY_PRIVATE_KEY')
 LIQPAY_SANDBOX = os.getenv('LIQPAY_SANDBOX', '1') == '1'
 LIQPAY_RESULT_URL = os.getenv('LIQPAY_RESULT_URL')
 LIQPAY_SERVER_URL = os.getenv('LIQPAY_SERVER_URL')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')

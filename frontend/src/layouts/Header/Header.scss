@@ -126,16 +126,12 @@
       position: fixed;
       inset: 0;
       z-index: 200;
-
       flex-direction: column-reverse;
       justify-content: center;
-
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-
       background: var(--color-late-gray-d);
-
       transition: opacity .3s ease,
       visibility .3s ease;
     }

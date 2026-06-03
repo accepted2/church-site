@@ -1,6 +1,7 @@
 import './ZapiskaServiceCard.scss'
 import clsx from "clsx";
 import Button from "@/components/Button";
+import { useEffect, useState } from "react";
 
 const ZapiskaServiceCard = (props) => {
   const {
@@ -13,8 +14,9 @@ const ZapiskaServiceCard = (props) => {
     onSelect
   } = props
 
-  if (services.length === 0) return null
 
+  if (services.length === 0) return null
+  
   return (
     <div
       className={clsx(className, 'zapiska-service-card')}

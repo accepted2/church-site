@@ -10,6 +10,7 @@ import heart from "@/assets/icons/heart.svg"
 import church from "@/assets/icons/church.svg"
 import groupCandles from "@/assets/icons/group-candles.svg"
 import { IMaskInput } from 'react-imask';
+import CustomSelect from "@/components/CustomSelect";
 
 
 const ZapiskaForm = (props) => {
@@ -29,6 +30,7 @@ const ZapiskaForm = (props) => {
   const [userEmail, setUserEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [additionalInfo, setAdditionalInfo] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
 
   const calculatedTotal = useMemo(() => {
     if (!selectedType) {
@@ -68,6 +70,27 @@ const ZapiskaForm = (props) => {
     loadTypes()
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, []);
+
+  const getOptionText = (type) => {
+    const categoryName = type.category?.name
+    const variantName = type.variant?.name
+
+    if (variantName) {
+      return `${categoryName} - ${variantName}`
+    }
+    return categoryName
+  }
+  const options = serviceTypes.map((type) => ({
+    value: type.id,
+    label: `${getOptionText(type)} - ${type.price}`
+  }))
+
   const groupedTypes = useMemo(() => {
     const groups = {}
 
@@ -88,13 +111,20 @@ const ZapiskaForm = (props) => {
         variantName = type.variant?.name || (type.id === 9 ? 'о здравии' : "о упокоении")
       }
 
+
       groups[categoryName].variants.push({
         id: type.id,
         name: variantName,
         price: type.price
       })
     })
-    return Object.values(groups)
+
+    const order = ['О здравии', 'О упокоении', 'Сорокоуст', 'Молебен', 'Панихида']
+    return Object.values(groups).sort((a, b) => {
+      const indexA = order.indexOf(a.title)
+      const indexB = order.indexOf(b.title)
+      return indexA - indexB
+    })
   }, [serviceTypes])
 
   return (
@@ -106,18 +136,29 @@ const ZapiskaForm = (props) => {
         <div className="zapiska-form__fields">
           <div className="form-block">
             <h2 className="form-block__title">1. Выберите тип записки</h2>
-            <div className="zapiska-form__cards-grid">
-              {groupedTypes.map((group, index) => (
-                <ZapiskaServiceCard
-                  key={index}
-                  title={group.title}
-                  icon={group.icon}
-                  services={group.variants}
-                  selectedId={selectedType}
-                  onSelect={setSelectedType}
-                />
-              ))}
-            </div>
+
+            {isMobile ? (
+              <CustomSelect
+                options={options}
+                value={selectedType}
+                onChange={setSelectedType}
+                placeholder="Выберите тип записки"
+              />
+            ) : (
+
+              <div className="zapiska-form__cards-grid">
+                {groupedTypes.map((group, index) => (
+                  <ZapiskaServiceCard
+                    key={index}
+                    title={group.title}
+                    icon={group.icon}
+                    services={group.variants}
+                    selectedId={selectedType}
+                    onSelect={setSelectedType}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="form-block">
@@ -140,7 +181,7 @@ const ZapiskaForm = (props) => {
                 type="text"
                 value={currentName}
                 onChange={(event) => setCurrentName(event.target.value)}
-                onKeyPress={(event) => event.key === 'Enter' && (() => {
+                onKeyDown={(event) => event.key === 'Enter' && (() => {
                   if (currentName.trim()) {
                     setNames([...names, currentName.trim()])
                     setCurrentName('')

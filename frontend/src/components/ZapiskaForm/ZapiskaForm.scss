@@ -38,14 +38,33 @@
     align-items: stretch;
     justify-content: stretch;
 
+    //    > *:nth-child(3){
+    //      gc
+    //    }
+
 
     @include laptop {
-      grid-template-columns: repeat(3, 1fr);
-      align-self: stretch;
+      grid-template-columns: repeat(6, 1fr);
       row-gap: 16px;
+      > *:nth-child(1) {
+        grid-column: 1 / span 2;
+      }
+
+      > *:nth-child(2) {
+        grid-column: 3 / span 2;
+      }
+
+      > *:nth-child(3) {
+        grid-column: 5 / span 2;
+      }
+
+      // нижний ряд
+      > *:nth-child(4) {
+        grid-column: 2 / span 2;
+      }
 
       > *:nth-child(5) {
-        grid-column: 3;
+        grid-column: 4/ span 2;
       }
     }
   }
@@ -71,6 +90,7 @@
       color: var(--color-apostolic-red);
       border: 1px solid var(--color-apostolic-red);
       padding: 5px;
+      font-size: 16px;
 
       &:focus {
         outline: none;
@@ -375,6 +395,86 @@
       background-repeat: no-repeat;
       background-position: center;
 
+    }
+  }
+
+  .custom-select {
+    position: relative;
+    width: 100%;
+
+
+    &__trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      font-weight: 400;
+      font-size: 16px;
+      border: 1px solid var(--color-burgundy);
+      border-radius: var(--border-radius-m);
+      transition: var(--transition-duration);
+
+
+    }
+
+    &__option {
+      padding: 4px 0;
+      cursor: pointer;
+
+      width: 100%;
+
+      @include hover {
+        color: var(--color-apostolic-red);
+      }
+    }
+
+    &__value {
+
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-block: 5px;
+      padding-inline: 10px;
+      font-weight: 500;
+      font-size: 16px;
+      gap: 10px;
+      color: var(--color-burgundy);
+
+      background: var(--color-soft-white);
+      border: 1px solid var(--color-burgundy);
+      border-radius: var(--border-radius-m);
+      z-index: 20;
+      //      text-decoration: underline;
+      //      text-underline-offset: 3px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    &__arrow {
+      transition: var(--transition-duration);
+
+      .icon {
+        width: 13px;
+        height: 13px;
+        color: var(--color-burgundy);
+        rotate: 90deg;
+      }
+
+      &.open {
+        transform: rotate(180deg);
+        transition: var(--transition-duration);
+
+      }
     }
   }
 

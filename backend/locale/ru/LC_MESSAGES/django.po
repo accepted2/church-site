@@ -1,0 +1,732 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-05 15:44+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\calendar_app\admin.py:20 .\calendar_app\admin.py:56
+msgid "Основная информация"
+msgstr ""
+
+#: .\calendar_app\admin.py:22
+msgid "Тип поста: нет поста, dry, масло, рыба и т.д"
+msgstr ""
+
+#: .\calendar_app\admin.py:42 .\calendar_app\admin.py:207
+msgid "— (подвижный)"
+msgstr ""
+
+#: .\calendar_app\admin.py:45 .\calendar_app\admin.py:210
+msgid "Новый стиль"
+msgstr ""
+
+#: .\calendar_app\admin.py:63
+#, python-brace-format
+msgid "{} дат"
+msgstr ""
+
+#: .\calendar_app\admin.py:65
+msgid "Дат празднования"
+msgstr ""
+
+#: .\calendar_app\admin.py:76 .\calendar_app\admin.py:195
+msgid "Пасха"
+msgstr ""
+
+#: .\calendar_app\admin.py:96
+msgid "Даты (ст.стиль → н.стиль)"
+msgstr ""
+
+#: .\calendar_app\admin.py:122 .\calendar_app\models.py:19
+#: .\calendar_app\models.py:54
+msgid "Святой/праздник"
+msgstr ""
+
+#: .\calendar_app\admin.py:125 .\calendar_app\admin.py:291
+msgid "Даты"
+msgstr ""
+
+#: .\calendar_app\admin.py:127
+msgid "Дата по старому стилю. Новый стиль вычисляется автоматически (+13 дней)"
+msgstr ""
+
+#: .\calendar_app\admin.py:129
+msgid "Названия"
+msgstr ""
+
+#: .\calendar_app\admin.py:132
+msgid "Тип и ранг праздника"
+msgstr ""
+
+#: .\calendar_app\admin.py:135 .\calendar_app\admin.py:184
+#: .\calendar_app\models.py:67
+msgid "Икона"
+msgstr ""
+
+#: .\calendar_app\admin.py:138
+msgid "Гимны"
+msgstr ""
+
+#: .\calendar_app\admin.py:145 .\calendar_app\admin.py:243
+msgid "Житие"
+msgstr ""
+
+#: .\calendar_app\admin.py:149 .\calendar_app\admin.py:306 .\treby\admin.py:53
+msgid "Дополнительно"
+msgstr ""
+
+#: .\calendar_app\admin.py:191
+msgid "Праздник"
+msgstr ""
+
+#: .\calendar_app\admin.py:198 .\calendar_app\admin.py:342
+msgid "Старый стиль"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Понедельник"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Вторник"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Среда"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Четверг"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Пятница"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Суббота"
+msgstr ""
+
+#: .\calendar_app\admin.py:217 .\calendar_app\views_calendar.py:153
+msgid "Воскресенье"
+msgstr ""
+
+#: .\calendar_app\admin.py:227
+msgid "Подвижный праздник"
+msgstr ""
+
+#: .\calendar_app\admin.py:228
+msgid "Дата зависит от Пасхи и меняется каждый год"
+msgstr ""
+
+#: .\calendar_app\admin.py:233
+msgid "Новый стиль (инфо)"
+msgstr ""
+
+#: .\calendar_app\admin.py:238
+msgid "Тропарь"
+msgstr ""
+
+#: .\calendar_app\admin.py:259
+msgid "Скопировано"
+msgstr ""
+
+#: .\calendar_app\admin.py:261
+msgid "Копировать на следующий день"
+msgstr ""
+
+#: .\calendar_app\admin.py:293
+msgid "📅 Выберите дату с помощью календаря"
+msgstr ""
+
+#: .\calendar_app\admin.py:295 .\calendar_app\models.py:127
+msgid "Пост"
+msgstr ""
+
+#: .\calendar_app\admin.py:298
+msgid "🌟 Главный святой дня"
+msgstr ""
+
+#: .\calendar_app\admin.py:300
+msgid "Выберите святого, который будет отображаться в боковой панели"
+msgstr ""
+
+#: .\calendar_app\admin.py:302
+msgid "📖 Все святые дня"
+msgstr ""
+
+#: .\calendar_app\admin.py:304
+msgid "Все святые и праздники этого дня"
+msgstr ""
+
+#: .\calendar_app\admin.py:321
+msgid "Дата"
+msgstr ""
+
+#: .\calendar_app\admin.py:331
+msgid "Главный святой"
+msgstr ""
+
+#: .\calendar_app\admin.py:337 .\calendar_app\models.py:136
+msgid "Дата (новый стиль)"
+msgstr ""
+
+#: .\calendar_app\admin.py:350 .\calendar_app\models.py:142
+msgid "Праздники"
+msgstr ""
+
+#: .\calendar_app\admin.py:368
+msgid "Обновлено"
+msgstr ""
+
+#: .\calendar_app\admin.py:368
+msgid "дней"
+msgstr ""
+
+#: .\calendar_app\admin.py:370
+msgid "Перегенерировать краткое описание"
+msgstr ""
+
+#: .\calendar_app\models.py:9
+msgid "Типикон"
+msgstr ""
+
+#: .\calendar_app\models.py:10
+msgid "Жития святых"
+msgstr ""
+
+#: .\calendar_app\models.py:11
+msgid "Подвижный"
+msgstr ""
+
+#: .\calendar_app\models.py:14
+msgid "Тип"
+msgstr ""
+
+#: .\calendar_app\models.py:15
+msgid "Внешний ID"
+msgstr ""
+
+#: .\calendar_app\models.py:16
+msgid "Имя для поиска"
+msgstr ""
+
+#: .\calendar_app\models.py:20
+msgid "Святые/праздники"
+msgstr ""
+
+#: .\calendar_app\models.py:30
+msgid "Основная дата"
+msgstr ""
+
+#: .\calendar_app\models.py:31
+msgid "Рождество"
+msgstr ""
+
+#: .\calendar_app\models.py:32
+msgid "Преставление"
+msgstr ""
+
+#: .\calendar_app\models.py:33
+msgid "Обретение мощей"
+msgstr ""
+
+#: .\calendar_app\models.py:34
+msgid "Собор"
+msgstr ""
+
+#: .\calendar_app\models.py:35
+msgid "Другое"
+msgstr ""
+
+#: .\calendar_app\models.py:39
+msgid "Великий"
+msgstr ""
+
+#: .\calendar_app\models.py:40
+msgid "Средний"
+msgstr ""
+
+#: .\calendar_app\models.py:41
+msgid "Малый"
+msgstr ""
+
+#: .\calendar_app\models.py:42 .\calendar_app\models.py:51
+msgid "Не указан"
+msgstr ""
+
+#: .\calendar_app\models.py:46
+msgid "Всенощное бдение"
+msgstr ""
+
+#: .\calendar_app\models.py:47
+msgid "Полиелей"
+msgstr ""
+
+#: .\calendar_app\models.py:48
+msgid "Шестеричный"
+msgstr ""
+
+#: .\calendar_app\models.py:49
+msgid "Славословный"
+msgstr ""
+
+#: .\calendar_app\models.py:50
+msgid "Обычный"
+msgstr ""
+
+#: .\calendar_app\models.py:55
+msgid "Тип даты"
+msgstr ""
+
+#: .\calendar_app\models.py:57
+msgid "Тип праздника (great/middle/low)"
+msgstr ""
+
+#: .\calendar_app\models.py:58
+msgid "Ранг праздника (vigil/polyeleos/etc)"
+msgstr ""
+
+#: .\calendar_app\models.py:60
+msgid "Месяц (ст.стиль)"
+msgstr ""
+
+#: .\calendar_app\models.py:61
+msgid "День (ст.стиль)"
+msgstr ""
+
+#: .\calendar_app\models.py:62
+msgid "Смещение от Пасхи"
+msgstr ""
+
+#: .\calendar_app\models.py:64
+msgid "Название"
+msgstr ""
+
+#: .\calendar_app\models.py:65
+msgid "Краткое название"
+msgstr ""
+
+#: .\calendar_app\models.py:68
+msgid "URL иконы"
+msgstr ""
+
+#: .\calendar_app\models.py:70
+msgid "Тропарь - название"
+msgstr ""
+
+#: .\calendar_app\models.py:71
+msgid "Тропарь - текст"
+msgstr ""
+
+#: .\calendar_app\models.py:72
+msgid "Тропарь - глас"
+msgstr ""
+
+#: .\calendar_app\models.py:73
+msgid "Кондак - название"
+msgstr ""
+
+#: .\calendar_app\models.py:74
+msgid "Кондак - текст"
+msgstr ""
+
+#: .\calendar_app\models.py:75
+msgid "Кондак - глас"
+msgstr ""
+
+#: .\calendar_app\models.py:77
+msgid "Житие - заголовок"
+msgstr ""
+
+#: .\calendar_app\models.py:78
+msgid "Житие - текст"
+msgstr ""
+
+#: .\calendar_app\models.py:80
+msgid "Пояснение"
+msgstr ""
+
+#: .\calendar_app\models.py:81 .\calendar_app\models.py:114
+msgid "Порядок"
+msgstr ""
+
+#: .\calendar_app\models.py:84
+msgid "Дата празднования"
+msgstr ""
+
+#: .\calendar_app\models.py:85
+msgid "Даты празднования"
+msgstr ""
+
+#: .\calendar_app\models.py:100 .\calendar_app\models.py:112
+msgid "Код"
+msgstr ""
+
+#: .\calendar_app\models.py:101 .\calendar_app\models.py:113
+msgid "Название (рус.)"
+msgstr ""
+
+#: .\calendar_app\models.py:104 .\calendar_app\models.py:153
+msgid "Тип поста"
+msgstr ""
+
+#: .\calendar_app\models.py:105
+msgid "Типы постов"
+msgstr ""
+
+#: .\calendar_app\models.py:116
+msgid "Начало - месяц"
+msgstr ""
+
+#: .\calendar_app\models.py:117
+msgid "Начало - день"
+msgstr ""
+
+#: .\calendar_app\models.py:118
+msgid "Начало - от Пасхи"
+msgstr ""
+
+#: .\calendar_app\models.py:120
+msgid "Окончание - месяц"
+msgstr ""
+
+#: .\calendar_app\models.py:121
+msgid "Окончание - день"
+msgstr ""
+
+#: .\calendar_app\models.py:122
+msgid "Окончание - от Пасхи"
+msgstr ""
+
+#: .\calendar_app\models.py:124
+msgid "Расписание"
+msgstr ""
+
+#: .\calendar_app\models.py:128
+msgid "Посты"
+msgstr ""
+
+#: .\calendar_app\models.py:138
+msgid "Месяц (старый стиль)"
+msgstr ""
+
+#: .\calendar_app\models.py:139
+msgid "День (старый стиль)"
+msgstr ""
+
+#: .\calendar_app\models.py:141
+msgid "Праздники (старое)"
+msgstr ""
+
+#: .\calendar_app\models.py:150
+msgid "Главный святой дня"
+msgstr ""
+
+#: .\calendar_app\models.py:154
+msgid "Название поста"
+msgstr ""
+
+#: .\calendar_app\models.py:156
+msgid "Евангельское чтение"
+msgstr ""
+
+#: .\calendar_app\models.py:157
+msgid "Апостольское чтение"
+msgstr ""
+
+#: .\calendar_app\models.py:159
+msgid "Краткое описание (полное)"
+msgstr ""
+
+#: .\calendar_app\models.py:160
+msgid "Краткое описание (для календаря)"
+msgstr ""
+
+#: .\calendar_app\models.py:163
+msgid "День"
+msgstr ""
+
+#: .\calendar_app\models.py:164
+msgid "Дни"
+msgstr ""
+
+#: .\calendar_app\views.py:24
+msgid "month and day parameters are required"
+msgstr ""
+
+#: .\calendar_app\views.py:33
+msgid "month and day must be integers"
+msgstr ""
+
+#: .\calendar_app\views.py:53
+msgid "year must be integer"
+msgstr ""
+
+#: .\calendar_app\views.py:67
+msgid "q parameter is required"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:34
+msgid "year and month must be integers"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:41
+msgid "month must be between 1 and 12"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Январь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Февраль"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Март"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Апрель"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Май"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:88
+msgid "Июнь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Июль"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Август"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Сентябрь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Октябрь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Ноябрь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:89
+msgid "Декабрь"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:110 .\calendar_app\views_calendar.py:185
+msgid "Invalid date format. Use YYYY-MM-DD"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:125
+msgid "No data found for date"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:147
+msgid "Server error"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:159
+msgid "Поста нет"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:160 .\calendar_app\views_calendar.py:162
+#: .\calendar_app\views_calendar.py:163 .\calendar_app\views_calendar.py:164
+#: .\calendar_app\views_calendar.py:165 .\calendar_app\views_calendar.py:166
+msgid "Постный день"
+msgstr ""
+
+#: .\calendar_app\views_calendar.py:161
+msgid "Строгий пост"
+msgstr ""
+
+#: .\treby\admin.py:47
+msgid "Информация о заказе"
+msgstr ""
+
+#: .\treby\admin.py:50
+msgid "Данные подателя"
+msgstr ""
+
+#: .\treby\admin.py:57
+msgid "Оплата"
+msgstr ""
+
+#: .\treby\admin.py:60
+msgid "Дата создания"
+msgstr ""
+
+#: .\treby\admin.py:68
+msgid "UUID"
+msgstr ""
+
+#: .\treby\admin.py:73 .\treby\templates\emails\user_payment_success.html:18
+msgid "Тип записки"
+msgstr ""
+
+#: .\treby\admin.py:78
+msgid "Создан"
+msgstr ""
+
+#: .\treby\admin.py:82
+msgid "✅ Оплачено"
+msgstr ""
+
+#: .\treby\admin.py:84
+msgid "⏳ Ожидает"
+msgstr ""
+
+#: .\treby\admin.py:85
+msgid "❌ Отменён"
+msgstr ""
+
+#: .\treby\admin.py:87
+msgid "Статус оплаты"
+msgstr ""
+
+#: .\treby\email_utils.py:11
+#: .\treby\templates\emails\user_payment_success.html:6
+msgid "Ваша записка принята"
+msgstr ""
+
+#: .\treby\email_utils.py:21
+msgid "Новая записка!"
+msgstr ""
+
+#: .\treby\email_utils.py:21
+msgid "Записка"
+msgstr ""
+
+#: .\treby\models.py:20
+msgid "Категория требы"
+msgstr ""
+
+#: .\treby\models.py:21
+msgid "Категории треб"
+msgstr ""
+
+#: .\treby\models.py:37
+msgid "Вариант требы"
+msgstr ""
+
+#: .\treby\models.py:38
+msgid "Варианты треб"
+msgstr ""
+
+#: .\treby\models.py:46
+msgid "Фиксированная"
+msgstr ""
+
+#: .\treby\models.py:47
+msgid "За имя"
+msgstr ""
+
+#: .\treby\models.py:60
+msgid "Тип требы"
+msgstr ""
+
+#: .\treby\models.py:61
+msgid "Типы треб"
+msgstr ""
+
+#: .\treby\models.py:75
+msgid "Ожидает оплату"
+msgstr ""
+
+#: .\treby\models.py:76
+msgid "Оплачено"
+msgstr ""
+
+#: .\treby\models.py:77
+msgid "Отменено"
+msgstr ""
+
+#: .\treby\models.py:99
+msgid "Дополнительная информация"
+msgstr ""
+
+#: .\treby\models.py:103
+msgid "Заказ (записка)"
+msgstr ""
+
+#: .\treby\models.py:104
+msgid "Заказы (записки)"
+msgstr ""
+
+#: .\treby\serializers.py:62
+msgid "Список имен должен быть массивом"
+msgstr ""
+
+#: .\treby\serializers.py:71
+#, python-brace-format
+msgid "Имя содержит недопустимые символы: {}"
+msgstr ""
+
+#: .\treby\serializers.py:77
+msgid "Введите хотя бы одно имя"
+msgstr ""
+
+#: .\treby\serializers.py:82
+msgid "Выберите дату службы"
+msgstr ""
+
+#: .\treby\services.py:113
+msgid "На выбранную дату нет Богослужений"
+msgstr ""
+
+#: .\treby\services.py:120
+msgid "На выбранную дату нет такой требы"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:10
+msgid "Спаси Господи!"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:12
+msgid "Ваша записка принята и будет подана на богослужении."
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:16
+msgid "Детали заказа"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:17
+msgid "Номер заказа"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:21
+msgid "Имена"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:22
+msgid "Сумма пожертвования"
+msgstr ""
+
+#: .\treby\templates\emails\user_payment_success.html:27
+msgid "Мы молимся за вас и ваших близких"
+msgstr ""

@@ -38,6 +38,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'config.middleware.ForceLanguageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -50,7 +52,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # ========== Интернационализация ==========
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Kiev'
 USE_I18N = True
 USE_TZ = True
@@ -124,3 +126,15 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
+
+USE_L10N = True
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('ru', 'Русский'),
+    ('uk', 'Українська'),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]

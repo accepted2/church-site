@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from schedule.models import (
     Schedule,
@@ -10,28 +11,18 @@ from schedule.models import (
 
 
 class TrebaCategory(models.Model):
-    name = models.CharField(
-        max_length=255
-    )
+    name = models.CharField(max_length=255)
 
-    slug = models.SlugField(
-        unique=True,
-        blank=True,
-        db_index=True,
-    )
+    slug = models.SlugField(unique=True, blank=True, db_index=True)
 
     class Meta:
         ordering = ["name"]
-        verbose_name = "Категория требы"
-        verbose_name_plural = "Категории треб"
+        verbose_name = _("Категория требы")
+        verbose_name_plural = _("Категории треб")
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(
-                self.name,
-                allow_unicode=True,
-            )
-
+            self.slug = slugify(self.name, allow_unicode=True)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -39,14 +30,12 @@ class TrebaCategory(models.Model):
 
 
 class TrebaVariant(models.Model):
-    name = models.CharField(
-        max_length=255
-    )
+    name = models.CharField(max_length=255)
 
     class Meta:
         ordering = ["name"]
-        verbose_name = "Вариант требы"
-        verbose_name_plural = "Варианты треб"
+        verbose_name = _("Вариант требы")
+        verbose_name_plural = _("Варианты треб")
 
     def __str__(self):
         return self.name
@@ -54,58 +43,27 @@ class TrebaVariant(models.Model):
 
 class TrebaType(models.Model):
     class PriceType(models.TextChoices):
-        FIXED = "fixed", "Фиксированная"
-        PER_NAME = "per_name", "За имя"
+        FIXED = "fixed", _("Фиксированная")
+        PER_NAME = "per_name", _("За имя")
 
-    category = models.ForeignKey(
-        TrebaCategory,
-        on_delete=models.CASCADE,
-        related_name="types"
-    )
+    category = models.ForeignKey(TrebaCategory, on_delete=models.CASCADE, related_name="types")
+    variant = models.ForeignKey(TrebaVariant, on_delete=models.SET_NULL, null=True, blank=True, related_name="types")
+    service_types = models.ManyToManyField(ServiceType, related_name="treba_types", blank=True)
 
-    variant = models.ForeignKey(
-        TrebaVariant,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="types"
-    )
-
-    service_types = models.ManyToManyField(
-        ServiceType,
-        related_name="treba_types",
-        blank=True
-    )
-
-    price_type = models.CharField(
-        max_length=20,
-        choices=PriceType.choices
-    )
-
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
-
-    is_active = models.BooleanField(
-        default=True,
-        db_index=True,
-    )
+    price_type = models.CharField(max_length=20, choices=PriceType.choices)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True, db_index=True)
     requires_schedule = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["id"]
-        verbose_name = "Тип требы"
-        verbose_name_plural = "Типы треб"
+        verbose_name = _("Тип требы")
+        verbose_name_plural = _("Типы треб")
 
     @property
     def full_name(self):
         if self.variant:
-            return (
-                f"{self.category.name} "
-                f"({self.variant.name})"
-            )
-
+            return f"{self.category.name} ({self.variant.name})"
         return self.category.name
 
     def __str__(self):
@@ -114,84 +72,36 @@ class TrebaType(models.Model):
 
 class TrebaOrder(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Ожидает оплату"
-        PAID = "paid", "Оплачено"
-        CANCELED = "canceled", "Отменено"
+        PENDING = "pending", _("Ожидает оплату")
+        PAID = "paid", _("Оплачено")
+        CANCELED = "canceled", _("Отменено")
 
-    uuid = models.UUIDField(
-        default=uuid.uuid4,
-        editable=False,
-        unique=True,
-        db_index=True,
-    )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, db_index=True)
 
-    treba_type = models.ForeignKey(
-        TrebaType,
-        on_delete=models.PROTECT,
-        related_name="orders"
-    )
+    treba_type = models.ForeignKey(TrebaType, on_delete=models.PROTECT, related_name="orders")
+    schedule = models.ForeignKey(Schedule, on_delete=models.PROTECT, related_name="treba_orders", null=True, blank=True)
 
-    schedule = models.ForeignKey(
-        Schedule,
-        on_delete=models.PROTECT,
-        related_name="treba_orders",
-        null=True,
-        blank=True,
-    )
+    names = models.JSONField(default=list)
 
-    names = models.JSONField(
-        default=list
-    )
-
-    customer_name = models.CharField(
-        max_length=255,
-        blank=True
-    )
-
-    customer_phone = models.CharField(
-        max_length=50,
-        blank=True
-    )
+    customer_name = models.CharField(max_length=255, blank=True)
+    customer_phone = models.CharField(max_length=50, blank=True)
     customer_email = models.EmailField(blank=True)
 
-    amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2
-    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-    payment_id = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-        db_index=True,
-    )
+    payment_id = models.CharField(max_length=255, blank=True, null=True, db_index=True)
 
-    status = models.CharField(
-        max_length=20,
-        choices=Status.choices,
-        default=Status.PENDING,
-        db_index=True,
-    )
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING, db_index=True)
 
-    paid_at = models.DateTimeField(
-        null=True,
-        blank=True
-    )
+    paid_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        db_index=True,
-    )
-
-    additional_info = models.TextField(blank=True, verbose_name="Дополнительная информация")
+    additional_info = models.TextField(blank=True, verbose_name=_("Дополнительная информация"))
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = "Заказ (записка)"
-        verbose_name_plural = "Заказы (записки)"
+        verbose_name = _("Заказ (записка)")
+        verbose_name_plural = _("Заказы (записки)")
 
     def __str__(self):
-        return (
-            f"{self.treba_type.full_name} "
-            f"({self.uuid})"
-        )
+        return f"{self.treba_type.full_name} ({self.uuid})"

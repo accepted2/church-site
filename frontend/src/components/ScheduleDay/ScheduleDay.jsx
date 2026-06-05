@@ -3,6 +3,7 @@ import clsx from "clsx";
 import ScheduleItem from "@/components/ScheduleItem";
 import { getWeekday } from "@/utils/services/getWeekday";
 import { getFormatedDay } from "@/utils/services/getFormatedDay";
+import { useTranslation } from "react-i18next";
 
 
 const ScheduleDay = (props) => {
@@ -12,8 +13,13 @@ const ScheduleDay = (props) => {
     isToday,
   } = props
 
-  const weekday = getWeekday(day.date)
-  const formatDate = getFormatedDay(day.date)
+  const { i18n } = useTranslation();
+
+  const locale = i18n.language === 'uk' ? 'uk-UA' : 'ru-RU';
+
+  const weekday = getWeekday(day.date, locale);
+  const formatDate = getFormatedDay(day.date, locale);
+
 
   return (
     <div

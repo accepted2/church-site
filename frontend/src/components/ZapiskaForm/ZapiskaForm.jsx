@@ -2,6 +2,7 @@ import './ZapiskaForm.scss'
 import { getTrebaTypes, createTrebaOrder } from "@/utils/services/ZapiskaService";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import ZapiskaServiceCard from "@/components/ZapiskaServiceCard";
 import Button from "@/components/Button";
 import candle from "@/assets/icons/candle.svg"
@@ -19,6 +20,7 @@ const ZapiskaForm = (props) => {
     defaultTypeId = null,
   } = props
 
+  const { t, i18n } = useTranslation();
   const [serviceTypes, setServiceTypes] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedType, setSelectedType] = useState(defaultTypeId)
@@ -32,17 +34,35 @@ const ZapiskaForm = (props) => {
   const [additionalInfo, setAdditionalInfo] = useState('')
   const [isMobile, setIsMobile] = useState(false)
 
+  const translateCategory = (categoryName) => {
+    if (!categoryName) return categoryName;
+    return t(`categories.${categoryName}`, { defaultValue: categoryName });
+  };
+
+  const translateVariant = (variantName) => {
+    if (!variantName) return variantName;
+    return t(`variants.${variantName}`, { defaultValue: variantName });
+  };
+
+  const translateFullName = (fullName, categoryName, variantName) => {
+    if (!fullName) return fullName;
+
+    // Парсим full_name: "О здравии (простая)" или "Панихида"
+    const translatedCategory = translateCategory(categoryName);
+
+    if (variantName) {
+      const translatedVariant = translateVariant(variantName);
+      return `${translatedCategory} (${translatedVariant})`;
+    }
+
+    return translatedCategory;
+  };
+
   const calculatedTotal = useMemo(() => {
-    if (!selectedType) {
-      return 0
-    }
+    if (!selectedType) return 0
     const type = serviceTypes.find(type => type.id === selectedType)
-    if (!type) {
-      return 0
-    }
-    if (type.price_type === 'fixed' && names.length !== 0) {
-      return type.price
-    }
+    if (!type) return 0
+    if (type.price_type === 'fixed' && names.length !== 0) return type.price
     return type.price * names.length
   }, [selectedType, serviceTypes, names])
 
@@ -52,7 +72,6 @@ const ZapiskaForm = (props) => {
     "Панихида": candle,
     "Молебен": church,
     "Сорокоуст": groupCandles,
-
   }
 
   useEffect(() => {
@@ -62,7 +81,6 @@ const ZapiskaForm = (props) => {
         setServiceTypes(data)
       } catch (error) {
         console.log('Error', error)
-
       } finally {
         setLoading(false)
       }
@@ -80,28 +98,29 @@ const ZapiskaForm = (props) => {
   const getOptionText = (type) => {
     const categoryName = type.category?.name
     const variantName = type.variant?.name
-
     if (variantName) {
-      return `${categoryName} - ${variantName}`
+      return `${translateCategory(categoryName)} - ${translateVariant(variantName)}`
     }
-    return categoryName
+    return translateCategory(categoryName)
   }
+
   const options = serviceTypes.map((type) => ({
     value: type.id,
-    label: `${getOptionText(type)} - ${type.price}`
+    label: `${getOptionText(type)} - ${type.price} ₴`
   }))
 
   const groupedTypes = useMemo(() => {
     const groups = {}
-
     serviceTypes.forEach(type => {
       const categoryName = type.category?.name
-      if (!categoryName) {
-        return
-      }
-      if (!groups[categoryName]) {
-        groups[categoryName] = {
-          title: categoryName,
+      if (!categoryName) return
+
+      const translatedCategory = translateCategory(categoryName)
+
+      if (!groups[translatedCategory]) {
+        groups[translatedCategory] = {
+          title: translatedCategory,
+          originalTitle: categoryName,
           icon: categoryIcons[categoryName],
           variants: []
         }
@@ -110,9 +129,10 @@ const ZapiskaForm = (props) => {
       if (categoryName === 'Сорокоуст') {
         variantName = type.variant?.name || (type.id === 9 ? 'о здравии' : "о упокоении")
       }
-
-
-      groups[categoryName].variants.push({
+      if (variantName) {
+        variantName = translateVariant(variantName)
+      }
+      groups[translatedCategory].variants.push({
         id: type.id,
         name: variantName,
         price: type.price
@@ -120,12 +140,13 @@ const ZapiskaForm = (props) => {
     })
 
     const order = ['О здравии', 'О упокоении', 'Сорокоуст', 'Молебен', 'Панихида']
+
     return Object.values(groups).sort((a, b) => {
-      const indexA = order.indexOf(a.title)
-      const indexB = order.indexOf(b.title)
+      const indexA = order.indexOf(a.originalTitle)
+      const indexB = order.indexOf(b.originalTitle)
       return indexA - indexB
     })
-  }, [serviceTypes])
+  }, [serviceTypes, i18n.language])
 
   return (
     <div
@@ -135,17 +156,15 @@ const ZapiskaForm = (props) => {
       <div className="zapiska-form__grid">
         <div className="zapiska-form__fields">
           <div className="form-block">
-            <h2 className="form-block__title">1. Выберите тип записки</h2>
-
+            <h2 className="form-block__title">{t('zapiska_form.step1')}</h2>
             {isMobile ? (
               <CustomSelect
                 options={options}
                 value={selectedType}
                 onChange={setSelectedType}
-                placeholder="Выберите тип записки"
+                placeholder={t('zapiska_form.select_type')}
               />
             ) : (
-
               <div className="zapiska-form__cards-grid">
                 {groupedTypes.map((group, index) => (
                   <ZapiskaServiceCard
@@ -162,20 +181,19 @@ const ZapiskaForm = (props) => {
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">2. Выберете дату подачи</h2>
+            <h2 className="form-block__title">{t('zapiska_form.step2')}</h2>
             <input
               type="date"
               className="date-input"
               value={selectedDate}
               onChange={(event) => setSelectedDate(event.target.value)}
-
               min={new Date().toISOString().split('T')[0]}
             />
-            <p className="form-hint">Записка буде подана на вказану дату</p>
+            <p className="form-hint">{t('zapiska_form.date_hint')}</p>
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">3. Введіть імена</h2>
+            <h2 className="form-block__title">{t('zapiska_form.step3')}</h2>
             <div className="names-input">
               <input
                 type="text"
@@ -187,12 +205,11 @@ const ZapiskaForm = (props) => {
                     setCurrentName('')
                   }
                 })()}
-                placeholder="Введите имя"
-
+                placeholder={t('zapiska_form.name_placeholder')}
               />
               <Button
                 className="names-input__button"
-                label=" + Добавить имя"
+                label={t('zapiska_form.add_name')}
                 onClick={() => {
                   if (currentName.trim()) {
                     setNames([...names, currentName.trim()])
@@ -200,13 +217,11 @@ const ZapiskaForm = (props) => {
                   }
                 }}
               />
-
-
             </div>
 
             <div className={`names-list ${names.length > 0 ? 'names-list--has-items' : ''}`}>
               {names.length === 0 ? (
-                <p className="names-list__empty">Список имен пока пуст</p>
+                <p className="names-list__empty">{t('zapiska_form.names_empty')}</p>
               ) : (
                 names.map((name, index) => (
                   <div
@@ -220,7 +235,6 @@ const ZapiskaForm = (props) => {
                       iconClassName="delete-icon"
                       onClick={() => setNames(names.filter((_, i) => i !== index))}
                     />
-
                   </div>
                 ))
               )}
@@ -228,12 +242,12 @@ const ZapiskaForm = (props) => {
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">Дополнительно (необязательно)</h2>
+            <h2 className="form-block__title">{t('zapiska_form.step4')}</h2>
             <textarea
               className="notes-input"
               value={additionalInfo}
               onChange={(event) => setAdditionalInfo(event.target.value)}
-              placeholder="Ваши пожелания или примечания"
+              placeholder={t('zapiska_form.notes_placeholder')}
               rows={4}
             />
           </div>
@@ -241,101 +255,106 @@ const ZapiskaForm = (props) => {
 
         <div className="zapiska-form__summary">
           <div className="order-summary">
-            <h2 className="order-summary__title">
-              Общая информация
-            </h2>
+            <h2 className="order-summary__title">{t('zapiska_form.summary_title')}</h2>
 
             <div className="order-summary__row">
-              <span className="order-summary__subtitle">Тип записки</span>
+              <span className="order-summary__subtitle">{t('zapiska_form.service_type')}</span>
               <span className={`order-summary__data ${!selectedType ? 'order-summary__data--empty' : ''}`}>
-                {serviceTypes.find(type => type.id === selectedType)?.full_name || 'Не выбрано'}
-              </span>
+        {selectedType ? (() => {
+          const type = serviceTypes.find(t => t.id === selectedType);
+          if (!type) return t('zapiska_form.not_selected');
 
+          const translatedCategory = translateCategory(type.category?.name);
+          const translatedVariant = type.variant?.name ? translateVariant(type.variant.name) : null;
+
+          if (translatedVariant) {
+            return `${translatedCategory} (${translatedVariant})`;
+          }
+          return translatedCategory;
+        })() : t('zapiska_form.not_selected')}
+      </span>
             </div>
+
             <div className="order-summary__row">
-              <span className="order-summary__subtitle">Цена</span>
+              <span className="order-summary__subtitle">{t('zapiska_form.price')}</span>
               {selectedType ? (
                 (() => {
                   const type = serviceTypes.find(t => t.id === selectedType);
                   if (!type) return <span className="order-summary__data">—</span>;
-
                   if (type.price_type === 'fixed') {
-                    return <span className="order-summary__data">{type.price} грн (за записку)</span>;
+                    return <span className="order-summary__data">{type.price} {t('zapiska_form.per_note')}</span>;
                   } else {
-                    const total = type.price * names.length;
-
-                    return (
-                      <span className="order-summary__data">
-            {type.price} грн (за имя)
-          </span>)
+                    return <span className="order-summary__data">{type.price} {t('zapiska_form.per_name')}</span>
                   }
-
                 })()
               ) : (
-                <span className="order-summary__data order-summary__data--empty">
-      Выберите тип записки
-    </span>
+                <span className="order-summary__data order-summary__data--empty">{t('zapiska_form.select_type_first')}</span>
               )}
-            </div>
-            <div className="order-summary__row">
-              <span className="order-summary__subtitle">Даты подачи</span>
-              <span className={`order-summary__data ${!selectedDate ? "order-summary__data--empty" : ""}`}>{selectedDate || 'Не выбрано'}</span>
             </div>
 
             <div className="order-summary__row">
-              <span className="order-summary__subtitle">Количество имен</span>
-              <span className={`order-summary__data ${names.length === 0 ? "order-summary__data--empty" : ""}`}>{names.length}</span>
+              <span className="order-summary__subtitle">{t('zapiska_form.date')}</span>
+              <span className={`order-summary__data ${!selectedDate ? "order-summary__data--empty" : ""}`}>
+        {selectedDate || t('zapiska_form.not_selected')}
+      </span>
+            </div>
+
+            <div className="order-summary__row">
+              <span className="order-summary__subtitle">{t('zapiska_form.names_count')}</span>
+              <span className={`order-summary__data ${names.length === 0 ? "order-summary__data--empty" : ""}`}>
+        {names.length}
+      </span>
             </div>
 
             <div className="order-summary__total">
-              <span className="order-summary__total-label">Итого к оплатe: </span>
-              {calculatedTotal} грн
+              <span className="order-summary__total-label">{t('zapiska_form.total')}: </span>
+              {calculatedTotal} ₴
             </div>
 
             <input
               type="text"
               className="summary-input"
-              placeholder="Ваше имя *"
+              placeholder={t('zapiska_form.your_name')}
               value={userName}
               onChange={(event) => setUserName(event.target.value)}
-
             />
+
             <IMaskInput
               mask="+38 000 000 00 00"
               value={userPhone}
               onAccept={(value) => setUserPhone(value)}
-              placeholder="+38 0XX XXX XX XX"
+              placeholder={t('zapiska_form.phone')}
               className="summary-input"
             />
 
             <input
               type="email"
               className="summary-input"
-              placeholder="Email (не обязательно)"
+              placeholder={t('zapiska_form.email')}
               value={userEmail}
               onChange={(event) => setUserEmail(event.target.value)}
             />
 
             <Button
               className="zapiska-form__submit-button"
-              label={submitting ? "Зачекайте..." : "Перейти до оплати"}
+              label={submitting ? t('zapiska_form.waiting') : t('zapiska_form.submit')}
               iconName="arrow-right"
               iconPosition="after"
               onClick={async () => {
                 if (!selectedType) {
-                  alert('Выберите тип записки')
+                  alert(t('zapiska_form.select_type_alert'))
                   return
                 }
                 if (!selectedDate) {
-                  alert('Выберите дату')
+                  alert(t('zapiska_form.select_date_alert'))
                   return
                 }
                 if (names.length === 0) {
-                  alert('Добавьте хотя бы одно имя')
+                  alert(t('zapiska_form.add_names_alert'))
                   return
                 }
                 if (!userName.trim()) {
-                  alert('Введите ваше имя')
+                  alert(t('zapiska_form.enter_name_alert'))
                   return
                 }
                 setSubmitting(true)
@@ -372,19 +391,18 @@ const ZapiskaForm = (props) => {
                     document.body.appendChild(form)
                     form.submit()
                   } else {
-                    alert('Ошибка создания платежа')
+                    alert(t('zapiska_form.payment_error'))
                   }
                 } catch (error) {
-                  alert('Ошибка: ' + error.message)
+                  alert(t('zapiska_form.error_prefix') + error.message)
                 } finally {
                   setSubmitting(false)
                 }
-
               }}
               disabled={submitting}
             />
 
-            <p className="security-note">Ваши данные защищены</p>
+            <p className="security-note">{t('zapiska_form.security_note')}</p>
           </div>
         </div>
       </div>

@@ -42,35 +42,16 @@ class TrebaTypeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TrebaOrderCreateSerializer(
-    serializers.ModelSerializer
-):
-    date = serializers.DateField(
-        write_only=True,
-        required=False,
-        allow_null=True,
-    )
-
-    uuid = serializers.UUIDField(
-        read_only=True
-    )
-
+class TrebaOrderCreateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField(write_only=True, required=False, allow_null=True)
+    uuid = serializers.UUIDField(read_only=True)
     payment = serializers.SerializerMethodField()
 
     class Meta:
         model = TrebaOrder
-
         fields = [
-            "id",
-            "uuid",
-            "treba_type",
-            "date",
-            "names",
-            "customer_name",
-            "customer_phone",
-            "customer_email",
-            "additional_info",
-            "payment",
+            "id", "uuid", "treba_type", "date", "names",
+            "customer_name", "customer_phone", "customer_email", "additional_info", "payment",
         ]
 
     def validate(self, attrs):
@@ -78,69 +59,45 @@ class TrebaOrderCreateSerializer(
 
         if not isinstance(attrs["names"], list):
             raise serializers.ValidationError({
-                "names": "Список имен должен быть массивом"
+                "names": _("Список имен должен быть массивом")
             })
 
-        names = [
-            name.strip()
-            for name in attrs["names"]
-            if str(name).strip()
-        ]
+        names = [name.strip() for name in attrs["names"] if str(name).strip()]
         attrs["names"] = names
 
         for name in names:
             if any(c in name for c in ['<', '>', '&', '"', "'", ';', '(', ')']):
                 raise serializers.ValidationError(
-                    f"Имя содержит недопустимые символы: {name}"
+                    _("Имя содержит недопустимые символы: {}").format(name)
                 )
 
         date = attrs.get("date")
 
         if not names:
-            raise serializers.ValidationError(
-                "Введите хотя бы одно имя"
-            )
+            raise serializers.ValidationError(_("Введите хотя бы одно имя"))
 
         if treba_type.requires_schedule:
-
             if not date:
                 raise serializers.ValidationError({
-                    "date": "Выберите дату службы"
+                    "date": _("Выберите дату службы")
                 })
-
-            schedule = validate_schedule(
-                date,
-                treba_type
-            )
+            schedule = validate_schedule(date, treba_type)
             attrs["schedule"] = schedule
-
         else:
-
             attrs["schedule"] = None
 
         return attrs
 
     def create(self, validated_data):
         validated_data.pop("date", None)
-
-        amount = calculate_amount(
-            validated_data["treba_type"],
-            validated_data["names"],
-        )
-
+        amount = calculate_amount(validated_data["treba_type"], validated_data["names"])
         validated_data["amount"] = amount
-
-        return TrebaOrder.objects.create(
-            **validated_data
-        )
+        return TrebaOrder.objects.create(**validated_data)
 
     def get_payment(self, obj):
         if obj.status == TrebaOrder.Status.PAID:
             return None
-
-        return liqpay_service.generate_payment_data(
-            obj
-        )
+        return liqpay_service.generate_payment_data(obj)
 
 
 class TrebaOrderSerializer(serializers.ModelSerializer):

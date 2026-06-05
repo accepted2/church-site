@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from .models import TrebaCategory, TrebaVariant, TrebaType, TrebaOrder
 
 
@@ -43,20 +44,20 @@ class TrebaOrderAdmin(admin.ModelAdmin):
     readonly_fields = ('uuid', 'created_at', 'paid_at', 'payment_id')
 
     fieldsets = (
-        ('Информация о заказе', {
+        (_('Информация о заказе'), {
             'fields': ('uuid', 'treba_type', 'schedule', 'names', 'amount')
         }),
-        ('Данные подателя', {
+        (_('Данные подателя'), {
             'fields': ('customer_name', 'customer_phone', 'customer_email')
         }),
-        ('Дополнительно', {  # ← добавить эту секцию
+        (_('Дополнительно'), {
             'fields': ('additional_info',),
             'classes': ('wide',),
         }),
-        ('Оплата', {
+        (_('Оплата'), {
             'fields': ('payment_id', 'status', 'paid_at')
         }),
-        ('Дата создания', {
+        (_('Дата создания'), {
             'fields': ('created_at',)
         }),
     )
@@ -64,23 +65,23 @@ class TrebaOrderAdmin(admin.ModelAdmin):
     def uuid_short(self, obj):
         return str(obj.uuid)[:8] + '...'
 
-    uuid_short.short_description = 'UUID'
+    uuid_short.short_description = _('UUID')
 
     def treba_type_info(self, obj):
         return f"{obj.treba_type.full_name} ({obj.treba_type.price} ₴)"
 
-    treba_type_info.short_description = 'Тип записки'
+    treba_type_info.short_description = _('Тип записки')
 
     def created_at_short(self, obj):
         return obj.created_at.strftime('%d.%m.%Y %H:%M')
 
-    created_at_short.short_description = 'Создан'
+    created_at_short.short_description = _('Создан')
 
     def paid_status(self, obj):
         if obj.status == 'paid':
-            return '✅ Оплачено'
+            return _('✅ Оплачено')
         elif obj.status == 'pending':
-            return '⏳ Ожидает'
-        return '❌ Отменён'
+            return _('⏳ Ожидает')
+        return _('❌ Отменён')
 
-    paid_status.short_description = 'Статус оплаты'
+    paid_status.short_description = _('Статус оплаты')

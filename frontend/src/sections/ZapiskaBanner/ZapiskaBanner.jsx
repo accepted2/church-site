@@ -1,16 +1,14 @@
 import './ZapiskaBanner.scss'
 import clsx from "clsx";
+import { useTranslation } from 'react-i18next';
 import heroImage from '@/assets/images/hero_image-another.jpg'
 
 const ZapiskaBanner = (props) => {
-  const {
-    className,
-  } = props
+  const { className } = props;
+  const { t } = useTranslation();
 
   return (
-    <section
-      className={clsx(className, 'zapiska-banner')}
-    >
+    <section className={clsx(className, 'zapiska-banner')}>
       <div className="zapiska-banner__image-wrapper">
         <img
           className="zapiska-banner__image"
@@ -22,20 +20,14 @@ const ZapiskaBanner = (props) => {
         />
       </div>
       <div className="zapiska-banner__body container">
-
         <div className="zapiska-banner__content">
-
-          <h1 className="zapiska-banner__title">Подать записку</h1>
+          <h1 className="zapiska-banner__title">{t('zapiska_banner.title')}</h1>
           <div className="zapiska-banner__subtitle">
-            <p>Вы можете подать записку онлайн <br />
-              для поминовения в Свято-Петро-Павловском храме
-            </p>
+            <p>{t('zapiska_banner.subtitle')}</p>
           </div>
-
         </div>
       </div>
     </section>
-
   )
 }
 

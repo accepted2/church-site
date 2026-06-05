@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime, date, timedelta
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from .models import DayInfo, Feast, FastType
 from .serializers import DayInfoSerializer, FeastSerializer
 
@@ -30,14 +31,14 @@ class CalendarMonthView(APIView):
                 month = int(month)
             except ValueError:
                 return Response(
-                    {'error': 'year and month must be integers'},
+                    {'error': _('year and month must be integers')},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
         # Проверяем валидность месяца
         if month < 1 or month > 12:
             return Response(
-                {'error': 'month must be between 1 and 12'},
+                {'error': _('month must be between 1 and 12')},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -84,8 +85,8 @@ class CalendarMonthView(APIView):
     def _get_month_name_ru(self, month):
         """Возвращает название месяца на русском"""
         months = [
-            'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+            _('Январь'), _('Февраль'), _('Март'), _('Апрель'), _('Май'), _('Июнь'),
+            _('Июль'), _('Август'), _('Сентябрь'), _('Октябрь'), _('Ноябрь'), _('Декабрь')
         ]
         return months[month - 1]
 
@@ -106,7 +107,7 @@ class CalendarDayView(APIView):
                 target_date = datetime.strptime(date_param, '%Y-%m-%d').date()
             except ValueError:
                 return Response(
-                    {'error': 'Invalid date format. Use YYYY-MM-DD'},
+                    {'error': _('Invalid date format. Use YYYY-MM-DD')},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         else:
@@ -121,7 +122,7 @@ class CalendarDayView(APIView):
 
             if not day_info:
                 return Response(
-                    {'error': f'No data found for date {target_date}'},
+                    {'error': _('No data found for date') + f' {target_date}'},
                     status=status.HTTP_404_NOT_FOUND
                 )
 
@@ -139,33 +140,30 @@ class CalendarDayView(APIView):
             if day_info.fast_type:
                 data['fast_description'] = self._get_fast_description(day_info.fast_type.code)
 
-            # Добавляем информацию о богослужебных чтениях (если есть)
-            # Позже можно добавить из gospel-and-apostolic-readings
-
             return Response(data)
 
         except Exception as e:
             return Response(
-                {'error': f'Server error: {str(e)}'},
+                {'error': _('Server error') + f': {str(e)}'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
     def _get_weekday_name_ru(self, weekday):
         """Возвращает название дня недели на русском"""
-        days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+        days = [_('Понедельник'), _('Вторник'), _('Среда'), _('Четверг'), _('Пятница'), _('Суббота'), _('Воскресенье')]
         return days[weekday]
 
     def _get_fast_description(self, fast_code):
         """Возвращает описание типа поста"""
         descriptions = {
-            'no-fast': 'Поста нет',
-            'fast': 'Постный день',
-            'strict-fast': 'Строгий пост',
-            'no-oil': 'Постный день',
-            'dry': 'Постный день',
-            'oil': 'Постный день',
-            'fish': 'Постный день',
-            'caviar': 'Постный день',
+            'no-fast': _('Поста нет'),
+            'fast': _('Постный день'),
+            'strict-fast': _('Строгий пост'),
+            'no-oil': _('Постный день'),
+            'dry': _('Постный день'),
+            'oil': _('Постный день'),
+            'fish': _('Постный день'),
+            'caviar': _('Постный день'),
         }
         return descriptions.get(fast_code, fast_code)
 
@@ -184,7 +182,7 @@ class CalendarWeekView(APIView):
                 target_date = datetime.strptime(date_param, '%Y-%m-%d').date()
             except ValueError:
                 return Response(
-                    {'error': 'Invalid date format. Use YYYY-MM-DD'},
+                    {'error': _('Invalid date format. Use YYYY-MM-DD')},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         else:

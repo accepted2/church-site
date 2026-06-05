@@ -9,6 +9,7 @@ from django.conf import settings
 from rest_framework.exceptions import ValidationError
 
 from schedule.models import Schedule
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
@@ -106,29 +107,17 @@ liqpay_service = LiqPayService()
 
 
 def validate_schedule(date, treba_type):
-    schedule = Schedule.objects.filter(
-        date=date,
-        is_active=True
-    ).first()
+    schedule = Schedule.objects.filter(date=date, is_active=True).first()
 
     if not schedule:
-        raise ValidationError(
-            "На выбранную дату нет Богослужений"
-        )
+        raise ValidationError(_("На выбранную дату нет Богослужений"))
 
-    service_type_ids = schedule.services.values_list(
-        "type_id",
-        flat=True
-    )
+    service_type_ids = schedule.services.values_list("type_id", flat=True)
 
-    allowed = treba_type.service_types.filter(
-        id__in=service_type_ids
-    ).exists()
+    allowed = treba_type.service_types.filter(id__in=service_type_ids).exists()
 
     if not allowed:
-        raise ValidationError(
-            "На выбранную дату нет такой требы"
-        )
+        raise ValidationError(_("На выбранную дату нет такой требы"))
 
     return schedule
 

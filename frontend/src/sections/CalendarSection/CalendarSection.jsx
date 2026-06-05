@@ -2,6 +2,9 @@ import './CalendarSection.scss'
 import clsx from "clsx";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { useTranslation } from 'react-i18next';
+import api from '@/api';  // ← добавить импорт
+
 import CalendarWeekdays from "@/components/CalendarWeekdays";
 import CalendarGrid from "@/components/CalendarGrid";
 import DayInfoPanel from "@/components/DayInfoPanel";
@@ -14,7 +17,11 @@ import calendarImage from '@/assets/images/calendar_image.png'
 import candleImage from '@/assets/images/candle_img 1.jpg'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+
 const CalendarSection = ({ className }) => {
+
+  const { i18n } = useTranslation();
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [monthData, setMonthData] = useState(null)
@@ -28,12 +35,10 @@ const CalendarSection = ({ className }) => {
 
   useEffect(() => {
     const fetchTodayData = async () => {
-
-
       try {
-        const response = await fetch(`${API_URL}/api/calendar/day/`);
-        const data = await response.json()
-        setTodayData(data)
+        const response = await api.get('/calendar/day/');
+
+        setTodayData(response.data)
       } catch (error) {
         console.log('Ошибка загрузки сегодняшнего дня', error)
       }
@@ -61,11 +66,8 @@ const CalendarSection = ({ className }) => {
 
       try {
         setLoading(true)
-        const response = await fetch(`${API_URL}/api/calendar/month/?year=${year}&month=${month}`);
-
-        const data = await response.json()
-
-        setMonthData(data)
+        const response = await api.get(`/calendar/month/?year=${year}&month=${month}`);
+        setMonthData(response.data);
         setVisibleDate(currentDate)
 
       } catch (error) {
@@ -79,7 +81,7 @@ const CalendarSection = ({ className }) => {
 
     fetchMonthData()
 
-  }, [currentDate])
+  }, [currentDate, i18n.language])
 
   useEffect(() => {
 

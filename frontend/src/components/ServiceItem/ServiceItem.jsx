@@ -1,5 +1,6 @@
 import './ServiceItem.scss'
 import clsx from "clsx";
+import { useTranslation } from 'react-i18next';
 import Button from "@/components/Button";
 
 const ServiceItem = (props) => {
@@ -16,9 +17,7 @@ const ServiceItem = (props) => {
   const iconName = "arrow-right"
 
   return (
-    <div
-      className={clsx(className, 'service-item')}
-    >
+    <div className={clsx(className, 'service-item')}>
       <div className="service-item__body">
         <div className="service-item__image-wrapper">
           <img

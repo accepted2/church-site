@@ -9,17 +9,23 @@ class ServiceTypeSerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
-    type = serializers.StringRelatedField()
     title = serializers.SerializerMethodField()
-    time = serializers.TimeField(format="%H:%M")
 
     class Meta:
         model = Service
-        fields = ["id", "time", "type", "custom_title", "title"]
+        fields = ["id", "time", "title"]
 
     def get_title(self, obj):
-        if obj.custom_title:
-            return obj.custom_title
+        request = self.context.get('request')
+        lang = request.LANGUAGE_CODE if request else 'ru'
+        print(f"LANG: {lang}, ID: {obj.id}")  # ← отладка
+
+        if lang == 'uk' and obj.custom_title_uk:
+            return obj.custom_title_uk
+        if lang == 'ru' and obj.custom_title_ru:
+            return obj.custom_title_ru
+        if obj.custom_title_ru:
+            return obj.custom_title_ru
         if obj.type:
             return obj.type.name
         return ""
@@ -32,6 +38,11 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = ["id", "date", "weekday", "services"]
+
+    def get_services(self, obj):
+        request = self.context.get('request')
+        serializer = ServiceSerializer(obj.services.all(), many=True, context={'request': request})
+        return serializer.data
 
     def get_weekday(self, obj):
         return obj.date.strftime("%A")

@@ -2,6 +2,7 @@ import './Header.scss'
 
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import Logo from '@/components/Logo'
 import Search from '@/components/Search'
@@ -9,42 +10,44 @@ import Button from '@/components/Button'
 import BurgerButton from '@/components/BurgerButton'
 import Icon from '@/components/Icon'
 import { useNavigate, useLocation } from "react-router-dom";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 
 const Header = ({ className, isFixed = false }) => {
+  const { t } = useTranslation()
+
   const menuItems = [
     {
-      label: 'О Храме',
+      label: t('header.about_church'),
       href: '#about',
       dropdown: [
-        { label: 'История храма', to: '/about/history' },
-        { label: 'Духовенство', to: '/about/clergy' },
-        { label: 'Воскресная школа', to: '/about/sunday-school' },
-        { label: 'Новости храма', to: '/news' },
+        { label: t('header.history'), to: '/about/history' },
+        { label: t('header.clergy'), to: '/about/clergy' },
+        { label: t('header.sunday_school'), to: '/about/sunday-school' },
+        { label: t('header.news'), to: '/news' },
       ]
     },
     {
-      label: 'Богослужения',
+      label: t('header.services'),
       href: '#services',
-
     },
     {
-      label: 'Церковные требы',
+      label: t('header.church_rites'),
       href: '#requests',
       dropdown: [
-        { label: 'Подать записку', to: '/zapiski' },
-        { label: 'Заказать молебен', to: '/zapiski?type=moleben' },
-        { label: 'Сорокоуст', to: '/zapiski?type=sorokoust' },
-        { label: 'Панихида', to: '/zapiski?type=panihida' },
-        { label: 'Пожертвование', to: '/donations' },
+        { label: t('header.submit_note'), to: '/zapiski' },
+        { label: t('header.order_moleben'), to: '/zapiski?type=moleben' },
+        { label: t('header.sorokoust'), to: '/zapiski?type=sorokoust' },
+        { label: t('header.panikhida'), to: '/zapiski?type=panihida' },
+        { label: t('header.donation'), to: '/donations' },
       ]
     },
     {
-      label: 'Контакты',
+      label: t('header.contacts'),
       href: '#contacts'
     },
     {
-      label: 'Календарь',
+      label: t('header.calendar'),
       href: '#calendar'
     },
   ]
@@ -66,7 +69,7 @@ const Header = ({ className, isFixed = false }) => {
     const sections = ['about', 'services', 'requests', 'calendar'];
 
     const handleScrollSpy = () => {
-      const scrollPosition = window.scrollY + 150; // с учётом хедера
+      const scrollPosition = window.scrollY + 150;
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -111,7 +114,6 @@ const Header = ({ className, isFixed = false }) => {
         behavior: 'smooth'
       });
 
-      // Обновляем URL (опционально)
       window.history.pushState(null, '', `#${elementId}`);
       setActive(elementId)
 
@@ -295,7 +297,6 @@ const Header = ({ className, isFixed = false }) => {
                                 active: id === active,
                               })}
                               href={href}
-
                               onClick={(event) => scrollToSection(id, event)}
                               iconName="arrow-straight-right"
                               iconClassName="hidden-tablet"
@@ -313,7 +314,7 @@ const Header = ({ className, isFixed = false }) => {
                               }}
                               aria-expanded={isDropdownOpen}
                               aria-haspopup="true"
-                              aria-label={`Открыть подменю "${label}"`}
+                              aria-label={t('header.open_submenu', { label })}
                             >
                               <Icon name="arrow-straight-right" />
                             </button>
@@ -330,7 +331,6 @@ const Header = ({ className, isFixed = false }) => {
                                   className="header__dropdown-link"
                                   to={dropdownItem.to}
                                   label={dropdownItem.label}
-
                                   onClick={closeMenu}
                                 />
                               </li>
@@ -363,6 +363,7 @@ const Header = ({ className, isFixed = false }) => {
 
             <div className="header__actions">
               <Search />
+              <LanguageSwitcher />
             </div>
           </div>
         </div>

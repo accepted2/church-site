@@ -36,6 +36,8 @@ class FeastDateSerializer(serializers.ModelSerializer):
             'description',
         ]
 
+    icon = serializers.SerializerMethodField()
+
     def _get_localized(self, obj, field_ru, field_uk):
         lang = get_language()
         if lang == 'uk' and getattr(obj, field_uk, None):
@@ -68,6 +70,14 @@ class FeastDateSerializer(serializers.ModelSerializer):
 
     def get_description(self, obj):
         return self._get_localized(obj, 'description', 'description_uk')
+
+    def get_icon(self, obj):
+        """Возвращает URL иконки из статики"""
+        if obj.icon and obj.icon.name:
+            # Берём только имя файла, без пути media/
+            filename = obj.icon.name.split('/')[-1]
+            return f'/static/saints_icons/{filename}'
+        return None
 
 
 class FeastSerializer(serializers.ModelSerializer):

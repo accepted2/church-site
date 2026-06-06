@@ -107,9 +107,16 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 # ========== Медиа и статика ==========
-MEDIA_URL = '/media/'
+if DEBUG:
+    MEDIA_URL = '/media/'
+    STATIC_URL = '/static/'
+else:
+    # Берем схему и хост из переменных окружения
+    BACKEND_URL = os.getenv('BACKEND_URL', 'https://church-site-backend.onrender.com')
+    MEDIA_URL = f'{BACKEND_URL}/media/'
+    STATIC_URL = f'{BACKEND_URL}/static/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
-STATIC_URL = 'static/'
 
 # ========== LiqPay ==========
 LIQPAY_PUBLIC_KEY = os.getenv('LIQPAY_PUBLIC_KEY')

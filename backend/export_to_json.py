@@ -1,4 +1,3 @@
-# export_correct_json.py
 import os
 import django
 import json
@@ -27,7 +26,7 @@ for feast in Feast.objects.all():
     })
 print(f"✅ Feast: {len([x for x in result if x['model'] == 'calendar_app.feast'])}")
 
-# 2. FeastDate
+# 2. FeastDate (с украинскими полями)
 for fd in FeastDate.objects.all():
     result.append({
         'model': 'calendar_app.feastdate',
@@ -40,19 +39,27 @@ for fd in FeastDate.objects.all():
             'month': fd.month,
             'day': fd.day,
             'easter_offset': fd.easter_offset,
+            # Русские поля
             'title_ru': fd.title_ru,
             'short_title_ru': fd.short_title_ru,
+            # Украинские поля
+            'title_uk': fd.title_uk,
+            'short_title_uk': fd.short_title_uk,
             'icon': fd.icon.name if fd.icon else '',
             'icon_url': fd.icon_url,
             'troparion_title': fd.troparion_title,
             'troparion_content': fd.troparion_content,
+            'troparion_content_uk': fd.troparion_content_uk,
             'troparion_echo': fd.troparion_echo,
             'kontakion_title': fd.kontakion_title,
             'kontakion_content': fd.kontakion_content,
+            'kontakion_content_uk': fd.kontakion_content_uk,
             'kontakion_echo': fd.kontakion_echo,
             'life_title': fd.life_title,
             'life_content': fd.life_content,
+            'life_content_uk': fd.life_content_uk,
             'description': fd.description,
+            'description_uk': fd.description_uk,
             'order': fd.order,
         }
     })
@@ -66,6 +73,7 @@ for ft in FastType.objects.all():
         'fields': {
             'code': ft.code,
             'title_ru': ft.title_ru,
+            'title_uk': ft.title_uk,
         }
     })
 print(f"✅ FastType: {len([x for x in result if x['model'] == 'calendar_app.fasttype'])}")
@@ -78,6 +86,7 @@ for f in Fast.objects.all():
         'fields': {
             'code': f.code,
             'title_ru': f.title_ru,
+            'title_uk': f.title_uk,
             'order': f.order,
             'start_month': f.start_month,
             'start_day': f.start_day,

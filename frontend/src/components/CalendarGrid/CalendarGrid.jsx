@@ -1,8 +1,7 @@
 import './CalendarGrid.scss'
-
 import clsx from "clsx";
 import { useMemo } from "react";
-
+import { useTranslation } from 'react-i18next';
 import CalendarDay from "@/components/CalendarDay";
 
 const CalendarGrid = (props) => {
@@ -15,37 +14,29 @@ const CalendarGrid = (props) => {
     selectedDay,
   } = props
 
+  const { i18n } = useTranslation();
+
+  // Определяем локаль для форматирования
+  const locale = i18n.language === 'uk' ? 'uk-UA' : 'ru-RU';
 
   const formatDate = (date) => {
     const year = date.getFullYear()
-
-    const month = String(
-      date.getMonth() + 1
-    ).padStart(2, '0')
-
-    const day = String(
-      date.getDate()
-    ).padStart(2, '0')
-
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
   }
 
   return (
     <div className="calendar-grid-wrapper">
-
-      <div
-        className={clsx(
-          className,
-          'calendar-grid'
-        )}
-      >
-
+      <div className={clsx(className, 'calendar-grid')}>
         {days.map((day, index) => {
-
           const formattedDate = formatDate(day.date)
           const apiDay = daysMap[formatDate(day.date)]
           const mainFeast = apiDay?.main_feast
-          const feastName = mainFeast?.short_title_ru || apiDay?.short_summary
+
+          // Используем локализованные поля title/short_title
+          const feastName = mainFeast?.short_title || mainFeast?.title || apiDay?.short_summary
+
           const isSunday = index % 7 === 6
           const isSaturday = index % 7 === 5
 
@@ -58,18 +49,13 @@ const CalendarGrid = (props) => {
               isSunday={isSunday}
               isSaturday={isSaturday}
               isSelected={
-                selectedDay?.date_gregorian ===
-                apiDay?.date_gregorian
+                selectedDay?.date_gregorian === apiDay?.date_gregorian
               }
-              onClick={() =>
-                apiDay && onDayClick(apiDay)
-              }
+              onClick={() => apiDay && onDayClick(apiDay)}
             />
           )
         })}
-
       </div>
-
     </div>
   )
 }

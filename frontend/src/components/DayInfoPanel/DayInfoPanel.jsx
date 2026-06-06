@@ -1,6 +1,7 @@
 import './DayInfoPanel.scss'
 import clsx from "clsx";
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import Button from "@/components/Button";
 import AccordionItem from "@/components/AccordionItem";
 
@@ -13,6 +14,10 @@ const DayInfoPanel = (props) => {
     style,
   } = props
 
+  const { t, i18n } = useTranslation();
+
+
+  const locale = i18n.language === 'uk' ? 'uk-UA' : 'ru-RU';
   const [activeTab, setActiveTab] = useState(null)
 
   if (!selectedDay) return null
@@ -43,15 +48,13 @@ const DayInfoPanel = (props) => {
       className={clsx(className, 'day-info-panel')}
       style={style}
     >
-
-
       <div className="day-info-panel__content">
         <div className="day-info-panel__date">
           <time
             className="day-info-panel__date-text"
             dateTime={selectedDay.date_gregorian}
           >
-            {selectedDate.toLocaleString('ru-RU', {
+            {selectedDate.toLocaleString(locale, {
               day: 'numeric',
               month: 'long',
               year: 'numeric'
@@ -62,9 +65,9 @@ const DayInfoPanel = (props) => {
         <div className="day-info-panel__data">
           {displayFeast.icon && (
             <img
-              src={`${API_URL}${displayFeast.icon}`}
+              src={displayFeast.icon}
               className="day-info-panel__feast-image"
-              alt={displayFeast.short_title_ru || displayFeast.title_ru}
+              alt={displayFeast.short_title || displayFeast.title}
               loading="lazy"
               onError={(e) => {
                 e.target.style.display = 'none'
@@ -73,20 +76,21 @@ const DayInfoPanel = (props) => {
           )}
 
           <div className="day-info-panel__info">
-            <span className="day-info-panel__memory">День памяти</span>
+            <span className="day-info-panel__memory">{t('calendar.day_of_memory')}</span>
             <h3 className="day-info-panel__title">
-              {displayFeast.short_title_ru || displayFeast.title_ru}
+              {displayFeast.short_title || displayFeast.title}
             </h3>
             {hasFast ? (
               <p className="day-info-panel__fast">{fastText}</p>
             ) : (
-              <p className="day-info-panel__fast no-fast">Поста нет</p>
+              <p className="day-info-panel__fast no-fast">{t('calendar.no_fast')}</p>
             )}
           </div>
         </div>
+
         {allFeasts.length > 1 && (
           <div className="day-info-panel__all-feasts">
-            <span className="all-feasts-label">Также сегодня:</span>
+            <span className="all-feasts-label">{t('calendar.also_today')}</span>
             <div className="all-feasts-list">
               {allFeasts
                 .filter(feast => feast.id !== displayFeast.id)
@@ -97,7 +101,7 @@ const DayInfoPanel = (props) => {
                   >
                     <Button
                       to={`/saint/${feast.id}`}
-                      label={feast.short_title_ru || feast.title_ru}
+                      label={feast.short_title || feast.title}
                       isLink={true}
                       className="all-feast-link"
                     />
@@ -108,16 +112,17 @@ const DayInfoPanel = (props) => {
         )}
       </div>
 
-      {/* ДЕЙСТВИЯ (тропарь, кондак, кнопки) */}
       <div className="day-info-panel__actions">
         {displayFeast.troparion_content && (
           <AccordionItem
             className="day-info-panel__accordion"
-            title="Тропарь"
+            title={t('calendar.troparion')}
             isActive={activeTab === 'troparion'}
             onToggle={() => toggleContent('troparion')}
           >
-            <h4 className="content-title">Тропарь, глас {displayFeast.troparion_echo}</h4>
+            <h4 className="content-title">
+              {t('calendar.troparion_title', { echo: displayFeast.troparion_echo })}
+            </h4>
             <p className="content-text">{displayFeast.troparion_content}</p>
           </AccordionItem>
         )}
@@ -125,30 +130,29 @@ const DayInfoPanel = (props) => {
         {displayFeast.kontakion_content && (
           <AccordionItem
             className="day-info-panel__accordion"
-            title="Кондак"
+            title={t('calendar.kontakion')}
             isActive={activeTab === 'kontakion'}
             onToggle={() => toggleContent('kontakion')}
           >
-            <h4 className="content-title">Кондак, глас {displayFeast.kontakion_echo}</h4>
+            <h4 className="content-title">
+              {t('calendar.kontakion_title', { echo: displayFeast.kontakion_echo })}
+            </h4>
             <p className="content-text">{displayFeast.kontakion_content}</p>
           </AccordionItem>
         )}
 
         <Button
           className="day-info-panel__life-button"
-          label="Житие святого"
+          label={t('calendar.life_of_saint')}
           to={`/day/${selectedDay.date_gregorian}`}
         />
 
         <Button
           className="day-info-panel__more-button"
-          label="Подробнее о дне"
+          label={t('calendar.more_about_day')}
           to={`/day/${selectedDay.date_gregorian}`}
         />
       </div>
-
-      {/* ДРУГИЕ СВЯТЫЕ ДНЯ */}
-
     </div>
   )
 }

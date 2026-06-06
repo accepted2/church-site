@@ -1,6 +1,6 @@
-# calendar_app/importers.py
 from datetime import datetime, timedelta
 from calendar_app.models import FeastDate, FastType, Fast, DayInfo
+from django.utils.translation import get_language
 
 
 class OrthodoxCalendarImporter:
@@ -53,8 +53,14 @@ class OrthodoxCalendarImporter:
                 day_info.fast_type = fast_type_obj
                 day_info.fast_name = fast_info.get('name', '')
 
-            feast_full_titles = [fd.title_ru for fd in feast_dates[:3]]
-            feast_short_titles = [fd.short_title_ru or fd.title_ru for fd in feast_dates[:3]]
+            # 🆕 Поддержка языка для summary
+            lang = get_language()
+            if lang == 'uk':
+                feast_full_titles = [fd.title_uk or fd.title_ru for fd in feast_dates[:3]]
+                feast_short_titles = [fd.short_title_uk or fd.title_ru for fd in feast_dates[:3]]
+            else:
+                feast_full_titles = [fd.title_ru for fd in feast_dates[:3]]
+                feast_short_titles = [fd.short_title_ru or fd.title_ru for fd in feast_dates[:3]]
 
             day_info.summary = '; '.join(feast_full_titles)
             day_info.short_summary = '; '.join(feast_short_titles)

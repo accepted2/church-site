@@ -57,10 +57,21 @@ class FeastDate(models.Model):
     celebration_type = models.CharField(max_length=20, choices=CELEBRATION_TYPES, blank=True, default='', verbose_name=_("Тип праздника (great/middle/low)"))
     celebration_rank = models.CharField(max_length=30, choices=RANK_TYPES, blank=True, default='', verbose_name=_("Ранг праздника (vigil/polyeleos/etc)"))
 
-    month = models.IntegerField(verbose_name=_("Месяц (ст.стиль)"))
-    day = models.IntegerField(verbose_name=_("День (ст.стиль)"))
-    easter_offset = models.IntegerField(null=True, blank=True, verbose_name=_("Смещение от Пасхи"))
-
+    month = models.IntegerField(
+        verbose_name=_("Месяц (ст.стиль)"),
+        null=True,
+        blank=True
+    )
+    day = models.IntegerField(
+        verbose_name=_("День (ст.стиль)"),
+        null=True,
+        blank=True
+    )
+    easter_offset = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Смещение от Пасхи")
+    )
     title_ru = models.CharField(max_length=500, verbose_name=_("Название"))
     short_title_ru = models.CharField(max_length=100, blank=True, verbose_name=_("Краткое название"))
 
@@ -80,6 +91,58 @@ class FeastDate(models.Model):
     description = models.CharField(max_length=200, blank=True, verbose_name=_("Пояснение"))
     order = models.IntegerField(default=0, verbose_name=_("Порядок"))
 
+    # ========== Дублирующие поля для украинского перевода ==========
+    title_uk = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("Название (укр.)")
+    )
+
+    short_title_uk = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("Краткое название (укр.)")
+    )
+
+    troparion_title_uk = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("Тропарь - название (укр.)")
+    )
+
+    troparion_content_uk = models.TextField(
+        blank=True,
+        verbose_name=_("Тропарь - текст (укр.)")
+    )
+
+    kontakion_title_uk = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("Кондак - название (укр.)")
+    )
+
+    kontakion_content_uk = models.TextField(
+        blank=True,
+        verbose_name=_("Кондак - текст (укр.)")
+    )
+
+    life_title_uk = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("Житие - заголовок (укр.)")
+    )
+
+    life_content_uk = models.TextField(
+        blank=True,
+        verbose_name=_("Житие - текст (укр.)")
+    )
+
+    description_uk = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name=_("Пояснение (укр.)")
+    )
+
     class Meta:
         verbose_name = _("Дата празднования")
         verbose_name_plural = _("Даты празднования")
@@ -88,7 +151,16 @@ class FeastDate(models.Model):
 
     def __str__(self):
         rank_display = f" [{self.get_celebration_rank_display()}]" if self.celebration_rank else ""
-        return f"{self.feast.search_name} — {self.title_ru} ({self.month:02d}.{self.day:02d}){rank_display}"
+
+        # Если это подвижный праздник (easter_offset не None) — не показываем дату
+        if self.easter_offset is not None:
+            date_str = f"Пасха+{self.easter_offset}"
+        elif self.month and self.day:
+            date_str = f"{self.month:02d}.{self.day:02d}"
+        else:
+            date_str = "—"
+
+        return f"{self.feast.search_name} — {self.title_ru} ({date_str}){rank_display}"
 
     def get_gregorian_date(self):
         from datetime import date, timedelta
@@ -99,6 +171,8 @@ class FeastDate(models.Model):
 class FastType(models.Model):
     code = models.CharField(max_length=50, unique=True, verbose_name=_("Код"))
     title_ru = models.CharField(max_length=200, verbose_name=_("Название (рус.)"))
+
+    title_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Название (укр.)"))
 
     class Meta:
         verbose_name = _("Тип поста")
@@ -112,6 +186,8 @@ class Fast(models.Model):
     code = models.CharField(max_length=50, unique=True, verbose_name=_("Код"))
     title_ru = models.CharField(max_length=200, verbose_name=_("Название (рус.)"))
     order = models.IntegerField(default=0, verbose_name=_("Порядок"))
+
+    title_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Название (укр.)"))
 
     start_month = models.IntegerField(null=True, blank=True, verbose_name=_("Начало - месяц"))
     start_day = models.IntegerField(null=True, blank=True, verbose_name=_("Начало - день"))
@@ -134,7 +210,7 @@ class Fast(models.Model):
 
 class DayInfo(models.Model):
     date_gregorian = models.DateField(unique=True, verbose_name=_("Дата (новый стиль)"))
-
+    
     julian_month = models.IntegerField(verbose_name=_("Месяц (старый стиль)"))
     julian_day = models.IntegerField(verbose_name=_("День (старый стиль)"))
 
@@ -158,6 +234,12 @@ class DayInfo(models.Model):
 
     summary = models.CharField(max_length=500, blank=True, verbose_name=_("Краткое описание (полное)"))
     short_summary = models.CharField(max_length=200, blank=True, verbose_name=_("Краткое описание (для календаря)"))
+
+    summary_uk = models.CharField(max_length=500, blank=True, verbose_name=_("Краткое описание (полное, укр.)"))
+    short_summary_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Краткое описание (для календаря, укр.)"))
+    fast_name_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Название поста (укр.)"))
+    gospel_reading_uk = models.TextField(blank=True, verbose_name=_("Евангельское чтение (укр.)"))
+    apostolic_reading_uk = models.TextField(blank=True, verbose_name=_("Апостольское чтение (укр.)"))
 
     class Meta:
         verbose_name = _("День")

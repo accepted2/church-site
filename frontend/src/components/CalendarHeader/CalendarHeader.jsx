@@ -1,7 +1,6 @@
 import './CalendarHeader.scss'
-
 import clsx from "clsx";
-
+import { useTranslation } from 'react-i18next';
 import Button from "@/components/Button";
 
 const CalendarHeader = (props) => {
@@ -12,14 +11,13 @@ const CalendarHeader = (props) => {
     currentDate,
   } = props
 
-  return (
-    <div
-      className={clsx(
-        className,
-        'calendar-header'
-      )}
-    >
+  const { i18n } = useTranslation();
 
+  // Определяем локаль для форматирования месяца
+  const locale = i18n.language === 'uk' ? 'uk-UA' : 'ru-RU';
+
+  return (
+    <div className={clsx(className, 'calendar-header')}>
       <Button
         className="calendar-header__button"
         iconName="arrow-left"
@@ -27,15 +25,10 @@ const CalendarHeader = (props) => {
       />
 
       <h2 className="calendar-header__title">
-
-        {currentDate.toLocaleString(
-          'ru-RU',
-          {
-            month: 'long',
-            year: 'numeric'
-          }
-        )}
-
+        {currentDate.toLocaleString(locale, {
+          month: 'long',
+          year: 'numeric'
+        })}
       </h2>
 
       <Button
@@ -43,7 +36,6 @@ const CalendarHeader = (props) => {
         iconName="arrow-right"
         onClick={onNextMonth}
       />
-
     </div>
   )
 }

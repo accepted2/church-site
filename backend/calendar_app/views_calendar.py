@@ -57,15 +57,14 @@ class CalendarMonthView(APIView):
             date_gregorian__lte=end_date
         ).select_related('fast_type').prefetch_related('feasts')
 
-        # Добавляем дополнительную информацию о днях недели
-        serializer = DayInfoSerializer(days, many=True)
+        # ✅ Сериализуем с передачей request в контекст
+        serializer = DayInfoSerializer(days, many=True, context={'request': request})
         data = serializer.data
 
         # Обогащаем данные информацией о номере недели и дне недели
         for day_data, day_obj in zip(data, days):
-            day_data['weekday'] = day_obj.date_gregorian.weekday()  # 0-6 (пн-вс)
+            day_data['weekday'] = day_obj.date_gregorian.weekday()
             day_data['week_number'] = day_obj.date_gregorian.isocalendar()[1]
-
             day_data['is_today'] = day_obj.date_gregorian == timezone.localtime(timezone.now()).date()
 
         # Добавляем мета-информацию
@@ -126,8 +125,8 @@ class CalendarDayView(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
-            # Сериализуем данные
-            serializer = DayInfoSerializer(day_info)
+            # ✅ Сериализуем с передачей request в контекст
+            serializer = DayInfoSerializer(day_info, context={'request': request})
             data = serializer.data
 
             # Добавляем дополнительную информацию
@@ -198,13 +197,15 @@ class CalendarWeekView(APIView):
             date_gregorian__lte=sunday
         ).select_related('fast_type').prefetch_related('feasts')
 
-        serializer = DayInfoSerializer(days, many=True)
+        # ✅ Сериализуем с передачей request в контекст
+        serializer = DayInfoSerializer(days, many=True, context={'request': request})
+        data = serializer.data
 
         response_data = {
             'week_number': target_date.isocalendar()[1],
             'start_date': monday.isoformat(),
             'end_date': sunday.isoformat(),
-            'days': serializer.data
+            'days': data
         }
 
         return Response(response_data)

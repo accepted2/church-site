@@ -12,16 +12,25 @@ import SliderNavigation from "@/components/Slider/components/SliderNavigation";
 
 const ScheduleSection = (props) => {
   const { className } = props;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [data, setData] = useState([]);
   const swiperRef = useRef(null);
 
+
   useEffect(() => {
-    getSchedule().then(setData).catch(console.error);
-  }, []);
+    const fetchSchedule = async () => {
+      try {
+        const response = await api.get('/schedule/');
+        setData(response.data);
+      } catch (error) {
+        console.error('Ошибка загрузки расписания', error);
+      }
+    };
+    fetchSchedule();
+  }, [i18n.language]); // ← добавить зависимость
 
   const today = new Date();
   const todayIndex = data.findIndex((day) => {

@@ -12,13 +12,13 @@ from datetime import datetime
 
 @admin.register(FastType)
 class FastTypeAdmin(admin.ModelAdmin):
-    list_display = ['code', 'title_ru']
-    search_fields = ['code', 'title_ru']
-    list_editable = ['title_ru']
+    list_display = ['code', 'title_ru', 'title_uk']
+    search_fields = ['code', 'title_ru', 'title_uk']
+    list_editable = ['title_ru', 'title_uk']
 
     fieldsets = (
         (_('Основная информация'), {
-            'fields': ('code', 'title_ru'),
+            'fields': ('code', 'title_ru', 'title_uk'),
             'description': _("Тип поста: нет поста, dry, масло, рыба и т.д")
         }),
     )
@@ -27,7 +27,7 @@ class FastTypeAdmin(admin.ModelAdmin):
 class FeastDateInline(admin.TabularInline):
     model = FeastDate
     extra = 1
-    fields = ['feast', 'title_ru', 'short_title_ru', 'month', 'day', 'display_gregorian_inline', 'celebration_type', 'celebration_rank']
+    fields = ['feast', 'title_ru', 'short_title_ru', 'title_uk', 'short_title_uk', 'month', 'day', 'display_gregorian_inline', 'celebration_type', 'celebration_rank']
     readonly_fields = ['display_gregorian_inline']
     show_change_link = True
     autocomplete_fields = ['feast']
@@ -102,6 +102,7 @@ class FeastDateAdmin(admin.ModelAdmin):
         'display_icon_with_link',
         'link_to_edit',
         'short_title_ru',
+        'title_uk',
         'display_date',
         'display_gregorian',
         'celebration_type',
@@ -112,6 +113,7 @@ class FeastDateAdmin(admin.ModelAdmin):
     list_filter = ['celebration_type', 'celebration_rank', 'date_type', 'feast__feast_type']
     search_fields = [
         'title_ru', 'short_title_ru',
+        'title_uk', 'short_title_uk',
         'feast__search_name',
         'troparion_content', 'kontakion_content', 'life_content'
     ]
@@ -126,8 +128,8 @@ class FeastDateAdmin(admin.ModelAdmin):
             'fields': ('month', 'day', 'easter_offset', 'display_gregorian_info'),
             'description': _('Дата по старому стилю. Новый стиль вычисляется автоматически (+13 дней)')
         }),
-        (_('Названия'), {
-            'fields': ('title_ru', 'short_title_ru', 'date_type'),
+        (_('Названия (рус./укр.)'), {  # ← изменено
+            'fields': ('title_ru', 'title_uk', 'short_title_ru', 'short_title_uk', 'date_type'),
         }),
         (_('Тип и ранг праздника'), {
             'fields': ('celebration_type', 'celebration_rank'),
@@ -135,19 +137,30 @@ class FeastDateAdmin(admin.ModelAdmin):
         (_('Икона'), {
             'fields': ('icon', 'icon_url'),
         }),
-        (_('Гимны'), {
+        (_('Гимны (рус.)'), {  # ← оставляем русские
             'fields': (
                 'troparion_title', 'troparion_content', 'troparion_echo',
                 'kontakion_title', 'kontakion_content', 'kontakion_echo'
             ),
             'classes': ('wide',),
         }),
-        (_('Житие'), {
+        (_('Гимны (укр.)'), {  # 🆕 добавить украинские гимны
+            'fields': (
+                'troparion_title_uk', 'troparion_content_uk',
+                'kontakion_title_uk', 'kontakion_content_uk',
+            ),
+            'classes': ('wide',),
+        }),
+        (_('Житие (рус.)'), {
             'fields': ('life_title', 'life_content'),
             'classes': ('wide',),
         }),
+        (_('Житие (укр.)'), {  # 🆕 добавить украинское житие
+            'fields': ('life_title_uk', 'life_content_uk'),
+            'classes': ('wide',),
+        }),
         (_('Дополнительно'), {
-            'fields': ('description', 'order'),
+            'fields': ('description', 'order', 'description_uk',),
         }),
     )
 
@@ -273,8 +286,8 @@ class DayInfoForm(forms.ModelForm):
 @admin.register(DayInfo)
 class DayInfoAdmin(admin.ModelAdmin):
     form = DayInfoForm
-
-    list_display = ['date_calendar_link', 'display_julian', 'fast_name', 'main_feast_preview', 'display_feasts_preview']
+    readonly_fields = ('date_gregorian',)
+    list_display = ['date_calendar_link', 'display_julian', 'fast_name', 'fast_name_uk', 'main_feast_preview', 'display_feasts_preview']
 
     list_filter = [
         ('date_gregorian', DateFieldListFilter),
@@ -282,7 +295,7 @@ class DayInfoAdmin(admin.ModelAdmin):
         'feast_dates__celebration_type',
     ]
 
-    search_fields = ['summary', 'short_summary', 'fast_name', 'feast_dates__title_ru']
+    search_fields = ['summary', 'summary_uk', 'short_summary', 'short_summary_uk', 'fast_name', 'fast_name_uk', 'feast_dates__title_ru', 'feast_dates__title_uk']
     date_hierarchy = 'date_gregorian'
     filter_horizontal = ['feast_dates']
     list_per_page = 50
@@ -293,7 +306,7 @@ class DayInfoAdmin(admin.ModelAdmin):
             'description': _('📅 Выберите дату с помощью календаря'),
         }),
         (_('Пост'), {
-            'fields': ('fast_type', 'fast_name'),
+            'fields': ('fast_type', 'fast_name', 'fast_name_uk'),
         }),
         (_('🌟 Главный святой дня'), {
             'fields': ('main_feast',),
@@ -304,7 +317,7 @@ class DayInfoAdmin(admin.ModelAdmin):
             'description': _('Все святые и праздники этого дня'),
         }),
         (_('Дополнительно'), {
-            'fields': ('summary', 'short_summary', 'gospel_reading', 'apostolic_reading'),
+            'fields': ('summary', 'summary_uk', 'short_summary', 'short_summary_uk', 'gospel_reading', 'gospel_reading_uk', 'apostolic_reading_uk', 'apostolic_reading'),
             'classes': ('wide',),
         }),
     )
@@ -362,8 +375,11 @@ class DayInfoAdmin(admin.ModelAdmin):
     def regenerate_summary(self, request, queryset):
         for day in queryset:
             feast_titles = [f.title_ru for f in day.feast_dates.all()[:3]]
+            feast_titles_uk = [f.title_uk or f.title_ru for f in day.feast_dates.all()[:3]]  # 🆕
             day.summary = '; '.join(feast_titles)
+            day.summary_uk = '; '.join(feast_titles_uk)  # 🆕
             day.short_summary = '; '.join([f.short_title_ru or f.title_ru for f in day.feast_dates.all()[:3]])
+            day.short_summary_uk = '; '.join([f.short_title_uk or f.title_ru for f in day.feast_dates.all()[:3]])  # 🆕
             day.save()
         self.message_user(request, f'{_("Обновлено")} {queryset.count()} {_("дней")}')
 

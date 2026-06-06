@@ -108,16 +108,30 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 # ========== Медиа и статика ==========
+# ========== Медиа и статика ==========
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# 🆕 Исправленные настройки хранилищ
 STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
-STATIC_URL = '/static/'
 
-MEDIA_ROOT = BASE_DIR / 'media'
+# Для обратной совместимости
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Дополнительные папки со статикой (если есть)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # ========== LiqPay ==========
 LIQPAY_PUBLIC_KEY = os.getenv('LIQPAY_PUBLIC_KEY')

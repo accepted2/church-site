@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'config.middleware.ForceLanguageMiddleware',
@@ -107,14 +108,14 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 # ========== Медиа и статика ==========
-if DEBUG:
-    MEDIA_URL = '/media/'
-    STATIC_URL = '/static/'
-else:
-    # Берем схему и хост из переменных окружения
-    BACKEND_URL = os.getenv('BACKEND_URL', 'https://church-site-backend.onrender.com')
-    MEDIA_URL = f'{BACKEND_URL}/media/'
-    STATIC_URL = f'{BACKEND_URL}/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 

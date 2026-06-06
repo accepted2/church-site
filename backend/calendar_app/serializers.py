@@ -1,4 +1,5 @@
 # calendar_app/serializers.py
+from django.conf import settings
 from rest_framework import serializers
 from django.utils.translation import get_language
 from .models import Feast, FeastDate, DayInfo, FastType
@@ -19,6 +20,7 @@ class FeastDateSerializer(serializers.ModelSerializer):
     life_title = serializers.SerializerMethodField()
     life_content = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
+    icon = serializers.SerializerMethodField()
 
     class Meta:
         model = FeastDate
@@ -36,7 +38,10 @@ class FeastDateSerializer(serializers.ModelSerializer):
             'description',
         ]
 
-    icon = serializers.SerializerMethodField()
+    def get_icon(self, obj):
+        if obj.icon:
+            return obj.icon.url
+        return None
 
     def _get_localized(self, obj, field_ru, field_uk):
         lang = get_language()
@@ -70,14 +75,6 @@ class FeastDateSerializer(serializers.ModelSerializer):
 
     def get_description(self, obj):
         return self._get_localized(obj, 'description', 'description_uk')
-
-    def get_icon(self, obj):
-        """Возвращает URL иконки из статики"""
-        if obj.icon and obj.icon.name:
-            # Берём только имя файла, без пути media/
-            filename = obj.icon.name.split('/')[-1]
-            return f'/static/saints_icons/{filename}'
-        return None
 
 
 class FeastSerializer(serializers.ModelSerializer):
@@ -125,7 +122,8 @@ class DayInfoSerializer(serializers.ModelSerializer):
             'main_feast',
             'all_feasts',
             'fast_type', 'fast_type_title', 'fast_type_code',
-            'fast_name', 'summary', 'short_summary'
+            'fast_name', 'summary', 'short_summary',
+        
         ]
 
     def _get_localized(self, obj, field_ru, field_uk):

@@ -18,7 +18,6 @@ class ServiceSerializer(serializers.ModelSerializer):
     def get_title(self, obj):
         request = self.context.get('request')
         lang = request.LANGUAGE_CODE if request else 'ru'
-        print(f"LANG: {lang}, ID: {obj.id}")  # ← отладка
 
         if lang == 'uk' and obj.custom_title_uk:
             return obj.custom_title_uk

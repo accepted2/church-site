@@ -4,6 +4,7 @@ Django settings for config project.
 import os
 from pathlib import Path
 
+import cloudinary
 from django.conf.global_settings import EMAIL_BACKEND
 from dotenv import load_dotenv
 
@@ -33,6 +34,8 @@ INSTALLED_APPS = [
     'treby',
     'calendar_app',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +111,26 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUD_API_KEY'),
+    'API_SECRET': os.getenv('CLOUD_API_SECRET'),
+}
+#
+# cloudinary.config(
+#     cloud_name=os.getenv("CLOUD_NAME"),
+#     api_key=os.getenv("CLOUD_API_KEY"),
+#     api_secret=os.getenv("CLOUD_API_SECRET"),
+#     secure=True
+# )
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 # ========== Медиа и статика ==========
 
 if DEBUG:
@@ -115,25 +138,24 @@ if DEBUG:
 else:
     BACKEND_URL = os.getenv('BACKEND_URL', 'https://church-site-backend.onrender.com')
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise (только для production статики)
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
+#
+# # WhiteNoise (только для production статики)
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "django.core.files.storage.FileSystemStorage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#     },
+# }
 # ========== LiqPay ==========
 LIQPAY_PUBLIC_KEY = os.getenv('LIQPAY_PUBLIC_KEY')
 LIQPAY_PRIVATE_KEY = os.getenv('LIQPAY_PRIVATE_KEY')

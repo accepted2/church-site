@@ -12,7 +12,6 @@ urlpatterns = [
     path('api/treby/', include('treby.urls')),
 ]
 
-# 🆕 Раздаём медиа-файлы даже в продакшене
 urlpatterns += static(
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT

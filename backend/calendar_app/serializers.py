@@ -20,7 +20,10 @@ class FeastDateSerializer(serializers.ModelSerializer):
     life_title = serializers.SerializerMethodField()
     life_content = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
-    icon = serializers.SerializerMethodField()
+
+    # icon = serializers.SerializerMethodField()
+
+    icon = serializers.ImageField(read_only=True)
 
     class Meta:
         model = FeastDate
@@ -29,9 +32,9 @@ class FeastDateSerializer(serializers.ModelSerializer):
             'date_type', 'date_type_display',
             'celebration_type', 'celebration_type_display',
             'celebration_rank', 'celebration_rank_display',
-            'title', 'short_title',  # ← заменено title_ru на title
+            'title', 'short_title',
             'month', 'day', 'easter_offset',
-            'icon', 'icon_url',
+            'icon',
             'troparion_title', 'troparion_content', 'troparion_echo',
             'kontakion_title', 'kontakion_content', 'kontakion_echo',
             'life_title', 'life_content',
@@ -39,6 +42,7 @@ class FeastDateSerializer(serializers.ModelSerializer):
         ]
 
     def get_icon(self, obj):
+        request = self.context.get('request')
         if obj.icon:
             return obj.icon.url
         return None

@@ -65,7 +65,7 @@ const DayInfoPanel = (props) => {
         <div className="day-info-panel__data">
           {displayFeast.icon && (
             <img
-              src={`${API_URL}${displayFeast.icon}`}
+              src={displayFeast.icon}
               className="day-info-panel__feast-image"
               alt={displayFeast.short_title || displayFeast.title}
               loading="lazy"

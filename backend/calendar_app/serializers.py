@@ -21,9 +21,9 @@ class FeastDateSerializer(serializers.ModelSerializer):
     life_content = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
 
-    # icon = serializers.SerializerMethodField()
+    icon = serializers.SerializerMethodField()
 
-    icon = serializers.ImageField(read_only=True)
+    # icon = serializers.ImageField(read_only=True)
 
     class Meta:
         model = FeastDate
@@ -42,9 +42,10 @@ class FeastDateSerializer(serializers.ModelSerializer):
         ]
 
     def get_icon(self, obj):
-        request = self.context.get('request')
         if obj.icon:
-            return obj.icon.url
+            request = self.context.get('request')
+            url = obj.icon.url
+            return request.build_absolute_uri(url) if request else url
         return None
 
     def _get_localized(self, obj, field_ru, field_uk):

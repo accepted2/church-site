@@ -105,7 +105,6 @@ class FastTypeSerializer(serializers.ModelSerializer):
 
 
 class DayInfoSerializer(serializers.ModelSerializer):
-    """Сериализатор для дня — возвращает главного святого и всех святых"""
     main_feast = FeastDateSerializer(read_only=True)
     all_feasts = FeastDateSerializer(many=True, read_only=True, source='feast_dates')
     fast_type_title = serializers.SerializerMethodField()
@@ -123,7 +122,7 @@ class DayInfoSerializer(serializers.ModelSerializer):
             'all_feasts',
             'fast_type', 'fast_type_title', 'fast_type_code',
             'fast_name', 'summary', 'short_summary',
-        
+
         ]
 
     def _get_localized(self, obj, field_ru, field_uk):

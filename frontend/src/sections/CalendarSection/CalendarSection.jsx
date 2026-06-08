@@ -97,13 +97,6 @@ const CalendarSection = ({ className }) => {
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => {
-    console.log('MONTH DATA:', monthData)
-  }, [monthData])
-
-  useEffect(() => {
-    console.log('SELECTED DAY:', selectedDay)
-  }, [selectedDay])
 
   const handlePrevMonth = () => {
     setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1))

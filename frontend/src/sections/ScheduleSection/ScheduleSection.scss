@@ -9,7 +9,7 @@
     padding-bottom: 70px;
     border-radius: 10px;
     padding-top: fluid(25, 15);
-    
+
     @include desktop-above {
       position: relative;
       background-color: var(--color-bg-main);
@@ -31,6 +31,7 @@
     position: relative;
     text-align: center;
     padding: fluid(22, 16);
+    color: var(--color-burgundy);
 
     text-transform: uppercase;
     font-size: fluid(40, 20);

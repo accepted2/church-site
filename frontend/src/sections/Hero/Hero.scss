@@ -28,33 +28,42 @@
   &__content {
     position: absolute;
     padding: 10px;
-    top: 10%;
+    //    top: 10%;
+    left: 20px;
     border-radius: 16px;
     z-index: 3;
 
 
-    @include tablet-above {
+    @include tablet-small-above {
       max-width: fluid(600, 400);
-      top: 10%;
-
-      right: 50px;
+      top: 370px;
+      color: var(--color-burgundy);
     }
 
+    @include tablet {
+      left: auto;
+      right: 0;
+      top: 100px;
+    }
+
+    @include mobile-s {
+      right: auto;
+    }
   }
 
   &__text-wrapper {
     width: fit-content;
 
     @include tablet-above {
-      outline: 2px solid var(--color-apostolic-red);
+      //      outline: 2px solid var(--color-apostolic-red);
     }
 
     @include mobile-above {
       padding: fluid(32, 20) fluid(26, 18);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      animation: fade-in 0.8s ease-out;
+      //      border-radius: 16px;
+      //      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+      //      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      //      animation: fade-in 0.8s ease-out;
     }
 
   }
@@ -62,16 +71,18 @@
   &__subtitle {
     font-size: fluid(18, 10);
     text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--color-main-white);
+    letter-spacing: 1px;
+    //    color: var(--color-main-white);
+    color: var(--color-sand);
     margin-bottom: 1rem;
-    font-weight: 400;
+    font-weight: 500;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   &__title {
     font-weight: 700;
-    color: var(--color-bg-main);
+    //    color: var(--color-bg-main);
+    color: var(--color-sand);
     margin-bottom: 0.5rem;
     line-height: 1.2;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
@@ -81,9 +92,11 @@
   }
 
   &__church-type {
-    font-size: fluid(20, 15);
-    color: var(--color-soft-white);
+    font-size: fluid(32, 15);
+    //    color: var(--color-soft-white);
+    color: var(--color-sand);
     font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     letter-spacing: 2px;
   }
 
@@ -96,9 +109,9 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: url("@/assets/images/hero_image5.png");
+    background: url("@/assets/images/hero_image5.jpg");
     background-size: cover;
-    background-position: center;
+    background-position: right;
     background-repeat: no-repeat;
 
     // Размытие краёв через маску
@@ -129,22 +142,36 @@
       );
       pointer-events: none;
     }
+
+    @include tablet {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url("@/assets/images/tablet-hero_image.png");
+      background-size: cover;
+      background-position: right;
+      background-repeat: no-repeat;
+
+    }
+
+    @include tablet-xs {
+      background-position: -163px;
+    }
   }
 
   &__overlay {
 
     @include tablet-above {
       position: absolute;
-
       width: fluid(520, 400);
       height: auto;
-      top: 2%;
+      top: 5%;
       left: 0;
       aspect-ratio: 1 / 1;
-      background: url("@/assets/images/ChatGPT Image 18 мая 2026 г., 08_40_37.png") center / contain no-repeat;
-      filter: brightness(1.2) contrast(1.2);
+      background: url("@/assets/images/Group 25.png") center / contain no-repeat;
+      filter: brightness(0.9);
 
-      mix-blend-mode: soft-light;
+      //      mix-blend-mode: hard-light;
       pointer-events: none;
       z-index: 1;
     }

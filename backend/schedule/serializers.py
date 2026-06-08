@@ -10,6 +10,7 @@ class ServiceTypeSerializer(serializers.ModelSerializer):
 
 class ServiceSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
+    time = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -28,6 +29,11 @@ class ServiceSerializer(serializers.ModelSerializer):
         if obj.type:
             return obj.type.name
         return ""
+
+    def get_time(self, obj):
+        if obj.time:
+            return obj.time.strftime("%H:%M")
+        return None
 
 
 class ScheduleSerializer(serializers.ModelSerializer):

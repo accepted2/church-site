@@ -3,10 +3,11 @@
   border: var(--border-width-m) solid var(--color-grey);
   border-radius: var(--border-radius-l);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  background-color: var(--color-soft-white);
+  background-color: var(--color-main-white);
+   
+  color: var(--color-burgundy);
 
   @include mobile-s-above {
-
     max-width: 550px;
     width: 100%;
     justify-self: center;

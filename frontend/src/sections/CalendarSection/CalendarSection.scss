@@ -26,10 +26,6 @@
     }
 
 
-    @include tablet-small {
-
-    }
-
     &-inner {
       display: flex;
       flex-direction: column;
@@ -58,9 +54,7 @@
       pointer-events: none;
     }
 
-    @include desktop {
 
-    }
   }
 
   &__subtitle {

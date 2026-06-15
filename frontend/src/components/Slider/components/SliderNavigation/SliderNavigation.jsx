@@ -7,42 +7,65 @@ const SliderNavigation = (props) => {
     className,
     prevRef,
     nextRef,
-    // id,
-    // hasPagination = true,
-    /**
-     * '' (default) | 'tile'
-     */
-    mode = ''
+    paginationRef,
+
+    mode = '',
+    paginationPosition = 'between',
+
+    iconNameLeft,
+    iconNameRight,
   } = props
+
 
   return (
     <div
-      className={clsx(className, 'slider-navigation', {
-        [`slider-navigation--${mode}`]: mode,
-      })}
-      // id={id}
+      className={clsx(
+        className,
+        'slider-navigation',
+        `slider-navigation--pagination-${paginationPosition}`,
+        {
+          [`slider-navigation--${mode}`]: mode,
+        }
+      )}
     >
+
       <Button
         ref={prevRef}
         className="slider-navigation__arrow-button slider-navigation__arrow-button--previous"
         mode="accent"
-        iconName="arrow-left"
+        iconName={iconNameLeft}
         label="Previous slide"
         isLabelHidden
       />
 
-      <div className="slider-navigation__pagination" />
+      {paginationPosition === 'between' && (
+        <div
+          className="slider-navigation__pagination"
+          ref={paginationRef}
+        />
+      )}
+
 
       <Button
         ref={nextRef}
         className="slider-navigation__arrow-button slider-navigation__arrow-button--next"
         mode="accent"
-        iconName="arrow-right"
+        iconName={iconNameRight}
         label="Next slide"
         isLabelHidden
       />
+
+
+      {paginationPosition === 'bottom' && (
+        <div
+          className="slider-navigation__pagination"
+          ref={paginationRef}
+        />
+      )}
+
     </div>
   )
 }
+
 
 export default SliderNavigation

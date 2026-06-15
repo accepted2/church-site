@@ -7,6 +7,7 @@ import ScheduleSection from "@/sections/ScheduleSection";
 import ServiceSection from "@/sections/ServiceSection";
 import CalendarSection from "@/sections/CalendarSection";
 import { useLocation } from "react-router-dom";
+import GallerySection from "@/sections/GallerySection";
 
 
 export default function Home() {
@@ -60,7 +61,7 @@ export default function Home() {
       <ScheduleSection />
       <ServiceSection />
       <CalendarSection />
-
+      <GallerySection />
     </>
   )
 }

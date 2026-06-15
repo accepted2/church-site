@@ -167,6 +167,7 @@ const Header = ({ className, isFixed = false }) => {
       }
     }
 
+
     const handleResize = () => {
       if (isDesktop()) {
         setIsOpen(false)
@@ -201,6 +202,7 @@ const Header = ({ className, isFixed = false }) => {
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen])
+
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''

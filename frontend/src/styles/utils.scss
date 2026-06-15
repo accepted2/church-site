@@ -51,5 +51,10 @@
   @include mobile {
     display: none !important;
   }
+}
 
+.hidden-mobile-s {
+  @include mobile-s {
+    display: none !important;
+  }
 }

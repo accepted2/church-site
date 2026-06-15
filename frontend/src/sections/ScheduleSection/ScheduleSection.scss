@@ -31,6 +31,8 @@
     position: relative;
     text-align: center;
     padding: fluid(22, 16);
+    padding-inline: fluid(20, 16);
+    padding-block: fluid(20, 12);
     color: var(--color-burgundy);
 
     text-transform: uppercase;
@@ -56,15 +58,25 @@
       pointer-events: none;
 
       @include tablet-xs {
-        transform: translateX(calc(-50% + 7px));
-        width: 400px;
-        height: 130px;
-        bottom: -73px;
+        width: 100%;
+        height: 75px;
+        bottom: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url("@/assets/icons/ornament4.svg");
+
       }
 
-      @include mobile {
-        transform: translateX(calc(-50% + 7px));
-      }
+      //      @include tablet-xs {
+      //        transform: translateX(calc(-50% + 7px));
+      //        width: 400px;
+      //        height: 130px;
+      //        bottom: -73px;
+      //      }
+      //
+      //      @include mobile {
+      //        transform: translateX(calc(-50% + 7px));
+      //      }
     }
 
     @include tablet {
@@ -79,7 +91,62 @@
   }
 
   &__body {
-
     padding: fluid(35, 22)
+  }
+
+  .slider-navigation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    @include desktop-above {
+      right: fluid(35, 22);
+      top: 40px;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      z-index: 2;
+    }
+
+    &--tile {
+      column-gap: fluid-to-laptop(90, 50);
+      padding: fluid-to-laptop(12, 10);
+      //    background-color: var(--color-gold);
+
+      border-radius: var(--border-radius-l);
+
+      @include desktop-above {
+        column-gap: fluid-to-laptop(40, 25);
+        background-color: var(--color-soft-white);
+        border: var(--border);
+      }
+
+      @include mobile {
+        column-gap: fluid-to-laptop(30, 20);
+      }
+    }
+
+    .button {
+      padding: fluid-to-laptop(14, 10);
+      border: none;
+
+      @include desktop {
+        padding: fluid-to-laptop(18, 14);
+      }
+
+      &--accent {
+        border: 1px solid var(--color-apostolic-red-light);
+      }
+
+      &:disabled {
+        background-color: var(--color-apostolic-red);
+      }
+    }
+
   }
 }

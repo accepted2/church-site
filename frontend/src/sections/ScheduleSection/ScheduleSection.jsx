@@ -19,6 +19,7 @@ const ScheduleSection = (props) => {
   const [data, setData] = useState([]);
   const swiperRef = useRef(null);
 
+  const paginationRef = useRef(null)
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -57,7 +58,11 @@ const ScheduleSection = (props) => {
         <SliderNavigation
           prevRef={prevRef}
           nextRef={nextRef}
+          paginationRef={paginationRef}
+          paginationPosition="between"
           mode="tile"
+          iconNameLeft="arrow-left"
+          iconNameRight="arrow-right"
         />
         <div className="schedule-section__header">
           <h2 className="schedule-section__title">
@@ -68,9 +73,10 @@ const ScheduleSection = (props) => {
           <Slider
             prevRef={prevRef}
             nextRef={nextRef}
+            paginationRef={paginationRef}
             initialSlide={todayIndex >= 0 ? todayIndex : 0}
             onSwiper={(swiper) => {
-              swiperRef.current = swiper;
+              swiperRef.current = swiper
             }}
           >
             {data.map((day, index) => (

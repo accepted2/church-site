@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'schedule',
     'treby',
     'calendar_app',
+    'gallery',
     'corsheaders',
     'cloudinary',
     'cloudinary_storage',
@@ -116,6 +117,7 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.getenv('CLOUD_API_KEY'),
     'API_SECRET': os.getenv('CLOUD_API_SECRET'),
 }
+
 #
 # cloudinary.config(
 #     cloud_name=os.getenv("CLOUD_NAME"),

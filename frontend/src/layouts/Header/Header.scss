@@ -258,13 +258,15 @@
             transform: rotate(180deg);
           }
 
-          &:hover .header__dropdown,
-          &:focus-within .header__dropdown,
-          {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            pointer-events: auto;
+
+          @include hover {
+            .header__dropdown {
+              opacity: 1;
+              visibility: visible;
+              transform: translateY(0);
+              pointer-events: auto;
+            }
+
           }
 
           &:hover .dropdown-arrow,

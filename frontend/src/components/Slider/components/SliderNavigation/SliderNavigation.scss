@@ -1,61 +1,34 @@
 .slider-navigation {
-  position: absolute;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+  justify-content: space-between;
 
-  @include desktop-above {
-    right: fluid(35, 22);
-    top: 40px;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    z-index: 2;
+  &--pagination-bottom {
+    flex-wrap: wrap;
+
+
+    .slider-navigation__pagination {
+      //      position: absolute;
+      //      left: 50%;
+      //      transform: translateX(-50%);
+      //      bottom: -275px;
+      //      //      margin-top: 50px;
+      //      padding-block: 10px;
+
+      @include desktop {
+
+      }
+    }
   }
 
-  &--tile {
-    column-gap: fluid-to-laptop(90, 50);
-    padding: fluid-to-laptop(12, 10);
-    //    background-color: var(--color-gold);
+  &--pagination-between {
 
-    border-radius: var(--border-radius-l);
-
-    @include desktop-above {
-      column-gap: fluid-to-laptop(40, 25);
-      background-color: var(--color-soft-white);
-      border: var(--border);
+    .slider-navigation__pagination {
+      flex: 1;
+      justify-content: center;
     }
 
-    @include mobile {
-      column-gap: fluid-to-laptop(30, 20);
-    }
-
-  }
-
-  .button {
-    padding: fluid-to-laptop(14, 10);
-    border: none;
-
-    @include desktop {
-      padding: fluid-to-laptop(18, 14);
-
-    }
-
-    &--accent {
-      border: 1px solid var(--color-apostolic-red-light);
-    }
-
-
-    //    padding: fluid-to-laptop(18, 14);
-
-    &:disabled {
-      background-color: var(--color-apostolic-red);
-
-    }
   }
 
 
@@ -64,21 +37,22 @@
     align-items: center;
     justify-content: center;
 
+
     .swiper-pagination-bullet {
       width: 8px;
       height: 8px;
-      border: 1px solid var(--color-apostolic-red);
-      background: var(--color-main-white);
-      opacity: 1;
-      margin: 0 4px;
+      margin: 0 5px;
+
       border-radius: 50%;
+      border: 1px solid var(--color-burgundy);
+
+      background: transparent;
+      opacity: 1;
+
 
       &-active {
-        background: var(--color-apostolic-red-dark);
+        background: var(--color-burgundy);
       }
     }
   }
-
 }
-
-

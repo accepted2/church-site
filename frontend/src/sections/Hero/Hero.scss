@@ -53,17 +53,10 @@
 
   &__text-wrapper {
     width: fit-content;
-
-    @include tablet-above {
-      //      outline: 2px solid var(--color-apostolic-red);
-    }
+    animation: fadeInUp 0.8s ease-out;
 
     @include mobile-above {
       padding: fluid(32, 20) fluid(26, 18);
-      //      border-radius: 16px;
-      //      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
-      //      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      //      animation: fade-in 0.8s ease-out;
     }
 
   }

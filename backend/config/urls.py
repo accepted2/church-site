@@ -10,9 +10,8 @@ urlpatterns = [
     path('api/', include('core.urls')),
     path('api/calendar/', include('calendar_app.urls')),
     path('api/treby/', include('treby.urls')),
+    path('api/gallery/', include('gallery.urls')),
 ]
-
-urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
+#
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -32,8 +32,12 @@
 
   //
 
+  @include tablet {
+    width: 500px;
+    margin: 0 auto;
+  }
   @include tablet-small {
-    width: fluid(400, 300);
+    width: fluid(500, 300);
     margin: 0 auto;
   }
 

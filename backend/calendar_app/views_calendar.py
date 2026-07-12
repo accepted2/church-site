@@ -57,8 +57,13 @@ class CalendarMonthView(APIView):
             date_gregorian__lte=end_date
         ).select_related('fast_type').prefetch_related('feasts')
 
+        context = {
+            'request': request,
+            'year': year
+        }
+
         # ✅ Сериализуем с передачей request в контекст
-        serializer = DayInfoSerializer(days, many=True, context={'request': request})
+        serializer = DayInfoSerializer(days, many=True, context=context)
         data = serializer.data
 
         # Обогащаем данные информацией о номере недели и дне недели
@@ -125,8 +130,13 @@ class CalendarDayView(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
+            context = {
+                'request': request,
+                'year': target_date.year
+            }
+
             # ✅ Сериализуем с передачей request в контекст
-            serializer = DayInfoSerializer(day_info, context={'request': request})
+            serializer = DayInfoSerializer(day_info, context=context)
             data = serializer.data
 
             # Добавляем дополнительную информацию
@@ -197,8 +207,13 @@ class CalendarWeekView(APIView):
             date_gregorian__lte=sunday
         ).select_related('fast_type').prefetch_related('feasts')
 
+        context = {
+            'request': request,
+            'year': target_date.year
+        }
+
         # ✅ Сериализуем с передачей request в контекст
-        serializer = DayInfoSerializer(days, many=True, context={'request': request})
+        serializer = DayInfoSerializer(days, many=True, context=context)
         data = serializer.data
 
         response_data = {

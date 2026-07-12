@@ -9,31 +9,35 @@ const CalendarHeader = (props) => {
     onPrevMonth,
     onNextMonth,
     currentDate,
+    iconPrevName,
+    iconNextName
   } = props
 
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Определяем локаль для форматирования месяца
   const locale = i18n.language === 'uk' ? 'uk-UA' : 'ru-RU';
+  const month = currentDate.toLocaleString(locale, { month: 'long' })
+  const formattedMonth = month.charAt(0).toUpperCase() + month.slice(1)
+
+  const year = currentDate.getFullYear();
 
   return (
     <div className={clsx(className, 'calendar-header')}>
       <Button
         className="calendar-header__button"
-        iconName="arrow-left"
+        iconName={iconPrevName}
         onClick={onPrevMonth}
       />
 
       <h2 className="calendar-header__title">
-        {currentDate.toLocaleString(locale, {
-          month: 'long',
-          year: 'numeric'
-        })}
+        <span className="calendar-header__month">{formattedMonth}</span>
+        <span className="calendar-header__year">{year} {t('calendar.year_abbr')}</span>
       </h2>
 
       <Button
         className="calendar-header__button"
-        iconName="arrow-right"
+        iconName={iconNextName}
         onClick={onNextMonth}
       />
     </div>

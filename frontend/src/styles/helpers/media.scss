@@ -18,7 +18,6 @@ $mobile-s: 480px;
   }
 }
 
-
 @mixin laptop-above {
   @media (width > $laptop) {
     @content

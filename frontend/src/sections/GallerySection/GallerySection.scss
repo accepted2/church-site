@@ -434,6 +434,7 @@
     display: flex;
     padding-block: fluid(30, 16);
     align-items: center;
+
     gap: 10px;
     width: 100%;
 
@@ -441,6 +442,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+
+    @include mobile {
+      flex-direction: column;
     }
 
     &-wrapper {
@@ -452,13 +457,20 @@
       @include tablet-xs {
         gap: 10px;
         align-items: center;
-        justify-content: center;
+        //        justify-content: space-between;
         padding-top: 10px;
       }
 
+      @include mobile {
+        //        justify-content: space-between;
+
+      }
     }
 
     &-data {
+      display: flex;
+      gap: 16px;
+      align-items: center;
       padding-block: fluid(20, 10);
       padding-inline: fluid(25, 10);
       background-color: var(--color-soft-white);
@@ -472,23 +484,100 @@
         justify-content: center;
         gap: 10px;
         padding: 8px;
-
       }
+
 
     }
 
     &-amount {
       color: var(--color-burgundy);
+      justify-self: center;
 
       @include tablet-xs {
         justify-self: center;
+      }
+    }
+
+    &-image {
+      color: var(--color-burgundy);
+      width: 37px;
+      height: 37px;
+
+      @include tablet-xs {
+        width: 25px;
+        height: 25px;
       }
     }
   }
 
   &__all-gallery-button {
     text-wrap: nowrap;
+    gap: 10px;
+    padding-inline: 12px;
 
+    @include mobile {
+      justify-self: flex-end;
+      align-self: flex-end;
+    }
+  }
+
+  &__lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+    animation: lightboxFadeIn 0.3s ease;
+
+    &-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: rotate(90deg);
+      }
+    }
+
+    &-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: var(--border-radius-l);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: lightboxZoomIn 0.3s ease;
+      cursor: default;
+    }
+  }
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lightboxZoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 

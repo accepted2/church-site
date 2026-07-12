@@ -12,9 +12,11 @@ import { getDaysInMonth } from "@/utils/calendar/getDaysInMonth";
 import { getFormatedDay } from "@/utils/services/getFormatedDay";
 import calendarImage from '@/assets/images/calendar_image.png'
 import candleImage from '@/assets/images/candle_img 1.jpg'
+import { useNavigate } from "react-router-dom";
 
 const CalendarSection = ({ className }) => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate()
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [monthData, setMonthData] = useState(null)
@@ -25,6 +27,7 @@ const CalendarSection = ({ className }) => {
   const calendarRef = useRef(null)
   const [calendarHeight, setCalendarHeight] = useState(0)
   const todayLabel = getFormatedDay(new Date())
+
 
   useEffect(() => {
     const fetchTodayData = async () => {
@@ -104,6 +107,12 @@ const CalendarSection = ({ className }) => {
 
   const handleNextMonth = () => {
     setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1))
+  }
+
+  const handleMoreAboutDay = () => {
+    if (selectedDay) {
+      navigate(`/day/${selectedDay.date_gregorian}`)
+    }
   }
 
   const days = getDaysInMonth(visibleDate.getFullYear(), visibleDate.getMonth())
@@ -191,19 +200,24 @@ const CalendarSection = ({ className }) => {
               onPrevMonth={handlePrevMonth}
               onNextMonth={handleNextMonth}
               currentDate={currentDate}
+              iconPrevName="arrow-left"
+              iconNextName="arrow-right"
             />
             <CalendarWeekdays />
             <CalendarGrid
               days={days}
               daysMap={daysMap}
               monthData={monthData}
+              selectedDay={selectedDay}
               onDayClick={setSelectedDay}
+              isHiddenDesktop
             />
           </div>
         </div>
         <DayInfoPanel
           selectedDay={selectedDay}
           style={{ '--calendar-height': `${calendarHeight}px` }}
+          onMoreClick={handleMoreAboutDay}
         />
       </div>
     </section>

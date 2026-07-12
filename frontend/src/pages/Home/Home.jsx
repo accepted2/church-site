@@ -16,35 +16,33 @@ export default function Home() {
   const { setMetaData } = useMetaData()
 
   useEffect(() => {
-    const id = location.state?.scrollTo
-    if (!id) {
+    const id = location.state?.scrollTo;
 
-      return
-    }
-    const scrollToElement = () => {
-      const element = document.getElementById(id)
-      if (element) {
-        const headerOffset = 140
-        const elementPosition = element.getBoundingClientRect().top
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+    if (!id) return;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        })
+    const scroll = () => {
+      const element = document.getElementById(id);
 
-        window.history.replaceState({}, document.title)
-      }
-    }
+      if (!element) return;
 
-    if (document.readyState === "complete") {
-      const timeout = setTimeout(scrollToElement, 200)
-      return () => clearTimeout(timeout)
-    } else {
-      window.addEventListener('load', scrollToElement)
-      return () => window.removeEventListener('load', scrollToElement)
-    }
-  }, [location]);
+      const header = document.querySelector('.header');
+      const headerOffset = header?.offsetHeight || 140;
+
+      window.scrollTo({
+        top: element.offsetTop - headerOffset,
+        behavior: 'smooth'
+      });
+    };
+
+    // первый скролл
+    setTimeout(scroll, 100);
+
+    // второй скролл после загрузки картинок и Swiper
+    setTimeout(scroll, 700);
+
+    window.history.replaceState({}, document.title);
+
+  }, [location.state]);
 
   useEffect(() => {
     setMetaData({

@@ -70,7 +70,7 @@
   &.is-selected {
     z-index: 2;
 
-    background-color: rgba(201, 161, 93, 0.06);
+    background-color: var(--color-sand);
     border-top: var(--borderCalendar);
     border-bottom: var(--borderCalendar);
     border-left: var(--borderCalendar);

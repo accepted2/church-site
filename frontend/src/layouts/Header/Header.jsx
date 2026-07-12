@@ -25,6 +25,7 @@ const Header = ({ className, isFixed = false }) => {
         { label: t('header.clergy'), to: '/about/clergy' },
         { label: t('header.sunday_school'), to: '/about/sunday-school' },
         { label: t('header.news'), to: '/news' },
+        { label: t('header.gallery'), href: '#gallery' },
       ]
     },
     {
@@ -43,13 +44,14 @@ const Header = ({ className, isFixed = false }) => {
       ]
     },
     {
-      label: t('header.contacts'),
-      href: '#contacts'
-    },
-    {
       label: t('header.calendar'),
       href: '#calendar'
     },
+    {
+      label: t('header.contacts'),
+      href: '#contacts'
+    },
+
   ]
 
   const navigate = useNavigate()
@@ -64,12 +66,26 @@ const Header = ({ className, isFixed = false }) => {
   const [openDropdown, setOpenDropdown] = useState(null)
 
   const isDesktop = () => window.innerWidth >= 1024
+  const isDayInfoPage = location.pathname.includes('/dayinfo/')
 
   useEffect(() => {
-    const sections = ['about', 'services', 'requests', 'calendar'];
+    const sections = ['about', 'services', 'requests', "gallery", 'calendar', "contacts"];
 
     const handleScrollSpy = () => {
-      const scrollPosition = window.scrollY + 150;
+      if (location.pathname !== '/') {
+        setActive('');
+        return;
+      }
+      const scrollPosition = window.scrollY + window.innerHeight * 0.4;
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+
+      const isAtBottom = scrollPosition + windowHeight >= documentHeight - 80
+
+      if (isAtBottom) {
+        setActive('contacts')
+        return
+      }
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -89,7 +105,7 @@ const Header = ({ className, isFixed = false }) => {
     handleScrollSpy();
 
     return () => window.removeEventListener('scroll', handleScrollSpy);
-  }, []);
+  }, [location.pathname]);
 
   const scrollToSection = (elementId, event) => {
     if (event) event.preventDefault()
@@ -120,10 +136,6 @@ const Header = ({ className, isFixed = false }) => {
       closeMenu()
     }
   }
-
-  useEffect(() => {
-    setActive('')
-  }, [location.pathname]);
 
   const openMenu = () => {
     setIsOpen(true)
@@ -166,7 +178,6 @@ const Header = ({ className, isFixed = false }) => {
         setIsScrolled(window.scrollY > 50)
       }
     }
-
 
     const handleResize = () => {
       if (isDesktop()) {
@@ -246,6 +257,7 @@ const Header = ({ className, isFixed = false }) => {
         'header--scrolled': isScrolled && !isOpen,
         'header--fixed': isFixed,
         'header--payment': location.pathname === "/payment/success",
+        'header--day-info': isDayInfoPage,
       })}
     >
       <div className="header__inner container">
@@ -332,8 +344,16 @@ const Header = ({ className, isFixed = false }) => {
                                 <Button
                                   className="header__dropdown-link"
                                   to={dropdownItem.to}
+                                  href={dropdownItem.href}
                                   label={dropdownItem.label}
-                                  onClick={closeMenu}
+                                  onClick={(event) => {
+                                    if (dropdownItem.href?.startsWith('#')) {
+                                      const id = dropdownItem.href.substring(1)
+                                      scrollToSection(id, event)
+                                    } else {
+                                      closeMenu()
+                                    }
+                                  }}
                                 />
                               </li>
                             ))}

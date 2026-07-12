@@ -11,6 +11,11 @@ import TiktokIcon from "@/assets/icons/tiktok.svg?react";
 import EmailIcon from "@/assets/icons/email.svg?react";
 import YoutubeIcon from "@/assets/icons/youtube.svg?react";
 import CrossIcon from "@/assets/icons/cross-icon.svg?react"
+import VideoIcon from "@/assets/icons/video-icon.svg?react"
+import ImageIcon from "@/assets/icons/image-icon.svg?react"
+import ImageIcon2 from "@/assets/icons/image-icon-2.svg?react"
+import ApostolicBookIcon from "@/assets/icons/apostolic-book-icon.svg?react"
+import GospelBookIcon from "@/assets/icons/gospel-book-icon.svg?react"
 
 const icons = {
   search: Search,
@@ -24,6 +29,11 @@ const icons = {
   "tiktok-icon": TiktokIcon,
   "youtube-icon": YoutubeIcon,
   "cross-icon": CrossIcon,
+  "video-icon": VideoIcon,
+  "image-icon": ImageIcon,
+  "image-icon2": ImageIcon2,
+  "apostolic-book-icon": ApostolicBookIcon,
+  "gospel-book-icon": GospelBookIcon,
 }
 
 const Icon = (props) => {

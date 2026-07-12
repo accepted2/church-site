@@ -12,6 +12,7 @@ const DayInfoPanel = (props) => {
     className,
     selectedDay,
     style,
+    onMoreClick,
   } = props
 
   const { t, i18n } = useTranslation();
@@ -150,7 +151,7 @@ const DayInfoPanel = (props) => {
         <Button
           className="day-info-panel__more-button"
           label={t('calendar.more_about_day')}
-          to={`/day/${selectedDay.date_gregorian}`}
+          to={`/dayinfo/${selectedDay.date_gregorian}`}
         />
       </div>
     </div>

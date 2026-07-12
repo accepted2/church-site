@@ -1,5 +1,5 @@
 .header {
-  //  position: fixed;
+  position: sticky;
   z-index: 100;
   top: 0;
   width: 100%;
@@ -10,6 +10,17 @@
   padding .3s ease,
   border-color .3s ease;
 
+  body:has(.day-info) &,
+  body:has(.saint-info) & {
+    .header__menu-link {
+      color: var(--color-burgundy);
+
+      @include hover {
+        color: var(--color-soft-white);
+      }
+    }
+  }
+
 
   &::before {
     content: '';
@@ -17,10 +28,8 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-
     width: 0;
     height: 2px;
-
     background: linear-gradient(
         90deg,
         transparent 0%,
@@ -79,6 +88,17 @@
   &--fixed {
     position: fixed;
   }
+
+  //  &--day-info {
+  //    margin-bottom: 50px;
+  //    position: fixed;
+  //
+  //
+  //    &.header--scrolled {
+  //      position: fixed;
+  //
+  //    }
+  //  }
 
   &--payment {
     background-color: var(--color-soft-white);

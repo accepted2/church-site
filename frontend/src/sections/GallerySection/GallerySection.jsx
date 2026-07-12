@@ -6,10 +6,7 @@ import api from "@/api";
 import Button from "@/components/Button";
 import Slider from "@/components/Slider";
 import SliderNavigation from "@/components/Slider/components/SliderNavigation";
-import Lightbox from "yet-another-react-lightbox";
-import Video from "yet-another-react-lightbox/plugins/video";
-
-import "yet-another-react-lightbox/styles.css";
+import Icon from "@/components/Icon";
 
 const GallerySection = (props) => {
   const {
@@ -25,10 +22,20 @@ const GallerySection = (props) => {
   const [videos, setVideos] = useState([])
   const [activeTab, setActiveTab] = useState('photos')
   const paginationRef = useRef(null)
-  const [open, setOpen] = useState(false)
-  const [index, setIndex] = useState(0)
-  // const [playingVideo, setPlayingVideo] = useState(null)
-  // const videoRefs = useRef({})
+
+  // ========== КАСТОМНЫЙ ЛАЙТБОКС ==========
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  const openLightbox = (imageUrl, alt) => {
+    setSelectedImage({ url: imageUrl, alt })
+    setLightboxOpen(true)
+  }
+
+  const closeLightbox = () => {
+    setLightboxOpen(false)
+    setSelectedImage(null)
+  }
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -42,97 +49,36 @@ const GallerySection = (props) => {
     }
     fetchMedia()
   }, [i18n.language]);
+
   const firstFourPhotos = photos.slice(0, 4)
   const sliderPhotos = photos.slice(4)
 
-  const mediaSlides = [
-    ...photos.map((photo) => ({
-      type: "image",
-      src: photo.file_url,
-    })),
-
-    ...videos.map((video) => ({
-      type: "video",
-      width: 1280,
-      height: 720,
-      poster: video.thumbnail_url,
-
-      sources: [
-        {
-          src: video.file_url,
-          type: "video/mp4",
-        },
-      ],
-    })),
-  ]
-
-  const openMedia = (type, id) => {
-    let mediaIndex
-
-    if (type === 'photo') {
-      mediaIndex = photos.findIndex(
-        photo => photo.id === id
-      )
-    } else {
-      mediaIndex =
-        photos.length +
-        videos.findIndex(
-          video => video.id === id
-        )
-    }
-
-    setIndex(mediaIndex)
-    setOpen(true)
-  }
-
-  // const toggleVideo = (id) => {
-  //
-  //   const video = videoRefs.current[id]
-  //
-  //   if (!video) {
-  //     return
-  //   }
-  //
-  //   if (video.paused) {
-  //     video.play()
-  //     setPlayingVideo(id)
-  //
-  //   } else {
-  //
-  //     video.pause()
-  //     setPlayingVideo(null)
-  //   }
-  //
-  // }
-
-
   const currentSliderData = activeTab === 'photos' ? sliderPhotos : videos
   const currentRightData = activeTab === 'photos' ? firstFourPhotos : currentSliderData
-  // const lightboxSlides = photos.map((photo) => ({
-  //   src: photo.file_url,
-  // }))
 
   return (
     <section
       className={clsx(className, 'gallery-section container')}
+      id="gallery"
     >
       <div className="gallery-section__inner">
         <div className="gallery-section__header">
           <h2 className="gallery-section__title">
-            Фото и Видео Храма
+            {t('gallery.title')}
           </h2>
           <div className="gallery-section__description">
-            <p>Моменты Богослужений, праздников и жизни прихода</p>
+            <p>{t('gallery.description')}</p>
           </div>
         </div>
+
         <div className="gallery-section__tabs">
           <Button
-            label="Фото"
+            label={t('gallery.photos')}
             onClick={() => setActiveTab('photos')}
             className={clsx('gallery-section__button', activeTab === 'photos' ? 'active' : '')}
           />
           <Button
-            label="Видео"
+            label={t('gallery.videos')}
             onClick={() => setActiveTab('videos')}
             className={clsx('gallery-section__button',
               activeTab === 'videos' ? 'active' : '')}
@@ -141,9 +87,7 @@ const GallerySection = (props) => {
 
         {activeTab === 'photos' ? (
           <div className="gallery-section__body">
-
             <div className="gallery-section__slider-wrapper">
-
               <div className="gallery-section__slider">
                 <Slider
                   prevRef={prevRef}
@@ -163,7 +107,6 @@ const GallerySection = (props) => {
                     scale: 0.85,
                     slideShadows: true,
                   }}
-
                   onSwiper={(swiper) => {
                     swiperRef.current = swiper
                   }}
@@ -179,9 +122,8 @@ const GallerySection = (props) => {
                           alt={item.title}
                           loading="lazy"
                           className="gallery-slide__photo"
-                          onClick={() => {
-                            openMedia('photo', item.id)
-                          }}
+                          onClick={() => openLightbox(item.file_url, item.title)}
+                          style={{ cursor: 'pointer' }}
                         />
                       ) : (
                         <video
@@ -191,13 +133,11 @@ const GallerySection = (props) => {
                         />
                       )}
                     </div>
-
-
                   ))}
                 </Slider>
               </div>
-              <div className="gallery-section__navigation hidden-mobile-s">
 
+              <div className="gallery-section__navigation hidden-mobile-s">
                 <Button
                   ref={prevRef}
                   className="gallery-section__arrow gallery-section__arrow--prev"
@@ -206,7 +146,6 @@ const GallerySection = (props) => {
                   label="Previous slide"
                   isLabelHidden
                 />
-
                 <Button
                   ref={nextRef}
                   className="gallery-section__arrow gallery-section__arrow--next"
@@ -215,15 +154,12 @@ const GallerySection = (props) => {
                   label="Next slide"
                   isLabelHidden
                 />
-
               </div>
-
 
               <div
                 ref={paginationRef}
                 className="gallery-section__pagination"
               />
-
             </div>
 
             <div className="gallery-section__photos">
@@ -232,12 +168,12 @@ const GallerySection = (props) => {
                   <div
                     key={photo.id}
                     className="gallery-photos__item"
-                    onClick={() => openMedia('photo', photo.id)}
+                    onClick={() => openLightbox(photo.file_url, photo.title)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <img
                       src={photo.file_url}
                       alt={photo.title}
-
                       loading="lazy"
                     />
                   </div>
@@ -247,73 +183,74 @@ const GallerySection = (props) => {
           </div>
         ) : (
           <div className="gallery-section__videos">
-
             {videos.map((video) => (
-              <div className=" gallery-video__wrapper ">
+              <div
+                key={video.id}
+                className="gallery-video__wrapper"
+              >
                 <div
-                  key={video.id}
                   className="gallery-video"
-                  onClick={() => openMedia('video', video.id)}
+                  onClick={() => openLightbox(video.thumbnail_url, video.title)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <img
                     src={video.thumbnail_url}
                     alt=""
                     loading="lazy"
                   />
-
                   <span className="gallery-video__play">▶</span>
                 </div>
               </div>
             ))}
           </div>
         )}
+
         <div className="gallery-section__statistics">
           <div className="gallery-section__statistics-wrapper">
             <div className="gallery-section__statistics-data">
-              <img
-
-                src=""
-                alt=""
-                width=""
-                height=""
-                loading="lazy"
+              <Icon
+                name="image-icon"
+                iconClassName="gallery-section__statistics-image"
               />
-              <p className="gallery-section__statistics-amount">150+</p>
-              <p className="gallery-section__statistics-label">Фотографий</p>
-
-
+              <div className="gallery-section__statistics-content">
+                <p className="gallery-section__statistics-amount">150</p>
+                <p className="gallery-section__statistics-label">{t('gallery.statistics.photos')}</p>
+              </div>
             </div>
             <div className="gallery-section__statistics-data">
-              <img
-
-                src=""
-                alt=""
-                width=""
-                height=""
-                loading="lazy"
+              <Icon
+                name="video-icon"
+                iconClassName="gallery-section__statistics-image"
               />
-
-              <p className="gallery-section__statistics-amount">30+</p>
-              <p className="gallery-section__statistics-label">Видеозаписей</p>
-
+              <div className="gallery-section__statistics-content">
+                <p className="gallery-section__statistics-amount">30</p>
+                <p className="gallery-section__statistics-label">{t('gallery.statistics.videos')}</p>
+              </div>
             </div>
           </div>
           <Button
-            label="Смотреть всю галерею"
+            label={t('gallery.watch_all')}
             className="gallery-section__all-gallery-button"
-            // onClick={}
+            iconName="image-icon2"
+            iconPosition="before"
           />
         </div>
 
-
-        <Lightbox
-          open={open}
-          close={() => setOpen(false)}
-          slides={mediaSlides}
-          index={index}
-          plugins={[Video]}
-        />
-
+        {/* ========== КАСТОМНЫЙ ЛАЙТБОКС ========== */}
+        {lightboxOpen && selectedImage && (
+          <div
+            className="gallery-section__lightbox"
+            onClick={closeLightbox}
+          >
+            <span className="gallery-section__lightbox-close">&times;</span>
+            <img
+              className="gallery-section__lightbox-image"
+              src={selectedImage.url}
+              alt={selectedImage.alt}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
       </div>
     </section>
   )

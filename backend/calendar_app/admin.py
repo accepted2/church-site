@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.admin import DateFieldListFilter
 from django.utils.translation import gettext_lazy as _
-from calendar_app.models import Feast, FeastDate, FastType, Fast, DayInfo
+from calendar_app.models import Feast, FeastDate, FastType, Fast, DayInfo, Icon
 from datetime import datetime
 
 
@@ -96,6 +96,14 @@ class FeastAdmin(admin.ModelAdmin):
     display_dates.short_description = _('Даты (ст.стиль → н.стиль)')
 
 
+class IconInline(admin.TabularInline):
+    model = Icon
+    extra = 1
+    fields = ['image', 'is_main', 'order']
+    ordering = ['order']
+    max_num = 10
+
+
 @admin.register(FeastDate)
 class FeastDateAdmin(admin.ModelAdmin):
     list_display = [
@@ -119,6 +127,7 @@ class FeastDateAdmin(admin.ModelAdmin):
     ]
     list_per_page = 50
     list_select_related = ['feast']
+    inlines = [IconInline]
 
     fieldsets = (
         (_('Святой/праздник'), {
@@ -317,8 +326,18 @@ class DayInfoAdmin(admin.ModelAdmin):
             'description': _('Все святые и праздники этого дня'),
         }),
         (_('Дополнительно'), {
-            'fields': ('summary', 'summary_uk', 'short_summary', 'short_summary_uk', 'gospel_reading', 'gospel_reading_uk', 'apostolic_reading_uk', 'apostolic_reading'),
+            'fields': ('summary', 'summary_uk', 'short_summary', 'short_summary_uk',),
             'classes': ('wide',),
+        }),
+        (_('Евангельское чтение'), {
+            'fields': ('gospel_title', 'gospel_title_uk', 'gospel_reading', 'gospel_reading_uk'),
+            'classes': ('wide',),
+            'description': _('Заголовок и текст Евангельского чтения на русском и украинском языках.'),
+        }),
+        (_('Апостольское чтение'), {
+            'fields': ('apostolic_title', 'apostolic_title_uk', 'apostolic_reading', 'apostolic_reading_uk'),
+            'classes': ('wide',),
+            'description': _('Заголовок и текст Апостольского чтения на русском и украинском языках.'),
         }),
     )
 

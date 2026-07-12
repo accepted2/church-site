@@ -168,6 +168,36 @@ class FeastDate(models.Model):
         return julian_date + timedelta(days=13)
 
 
+class Icon(models.Model):
+    feast_date = models.ForeignKey(
+        FeastDate,
+        on_delete=models.CASCADE,
+        related_name='icons',
+        verbose_name=_("Святой/праздник")
+    )
+    image = models.ImageField(
+        upload_to='saints_icons/',
+        verbose_name=_("Икона")
+    )
+    is_main = models.BooleanField(
+        default=False,
+        verbose_name=_("Основная икона")
+    )
+    order = models.IntegerField(
+        default=0,
+        verbose_name=_("Порядок")
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Икона")
+        verbose_name_plural = _("Иконы")
+        ordering = ['order', 'created_at']
+
+    def __str__(self):
+        return f"Икона #{self.id} ({self.feast_date.title_ru})"
+
+
 class FastType(models.Model):
     code = models.CharField(max_length=50, unique=True, verbose_name=_("Код"))
     title_ru = models.CharField(max_length=200, verbose_name=_("Название (рус.)"))
@@ -210,7 +240,7 @@ class Fast(models.Model):
 
 class DayInfo(models.Model):
     date_gregorian = models.DateField(unique=True, verbose_name=_("Дата (новый стиль)"))
-    
+
     julian_month = models.IntegerField(verbose_name=_("Месяц (старый стиль)"))
     julian_day = models.IntegerField(verbose_name=_("День (старый стиль)"))
 
@@ -229,6 +259,9 @@ class DayInfo(models.Model):
     fast_type = models.ForeignKey(FastType, null=True, on_delete=models.SET_NULL, verbose_name=_("Тип поста"))
     fast_name = models.CharField(max_length=200, blank=True, verbose_name=_("Название поста"))
 
+    gospel_title = models.CharField(max_length=255, blank=True, verbose_name=_("Заголовок Евангелия(рус.)"))
+    apostolic_title = models.CharField(max_length=255, blank=True, verbose_name=_("Заголовок Апостола (рус.)"))
+
     gospel_reading = models.TextField(blank=True, verbose_name=_("Евангельское чтение"))
     apostolic_reading = models.TextField(blank=True, verbose_name=_("Апостольское чтение"))
 
@@ -238,6 +271,10 @@ class DayInfo(models.Model):
     summary_uk = models.CharField(max_length=500, blank=True, verbose_name=_("Краткое описание (полное, укр.)"))
     short_summary_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Краткое описание (для календаря, укр.)"))
     fast_name_uk = models.CharField(max_length=200, blank=True, verbose_name=_("Название поста (укр.)"))
+
+    gospel_title_uk = models.CharField(max_length=255, blank=True, verbose_name=_("Заголовок Евангелия (укр.)"))
+    apostolic_title_uk = models.CharField(max_length=255, blank=True, verbose_name=_("Заголовок Апостола (укр.)"))
+
     gospel_reading_uk = models.TextField(blank=True, verbose_name=_("Евангельское чтение (укр.)"))
     apostolic_reading_uk = models.TextField(blank=True, verbose_name=_("Апостольское чтение (укр.)"))
 

@@ -12,6 +12,8 @@ const CalendarGrid = (props) => {
     monthData,
     onDayClick,
     selectedDay,
+    isHiddenDesktop,
+    isLoading,
   } = props
 
   const { i18n } = useTranslation();
@@ -27,7 +29,7 @@ const CalendarGrid = (props) => {
   }
 
   return (
-    <div className="calendar-grid-wrapper">
+    <div className={clsx("calendar-grid-wrapper", { 'is-loading': isLoading })}>
       <div className={clsx(className, 'calendar-grid')}>
         {days.map((day, index) => {
           const formattedDate = formatDate(day.date)
@@ -49,7 +51,8 @@ const CalendarGrid = (props) => {
               isSunday={isSunday}
               isSaturday={isSaturday}
               isSelected={
-                selectedDay?.date_gregorian === apiDay?.date_gregorian
+                day.isCurrentMonth && selectedDay && selectedDay?.date_gregorian && apiDay && selectedDay.date_gregorian === apiDay?.date_gregorian
+                // selectedDay?.date_gregorian === apiDay?.date_gregorian
               }
               onClick={() => apiDay && onDayClick(apiDay)}
             />

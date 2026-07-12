@@ -5,6 +5,7 @@
     "clergy": "Духовенство",
     "sunday_school": "Воскресная школа",
     "news": "Новости храма",
+    "gallery": "Галерея",
     "services": "Богослужения",
     "schedule": "Расписание Богослужений",
     "sacraments": "Таинства",
@@ -33,6 +34,7 @@
     "clergy": "Духовенство",
     "sunday_school": "Воскресная школа",
     "news": "Новости храма",
+    "gallery": "Галерея",
     "services": "Богослужения",
     "church_rites": "Церковные требы",
     "submit_note": "Подать записку",
@@ -129,19 +131,21 @@
   },
   "calendar": {
     "day_of_memory": "День памяти",
+    "day_of_memory_plural": "Дни памяти",
     "no_fast": "Поста нет",
     "also_today": "Также сегодня:",
     "troparion": "Тропарь",
     "kontakion": "Кондак",
-    "troparion_title": "Тропарь, глас {{echo}}",
-    "kontakion_title": "Кондак, глас {{echo}}",
+    "troparion_title": "глас {{echo}}",
+    "kontakion_title": "глас {{echo}}",
     "life_of_saint": "Житие святого",
     "more_about_day": "Подробнее о дне",
     "title": "Православный календарь",
     "subtitle": "Выберите день, чтобы посмотреть праздники и святых",
     "today": "Сегодня",
     "no_feasts": "Нет праздников",
-    "fast_day": "Постный день ({{type}})"
+    "fast_day": "Постный день ({{type}})",
+    "year_abbr": "г."
   },
   "weekdays": {
     "mon": "Пн",
@@ -151,5 +155,39 @@
     "fri": "Пт",
     "sat": "Сб",
     "sun": "Вс"
+  },
+  "gallery": {
+    "title": "Фото и Видео Храма",
+    "description": "Моменты Богослужений, праздников и жизни прихода",
+    "photos": "Фото",
+    "videos": "Видео",
+    "photos_count": "Фотографий",
+    "videos_count": "Видеозаписей",
+    "watch_all": "Смотреть всю галерею",
+    "moments": "Моменты Богослужений, праздников и жизни прихода",
+    "statistics": {
+      "photos": "Фотографий",
+      "videos": "Видеозаписей"
+    }
+  },
+  "dayInfo": {
+    "page_title": "Информация о дне | Храм",
+    "memory_day": "День памяти",
+    "saints_of_day": "Святые дня",
+    "no_other_feasts": "Нет других праздников",
+    "old_style": "ст. стиль",
+    "no_data": "Нет данных",
+    "read_more": "Читать подробнее",
+    "hide": "Скрыть",
+    "read_full": "Читать полностью",
+    "readings": "Чтение дня",
+    "gospel_reading": "Евангельское чтение",
+    "apostolic_reading": "Апостольское чтение",
+    "go_home": "На главную",
+    "error": {
+      "not_found": "Данные для этой даты не найдены",
+      "load_error": "Не удалось загрузить данные"
+    }
   }
+
 }

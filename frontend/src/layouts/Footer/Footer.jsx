@@ -2,10 +2,13 @@ import './Footer.scss'
 import clsx from "clsx";
 import Button from "@/components/Button";
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Footer = (props) => {
   const { className } = props;
   const { t } = useTranslation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const footerMenuItems = [
     {
@@ -15,6 +18,7 @@ const Footer = (props) => {
         { label: t('footer.clergy'), to: '/about/clergy' },
         { label: t('footer.sunday_school'), to: '/about/sunday-school' },
         { label: t('footer.news'), to: '/news' },
+        { label: t('footer.gallery'), href: '#gallery' },
       ],
     },
     {
@@ -22,10 +26,10 @@ const Footer = (props) => {
       links: [
         { label: t('footer.schedule'), href: '#services' },
         { label: t('footer.sacraments'), to: '/services/sacraments' },
-        { label: t('footer.submit_note'), to: '/treby/zapiski?type=zapiska' },
-        { label: t('footer.order_moleben'), to: '/treby/zapiski?type=moleben' },
-        { label: t('footer.sorokoust'), to: '/treby/zapiski?type=sorokoust' },
-        { label: t('footer.panikhida'), to: '/treby/zapiski?type=panihida' },
+        { label: t('footer.submit_note'), to: '/zapiski?type=zapiska' },
+        { label: t('footer.order_moleben'), to: '/zapiski?type=moleben' },
+        { label: t('footer.sorokoust'), to: '/zapiski?type=sorokoust' },
+        { label: t('footer.panikhida'), to: '/zapiski?type=panihida' },
       ]
     },
     {
@@ -65,6 +69,37 @@ const Footer = (props) => {
 
   const currentYear = new Date().getFullYear();
 
+  const scrollToSection = (elementId, event) => {
+    if (event) event.preventDefault()
+
+    const isHomePage = location.pathname === '/'
+    if (!isHomePage) {
+      navigate('/', {
+        state: {
+          scrollTo: elementId
+        }
+      })
+
+      return
+    }
+    const element = document.getElementById(elementId)
+    if (!element) {
+      return
+    }
+
+    const headerOffset = 140
+    const elementPosition =
+      element.getBoundingClientRect().top
+
+    const offsetPosition =
+      elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }
+
   return (
     <footer
       className={clsx(className, 'footer')}
@@ -92,6 +127,12 @@ const Footer = (props) => {
                         label={link.label}
                         isLink={true}
                         className="footer__menu-link"
+                        onClick={(event) => {
+                          if (link.href?.startsWith('#')) {
+                            const id = link.href.substring(1)
+                            scrollToSection(id, event)
+                          }
+                        }}
                       />
                     </li>
                   ))}

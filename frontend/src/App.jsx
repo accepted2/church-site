@@ -3,6 +3,8 @@ import Home from "@/pages/Home"
 import MainLayout from "@/layouts/MainLayout"
 import Zapiska from "@/pages/Zapiska";
 import PaymentResult from '@/pages/PaymentResult';
+import DayInfo from "@/pages/DayInfo";
+import SaintInfo from "@/pages/SaintInfo";
 
 function App() {
 
@@ -21,6 +23,14 @@ function App() {
           <Route
             path="/payment/success"
             element={<PaymentResult />}
+          />
+          <Route
+            path="/dayinfo/:date"
+            element={<DayInfo />}
+          />
+          <Route
+            path="/saint/:saint"
+            element={<SaintInfo />}
           />
 
         </Route>

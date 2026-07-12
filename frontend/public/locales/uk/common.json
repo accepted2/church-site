@@ -5,6 +5,7 @@
     "clergy": "Духовенство",
     "sunday_school": "Недільна школа",
     "news": "Новини храму",
+    "gallery": "Галерея",
     "services": "Богослужіння",
     "schedule": "Розклад Богослужінь",
     "sacraments": "Тайнства",
@@ -33,6 +34,7 @@
     "clergy": "Духовенство",
     "sunday_school": "Недільна школа",
     "news": "Новини храму",
+    "gallery": "Галерея",
     "services": "Богослужіння",
     "church_rites": "Церковні треби",
     "submit_note": "Подати записку",
@@ -129,19 +131,21 @@
   },
   "calendar": {
     "day_of_memory": "День пам'яті",
+    "day_of_memory_plural": "Дні пам'яті",
     "no_fast": "Посту немає",
     "also_today": "Також сьогодні:",
     "troparion": "Тропар",
     "kontakion": "Кондак",
-    "troparion_title": "Тропар, глас {{echo}}",
-    "kontakion_title": "Кондак, глас {{echo}}",
+    "troparion_title": "глас {{echo}}",
+    "kontakion_title": "глас {{echo}}",
     "life_of_saint": "Житіє святого",
     "more_about_day": "Детальніше про день",
     "title": "Православний календар",
     "subtitle": "Виберіть день, щоб побачити свята та святих",
     "today": "Сьогодні",
     "no_feasts": "Немає свят",
-    "fast_day": "Пісний день ({{type}})"
+    "fast_day": "Пісний день ({{type}})",
+    "year_abbr": "р."
   },
   "weekdays": {
     "mon": "Пн",
@@ -151,6 +155,39 @@
     "fri": "Пт",
     "sat": "Сб",
     "sun": "Нд"
+  },
+  "gallery": {
+    "title": "Фото і Відео Храму",
+    "description": "Моменти Богослужінь, свят та життя парафії",
+    "photos": "Фото",
+    "videos": "Відео",
+    "photos_count": "Фотографій",
+    "videos_count": "Відеозаписів",
+    "watch_all": "Дивитися всю галерею",
+    "moments": "Моменти Богослужінь, свят та життя парафії",
+    "statistics": {
+      "photos": "Фотографій",
+      "videos": "Відеозаписів"
+    }
+  },
+  "dayInfo": {
+    "page_title": "Інформація про день | Храм",
+    "memory_day": "День пам'яті",
+    "saints_of_day": "Святі дня",
+    "no_other_feasts": "Немає інших свят",
+    "old_style": "ст. стиль",
+    "no_data": "Немає даних",
+    "read_more": "Читати детальніше",
+    "hide": "Сховати",
+    "read_full": "Читати повністю",
+    "readings": "Читання дня",
+    "gospel_reading": "Євангельське читання",
+    "apostolic_reading": "Апостольське читання",
+    "go_home": "На головну",
+    "error": {
+      "not_found": "Дані для цієї дати не знайдено",
+      "load_error": "Не вдалося завантажити дані"
+    }
   }
 
 }

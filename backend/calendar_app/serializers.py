@@ -1,14 +1,79 @@
 # calendar_app/serializers.py
+from datetime import timedelta
+
 from django.conf import settings
 from rest_framework import serializers
 from django.utils.translation import get_language
-from .models import Feast, FeastDate, DayInfo, FastType
+from .models import Feast, FeastDate, DayInfo, FastType, Icon
+from .utils._calculate_easter import calculate_easter, gregorian_from_julian
+
+
+class FeastDateShortSerializer(serializers.ModelSerializer):
+    """Упрощённый сериализатор для списка дат (без вложенных полей)"""
+    title = serializers.SerializerMethodField()
+    short_title = serializers.SerializerMethodField()
+    icon = serializers.SerializerMethodField()
+    gregorian_date = serializers.SerializerMethodField()
+
+    class Meta:
+        model = FeastDate
+        fields = [
+            'id', 'month', 'day', 'easter_offset',
+            'title', 'short_title', 'icon',
+            "gregorian_date",
+        ]
+
+    def get_gregorian_date(self, obj):
+        year = self.context.get('year')
+        if not year:
+            from django.utils import timezone
+            year = timezone.now().year
+
+        if obj.easter_offset is not None:
+            easter = calculate_easter(year)
+            if easter:
+                date_obj = easter + timedelta(days=obj.easter_offset)
+                return date_obj.strftime('%Y-%m-%d')
+
+        else:
+            if obj.month and obj.day:
+                gregorian = gregorian_from_julian(obj.month, obj.day, year)
+                return gregorian.strftime('%Y-%m-%d')
+        return None
+
+    def get_title(self, obj):
+        lang = get_language()
+        if lang == 'uk' and obj.title_uk:
+            return obj.title_uk
+        return obj.title_ru
+
+    def get_short_title(self, obj):
+        lang = get_language()
+        if lang == 'uk' and obj.short_title_uk:
+            return obj.short_title_uk
+        return obj.short_title_ru
+
+    def get_icon(self, obj):
+        if obj.icon:
+            request = self.context.get('request')
+            url = obj.icon.url
+            return request.build_absolute_uri(url) if request else url
+        return None
+
+
+class IconSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Icon
+        fields = ['id', 'image', 'is_main', 'order']
 
 
 class FeastDateSerializer(serializers.ModelSerializer):
     celebration_type_display = serializers.CharField(source='get_celebration_type_display', read_only=True)
     celebration_rank_display = serializers.CharField(source='get_celebration_rank_display', read_only=True)
     date_type_display = serializers.CharField(source='get_date_type_display', read_only=True)
+
+    icons = IconSerializer(many=True, read_only=True)
+    main_icon = serializers.SerializerMethodField()
 
     # 🆕 Локализованные поля
     title = serializers.SerializerMethodField()
@@ -22,6 +87,8 @@ class FeastDateSerializer(serializers.ModelSerializer):
     description = serializers.SerializerMethodField()
 
     icon = serializers.SerializerMethodField()
+    all_dates = serializers.SerializerMethodField()
+    gregorian_date = serializers.SerializerMethodField()
 
     # icon = serializers.ImageField(read_only=True)
 
@@ -39,7 +106,46 @@ class FeastDateSerializer(serializers.ModelSerializer):
             'kontakion_title', 'kontakion_content', 'kontakion_echo',
             'life_title', 'life_content',
             'description',
+            'all_dates',
+            'gregorian_date',
+            'icons',
+            'main_icon',
         ]
+
+    def get_main_icon(self, obj):
+        main_icon = obj.icons.filter(is_main=True).first()
+        if not main_icon:
+            main_icon = obj.icons.first()
+        if main_icon and main_icon.image:
+            request = self.context.get('request')
+            url = main_icon.image.url
+            return request.build_absolute_uri(url) if request else url
+        return None
+
+    def get_gregorian_date(self, obj):
+        year = self.context.get('year')
+        if not year:
+            from django.utils import timezone
+            year = timezone.now().year
+
+        if obj.easter_offset is not None:
+            easter = calculate_easter(year)
+            if easter:
+                date_obj = easter + timedelta(days=obj.easter_offset)
+                return date_obj.strftime('%Y-%m-%d')
+        else:
+            if obj.month and obj.day:
+                gregorian = gregorian_from_julian(obj.month, obj.day, year)
+                return gregorian.strftime('%Y-%m-%d')
+        return None
+
+    def get_all_dates(self, obj):
+        """Возвращает все даты празднования этого же святого (Feast)"""
+        if obj.feast:
+            dates = obj.feast.dates.all()
+            # Используем упрощённый сериализатор, чтобы избежать рекурсии
+            return FeastDateShortSerializer(dates, many=True, context=self.context).data
+        return []
 
     def get_icon(self, obj):
         if obj.icon:
@@ -118,6 +224,10 @@ class DayInfoSerializer(serializers.ModelSerializer):
     summary = serializers.SerializerMethodField()
     short_summary = serializers.SerializerMethodField()
     date_str = serializers.SerializerMethodField()
+    gospel_title = serializers.SerializerMethodField()
+    apostolic_title = serializers.SerializerMethodField()
+    gospel_reading = serializers.SerializerMethodField()
+    apostolic_reading = serializers.SerializerMethodField()
 
     class Meta:
         model = DayInfo
@@ -127,7 +237,8 @@ class DayInfoSerializer(serializers.ModelSerializer):
             'all_feasts',
             'fast_type', 'fast_type_title', 'fast_type_code',
             'fast_name', 'summary', 'short_summary',
-
+            'gospel_title', 'gospel_reading',
+            'apostolic_title', 'apostolic_reading',
         ]
 
     def _get_localized(self, obj, field_ru, field_uk):
@@ -146,6 +257,18 @@ class DayInfoSerializer(serializers.ModelSerializer):
 
     def get_fast_name(self, obj):
         return self._get_localized(obj, 'fast_name', 'fast_name_uk')
+
+    def get_gospel_title(self, obj):
+        return self._get_localized(obj, 'gospel_title', 'gospel_title_uk')
+
+    def get_apostolic_title(self, obj):
+        return self._get_localized(obj, 'apostolic_title', 'apostolic_title_uk')
+
+    def get_gospel_reading(self, obj):
+        return self._get_localized(obj, 'gospel_reading', 'gospel_reading_uk')
+
+    def get_apostolic_reading(self, obj):
+        return self._get_localized(obj, 'apostolic_reading', 'apostolic_reading_uk')
 
     def get_summary(self, obj):
         return self._get_localized(obj, 'summary', 'summary_uk')
